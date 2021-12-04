@@ -1,9 +1,9 @@
 from typing import Tuple
 import pygame as py
 import sys
-
+from Platform import *
+from Test_plat import *
 from pygame.constants import K_k
-sys.path.append(".")
 from character import Character
 from character import platform
 from character import attack
@@ -14,6 +14,7 @@ from main_menu import main_Menu
 from all_of_generate import all_generate
 from blood import bloodline
 
+sys.path.append(".")
 mainpage_Run = True
 setting = False
 HEIGHT = 800

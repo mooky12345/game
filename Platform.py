@@ -1,5 +1,5 @@
 import pygame
-from gaming.character import HEIGHT
+from character import HEIGHT
 class platform(pygame.sprite.Sprite):
     def __init__(self, length, height, R, G, B, transparency, x, y):
          super().__init__()

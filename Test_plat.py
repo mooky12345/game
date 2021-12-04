@@ -1,5 +1,5 @@
 import pygame
-from gaming.character import HEIGHT
+from character import HEIGHT
 class test_plat(pygame.sprite.Sprite):
     def __init__(self, length, height, R, G, B, transparency, x=0, y=0,cnt=0,v=1,dir=1):
          super().__init__()

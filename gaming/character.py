@@ -48,6 +48,7 @@ class Character(pygame.sprite.Sprite):
         self.weapon = 0
         self.hitbox = [self.pos.x + 20 , self.pos.y , 28 , 60]
         self.direction = 1
+        self.get_shield_ret = False
         self.animation_type = {
             "Left_walk": 0,
             "Right_walk": 1,
@@ -120,17 +121,17 @@ class Character(pygame.sprite.Sprite):
         if self.get_weapon != None:
             if self.keys[pygame.K_h] and self.get_weapon.image_weapon == "gun":
                 if self.get_weapon.bullet_count != 0:
-                    self.get_weapon.rect.x,self.get_weapon.rect.y = 200,200
-                    self.get_weapon.pos.x,self.get_weapon.pos.y = 200,200
-                    
-                    #self.get_weapon = None
+                    self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos,y
+                    self.get_weapon = None
                 else:
                     self.get_weapon = None
             elif self.keys[pygame.K_h] and self.get_weapon.image_weapon == "shield":
                 self.get_weapon.rect.x,self.get_weapon.rect.y = 300,300
                 self.get_weapon.pos.x,self.get_weapon.pos.y = 300,300
                 #self.get_weapon = None
-                
+    def get_shield(self):
+        if self.get_shield_ret == True:
+            pygame.sprite.spritecollide(self.shield_surface, False)
     def pos_update(self, plat):
         if self.get_weapon != None:
             print(self.get_weapon.pos.x,self.get_weapon.pos.y)

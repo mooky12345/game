@@ -52,6 +52,7 @@ class Character(pygame.sprite.Sprite):
         self.get_shield_ret = False
         self.blit_shield_ret = False
         self.shield_image = Shield(50,(0,0,0),backgound_WIDTH/2,0)
+        self.own_bullet_group = pygame.sprite.Group()
         self.animation_type = {
             "Left_walk": 0,
             "Right_walk": 1,
@@ -119,19 +120,21 @@ class Character(pygame.sprite.Sprite):
                 
                 bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * self.direction*0.3), self.rect.centery-5, self.direction)
                 bullet_group.add(bullet)
+                self.own_bullet_group.add(bullet)
                 self.get_weapon.bullet_count -= 1
     def disard_weapon(self):
         if self.get_weapon != None:
             if self.keys[pygame.K_h] and self.get_weapon.image_weapon == "gun":
                 if self.get_weapon.bullet_count != 0:
-                    self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos,y
+                    self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos.y
                     self.get_weapon = None
                 else:
                     self.get_weapon = None
     def shield_broken(self,bullet):
         if self.get_shield_ret == True:
             if pygame.sprite.spritecollide(self.shield_image, bullet, False):
-                self.get_shield_ret = False
+                if not pygame.sprite.spritecollide(self.shield_image, self.own_bullet_group, False):
+                    self.get_shield_ret = False
     def pos_update(self, plat):
         if self.get_weapon != None:
             print(self.get_weapon.pos.x,self.get_weapon.pos.y)
@@ -163,7 +166,8 @@ class Character(pygame.sprite.Sprite):
         self.jump_down_platform(able_to_scroll)
         self.shoot(bullet_group)
         self.disard_weapon()
-        
+        self.shield_broken(bullet_group)
+
     def keyboard_control(self, platforms):
         self.downcatch_button()
         self.jumping_button()
@@ -232,12 +236,12 @@ class Character(pygame.sprite.Sprite):
     def shoot_botton(self):
         if self.get_weapon != None:
             if self.keys[pygame.K_k] and self.pre_shooting_ret == False and self.get_weapon.image_weapon == "gun":
+                print(22)
                 self.shooting_ret = True
             else:
                 self.shooting_ret = False
         self.pre_shooting_ret = self.keys[pygame.K_k]
     def speed_change(self, platforms, platform_group):
-        
         self.walking_speed()
         self.jumping_speed(platform_group)
     def walking_speed(self):

@@ -47,14 +47,14 @@ class random_generation(pygame.sprite.Sprite):
     def image_detect_hit(play,group):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
-        if hits and pressed[pygame.K_j]:
-            for item in hits:
+        for item in hits:
+            if play.get_weapon == None and item.image_weapon == "gun" and pressed[pygame.K_j]:
+                print(1)
                 item.pos_out_width()
-                print(play.get_weapon)
-                if play.get_weapon == None and item.image_weapon == "gun":
-                    play.get_weapon = item
-                elif item.image_weapon == "shield":
-                    play.get_shield_ret = True
+                play.get_weapon = item
+            elif item.image_weapon == "shield":
+                play.get_shield_ret = True
+                item.pos_out_width()
     def get_weapon(self):
         return self.image_weapon
     def pos_updating(self):

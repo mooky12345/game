@@ -1,5 +1,5 @@
 import pygame
-SCREEN_WIDTH = 900
+SCREEN_WIDTH = 1500
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, direction):
         pygame.sprite.Sprite.__init__(self)
@@ -20,7 +20,6 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
         if pygame.sprite.spritecollide(player, bullet_group, False):
-            if player.get_shield_ret == True:
-                player.shield_broken()
+            pass
             
                

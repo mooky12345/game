@@ -46,7 +46,7 @@ Secondgame=False
 options=[Firstgame,Secondgame,setting]
 def turn_false(options):
     for game in options:
-        game=False
+        game = False
 
 
 
@@ -92,7 +92,7 @@ while True:
 
             pressed = py.key.get_pressed()
 
-
+            
             player_1 = Character("cats", 150, 150, "character1/L-walk1.png")
             main_Platform_1 = platform(1200, 20, 255, 0, 0, 50, 150, 700)
             float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
@@ -284,7 +284,7 @@ while True:
             entity.plat_redraw(move_x,move_y,entity.x/2,entity.y)
         for entity in move_plat:
             background.blit(entity.image, entity.rect)
-
+        background.blit(player_1.shield_image.image,player_1.shield_image.image.rect)
         background.blit(bloodline_1.surf, (0,0))
         background.blit(main_Platform_1.image,main_Platform_1.rect)
         background.blit(float_plat_1.image,float_plat_1.rect)

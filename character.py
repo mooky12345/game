@@ -289,6 +289,7 @@ class Character(pygame.sprite.Sprite):
             self.pos.x = 1500
         if self.pos.x < 0:
             self.pos.x = 0
+        self.shield_image.rect.center = self.rect.center
         self.rect.bottomleft = (self.pos.x, self.pos.y)
     def jump_down_platform(self,able_to_scroll):
         if(self.squat_down_cnt >= 2 and self.detect_hit(able_to_scroll)):

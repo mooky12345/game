@@ -128,13 +128,10 @@ class Character(pygame.sprite.Sprite):
                     self.get_weapon = None
                 else:
                     self.get_weapon = None
-            elif self.keys[pygame.K_h] and self.get_weapon.image_weapon == "shield":
-                self.get_weapon.rect.x,self.get_weapon.rect.y = 300,300
-                self.get_weapon.pos.x,self.get_weapon.pos.y = 300,300
-                #self.get_weapon = None
-    def get_shield(self):
+    def shield_broken(self,bullet):
         if self.get_shield_ret == True:
-            pygame.sprite.spritecollide(self.shield_surface, False)
+            if pygame.sprite.spritecollide(self.shield_image, bullet, False):
+                self.get_shield_ret = False
     def pos_update(self, plat):
         if self.get_weapon != None:
             print(self.get_weapon.pos.x,self.get_weapon.pos.y)
@@ -161,20 +158,21 @@ class Character(pygame.sprite.Sprite):
         self.keyboard_control(platforms)
         self.speed_change(platforms, platform_group)
         self.pos_change(platforms, platform_group)
-        self.border_detect_and_pos_update(platforms, platform_group)
+        self.border_detect_and_xpos_update(platforms, platform_group)
+        self.shield_following_and_invisible()
         self.jump_down_platform(able_to_scroll)
         self.shoot(bullet_group)
         self.disard_weapon()
         
     def keyboard_control(self, platforms):
-
-        
         self.downcatch_button()
         self.jumping_button()
         self.squat_down_button()
         self.attack_button()
         self.shoot_botton()
         self.moving_button()
+
+
     def moving_button(self):
 
         if self.keys[pygame.K_LEFT]:
@@ -182,7 +180,7 @@ class Character(pygame.sprite.Sprite):
             self.move_right_press = False
             self.facing_right = False
         else:
-             self.move_left_press = False
+            self.move_left_press = False
         if self.keys[pygame.K_RIGHT]:
             self.move_right_press = True
             self.move_left_press = False
@@ -284,15 +282,19 @@ class Character(pygame.sprite.Sprite):
             self.acc.x = 0
         self.pos += self.vel + 0.5 * self.acc
 
-    def border_detect_and_pos_update(self, platforms, platform_group):
+    def border_detect_and_xpos_update(self, platforms, platform_group):
         if self.pos.x > 1500:
             self.pos.x = 1500
         if self.pos.x < 0:
             self.pos.x = 0
 
         self.rect.bottomleft = (self.pos.x, self.pos.y)
-        self.shield_image.rect.center = self.rect.center
-
+       
+    def shield_following_and_invisible(self):
+        if self.get_shield_ret == True:
+            self.shield_image.rect.center = self.rect.center
+        else:
+            self.shield_image.rect.center = (-1000,-1000)
     def jump_down_platform(self,able_to_scroll):
         if(self.squat_down_cnt >= 2 and self.detect_hit(able_to_scroll)):
             self.go_down_ground_button = True

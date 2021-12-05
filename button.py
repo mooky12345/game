@@ -1,8 +1,9 @@
-
 import pygame, sys
 WHITE = (255, 255, 255)
 GREY = (200, 200, 200)
 BLACK = (0, 0, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
 class Button():
     def __init__(self, txt, location, function, bg=WHITE, fg=BLACK, size=(80, 30), font_name="Segoe Print", font_size=16):
         self.color = bg  # the static (normal) color
@@ -28,7 +29,7 @@ class Button():
         self.bg = self.color
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
-            self.bg = GREY  # mouseover color
+            self.bg = GREY
  
     def call_back(self):
         self.call_back_()
@@ -44,5 +45,3 @@ class Button():
         self.txt_rect = self.txt_surf.get_rect(center=[s // 2 for s in self.size])
         self.surf.fill(self.bg)
         self.surf.blit(self.txt_surf, self.txt_rect)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)

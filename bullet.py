@@ -20,5 +20,7 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
         if pygame.sprite.spritecollide(player, bullet_group, False):
-            print("YES")
+            if player.get_shield_ret == True:
+                player.shield_broken()
+            
                

@@ -284,7 +284,8 @@ while True:
             entity.plat_redraw(move_x,move_y,entity.x/2,entity.y)
         for entity in move_plat:
             background.blit(entity.image, entity.rect)
-        background.blit(player_1.shield_image.image,player_1.shield_image.image.rect)
+
+        background.blit(player_1.shield_image.image,player_1.shield_image.rect)
         background.blit(bloodline_1.surf, (0,0))
         background.blit(main_Platform_1.image,main_Platform_1.rect)
         background.blit(float_plat_1.image,float_plat_1.rect)
@@ -336,6 +337,7 @@ while True:
         for entity in move_plat:
             background.blit(entity.image, entity.rect)
 
+        background.blit(player_1.shield_image.image,player_1.shield_image.rect)
         background.blit(bloodline_1.surf, (0,0))
         background.blit(main_Platform_1.image,main_Platform_1.rect)
         background.blit(float_plat_1.image,float_plat_1.rect)

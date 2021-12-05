@@ -43,13 +43,11 @@ class random_generation(pygame.sprite.Sprite):
         self.rect = charImage.get_rect()
         self.surf = pygame.Surface((self.rect.right, self.rect.bottom))
         self.surf.blit(charImage, ((0,0)))
-        #self.surf.fill((R, G, B,transparency))
     def image_detect_hit(play,group):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
         for item in hits:
             if play.get_weapon == None and item.image_weapon == "gun" and pressed[pygame.K_j]:
-                print(1)
                 item.pos_out_width()
                 play.get_weapon = item
             elif item.image_weapon == "shield":
@@ -86,11 +84,11 @@ class random_generation(pygame.sprite.Sprite):
         #    self.set_visible(False)
         # else :
         #     self.set_visible(True)
-        if change_x:  # X軸
-            if self.bg_x < backgound_WIDTH / 2:
-                self.rect.center = (original_x, HEIGHT - original_y + self.test_y)
-            elif self.bg_x > backgound_WIDTH / 2 and self.bg_x < self.background_width - backgound_WIDTH / 2:
-                self.rect.center = (original_x - (change_x - backgound_WIDTH / 2),
-                                    HEIGHT - original_y + self.test_y)
-            elif self.bg_x > self.background_width - backgound_WIDTH / 2:
-                self.rect.center = (original_x - (550 - backgound_WIDTH / 2), HEIGHT - original_y + self.test_y)
+        # if change_x:  # X軸
+        #     if self.bg_x < backgound_WIDTH / 2:
+        #         self.rect.center = (original_x, HEIGHT - original_y + self.test_y)
+        #     elif self.bg_x > backgound_WIDTH / 2 and self.bg_x < self.background_width - backgound_WIDTH / 2:
+        #         self.rect.center = (original_x - (change_x - backgound_WIDTH / 2),
+        #                             HEIGHT - original_y + self.test_y)
+        #     elif self.bg_x > self.background_width - backgound_WIDTH / 2:
+        #         self.rect.center = (original_x - (550 - backgound_WIDTH / 2), HEIGHT - original_y + self.test_y)

@@ -5,7 +5,7 @@ from Platform import *
 from Test_plat import *
 from pygame.constants import K_k
 from character import *
-
+from attack import *
 from BG import background_test
 from all_menu.setting_menu import Setting_menu
 from main_menu import main_Menu
@@ -17,6 +17,7 @@ mainpage_Run = True
 setting = False
 HEIGHT = 800
 WIDTH = 1500
+
 py.init()
 py.mixer.init()
 screen = py.display.set_mode((WIDTH, HEIGHT))

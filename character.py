@@ -90,7 +90,7 @@ class Character(pygame.sprite.Sprite):
             self.image = self.animation_list[self.animation_type["Squat_down"]][0]
             self.chhie = 30
         elif self.vel.x < 0:
-            self.direction = -1
+            self.direction = 180
             self.image = self.animation_list[self.animation_type["Left_walk"]][
                 self.image_left_cnt]
             self.image_left_cnt += 1
@@ -98,7 +98,7 @@ class Character(pygame.sprite.Sprite):
                 self.image_left_cnt = 0
             self.pre_image = self.image
         elif self.vel.x > 0:
-            self.direction = 1
+            self.direction = 0
             self.image = self.animation_list[
                 self.animation_type["Right_walk"]][self.image_right_cnt]
             self.image_right_cnt += 1
@@ -118,7 +118,7 @@ class Character(pygame.sprite.Sprite):
             if self.shoot_cooldown == 0 and self.get_weapon.bullet_count  > 0 and self.shooting_ret:
                 self.shoot_cooldown = 20
                 
-                bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * self.direction*0.3), self.rect.centery-5, self.direction)
+                bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * math.cos(math.degrees(self.direction))*0.3),self.rect.centery-5, self.direction)
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
                 self.get_weapon.bullet_count -= 1
@@ -158,6 +158,7 @@ class Character(pygame.sprite.Sprite):
             return False   
 
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
+
         self.keyboard_control(platforms)
         self.speed_change(platforms, platform_group)
         self.pos_change(platforms, platform_group)
@@ -310,28 +311,5 @@ class Character(pygame.sprite.Sprite):
 
     def all_cnt_del(self):
         self.squat_down_cnt = 0
-
-
-
-
-
-class attack(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.pos = vec(0, 0)
-        self.trigger = False
-        self.surf = pygame.Surface((0, 0))
-        self.surf = self.surf.convert_alpha()
-        self.surf.fill((0, 0, 0, 0))
-        self.vel = vec(0, 0)
-        self.acc = vec(0, 0)
-    def movement(self):
-        self.acc.x += self.vel.x * FRIC
-        self.vel += self.acc
-        if self.detect_sqaut_down():
-            self.vel.x = 0 
-            self.acc.x = 0
-        self.pos += self.vel + 0.5 * self.acc 
-        
 
 

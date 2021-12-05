@@ -11,7 +11,7 @@ from all_menu.setting_menu import Setting_menu
 from main_menu import main_Menu
 from all_of_generate import all_generate
 from blood import bloodline
-
+from auto_cannon import Auto_cannon
 sys.path.append(".")
 mainpage_Run = True
 setting = False
@@ -103,7 +103,7 @@ while True:
             bg = background_test()
             test=test_plat(100, 30, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=2)
             test2=test_plat(30, 150, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=1)
-
+            cannon = Auto_cannon(100)
             all_gener = all_generate()
             all_gener.declear()
 
@@ -267,7 +267,7 @@ while True:
         player_1.key_board_get()
 
         background.fill((0, 0, 0))
-     
+        
         move_x, move_y = player_1.move_position()
         py.display.update()
         
@@ -279,6 +279,8 @@ while True:
         
         bloodline_1.cut_blood(20, out)
         background.blit(bg.surf, bg.rect)
+        cannon.aim_target_rotating(player_1.pos,background)
+        cannon.shooting(bullet_group,player_1.pos)
         for entity in all_gener.generator:
              background.blit(entity.surf, entity.rect)
         for entity in move_plat:
@@ -286,6 +288,7 @@ while True:
         for entity in move_plat:
             background.blit(entity.image, entity.rect)
 
+       
         background.blit(player_1.shield_image.image,player_1.shield_image.rect)
         background.blit(bloodline_1.surf, (0,0))
         background.blit(main_Platform_1.image,main_Platform_1.rect)

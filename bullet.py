@@ -16,11 +16,11 @@ class Bullet(pygame.sprite.Sprite):
     def update(self,player,bullet_group):
  
         self.rect.x += (self.speed * math.cos(math.radians(self.direction_degree)))
-        self.rect.y += (self.speed * math.sin(math.radians(self.direction_degree)))
+        self.rect.y -= (self.speed * math.sin(math.radians(self.direction_degree)))
         if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
             self.kill()
 
         if pygame.sprite.spritecollide(player, bullet_group, False):
-            pass
+            self.kill()
             
                

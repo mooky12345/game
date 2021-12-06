@@ -3,6 +3,7 @@ from genericpath import isfile
 from pathlib import Path
 import os
 from pygame.locals import *
+from blood import bloodline
 from bullet import Bullet
 from shield import *
 vec = pygame.math.Vector2
@@ -52,6 +53,7 @@ class Character(pygame.sprite.Sprite):
         self.get_shield_ret = False
         self.blit_shield_ret = False
         self.shield_image = Shield(50,(0,0,0),backgound_WIDTH/2,0)
+        self.blood = bloodline()
         self.own_bullet_group = pygame.sprite.Group()
         self.animation_type = {
             "Left_walk": 0,

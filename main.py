@@ -93,7 +93,6 @@ while True:
 
             pressed = py.key.get_pressed()
 
-            
             player_1 = Character("cats", 150, 150, "character1/L-walk1.png")
             main_Platform_1 = platform(1200, 20, 255, 0, 0, 50, 150, 700)
             float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
@@ -107,7 +106,7 @@ while True:
             all_gener = all_generate()
             all_gener.declear()
 
-            bloodline_1=bloodline()
+            
 
             #grouping
             move_plat=py.sprite.Group()
@@ -254,10 +253,10 @@ while True:
                 player_1.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run :
                 all_gener.all__generate() 
+        background.blit(bg.surf, bg.rect)
         bullet_group.update(player_1,bullet_group)
         bullet_group.draw(screen)
         already_start=True
-   
         if pressed[py.K_ESCAPE]:
             main_page.button_01.press=False
             mainpage_Run=True
@@ -267,18 +266,14 @@ while True:
         player_1.key_board_get()
 
         background.fill((0, 0, 0))
-        
+        player_1.blood.update()
         move_x, move_y = player_1.move_position()
         py.display.update()
         
         player_1.movement(main_Platform_1, platforms_group, can_go_down,bullet_group)
         out=player_1.pos_update(platforms_group)
-        bloodline_1.update()
-
 
         
-        bloodline_1.cut_blood(20, out)
-        background.blit(bg.surf, bg.rect)
         cannon.aim_target_rotating(player_1.pos,background)
         cannon.shooting(bullet_group,player_1.pos)
         for entity in all_gener.generator:
@@ -288,15 +283,14 @@ while True:
         for entity in move_plat:
             background.blit(entity.image, entity.rect)
 
-       
+        
         background.blit(player_1.shield_image.image,player_1.shield_image.rect)
-        background.blit(bloodline_1.surf, (0,0))
+        background.blit(player_1.blood.surf, (0,0))
         background.blit(main_Platform_1.image,main_Platform_1.rect)
         background.blit(float_plat_1.image,float_plat_1.rect)
         background.blit(float_plat_2.image,float_plat_2.rect)
         background.blit(float_plat_3.image,float_plat_3.rect)
         background.blit(player_1.surf,player_1.rect)
-        background.blit(bloodline_1.surf, (0,0))
         screen.blit(background, (0, 0))
         times.tick(40)
 

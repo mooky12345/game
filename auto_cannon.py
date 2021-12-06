@@ -14,13 +14,13 @@ class Auto_cannon(pygame.sprite.Sprite):
         pygame.draw.circle(self.image, (255,255,0,100), (radium,radium), radium/2)
         self.player_rotated = None
         self.player_rotated_rect = None
-        self.shoot_cooldown = 50
+        self.shoot_cooldown = 5
     def shooting(self,bullet_group,pos):
         angle = self.get_angle(pos) + 270 +4
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1
         if self.shoot_cooldown == 0:
-            self.shoot_cooldown = 50
+            self.shoot_cooldown = 5
             bullet = Bullet(self.rect.centerx + (math.cos(angle)*5),
             self.rect.centery - (math.sin(angle)*5),angle)
             bullet_group.add(bullet)
@@ -28,8 +28,10 @@ class Auto_cannon(pygame.sprite.Sprite):
         rotate_surface = pygame.transform.rotozoom(surface,angle,1)
         rotate_rect = rotate_surface.get_rect(center=(750,0))
         return  rotate_surface,rotate_rect
+
     def get_angle(self,pos):#down to 0, right to 90
         return (90-math.degrees(math.atan2((pos[1]-self.rect.center[1]),(pos[0]-self.rect.center[0])))) 
+
     def aim_target_rotating(self,pos,background):
         try:
             angle = self.get_angle(pos)+4

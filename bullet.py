@@ -21,7 +21,7 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
         if pygame.sprite.spritecollide(player, bullet_group, False):
-            player.blood.cut_blood(10,1)
+            player.blood.cut_blood(5,1)
             self.kill()
             
                

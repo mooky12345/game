@@ -136,6 +136,8 @@ class Character(pygame.sprite.Sprite):
         if self.get_shield_ret == True:
             if pygame.sprite.spritecollide(self.shield_image, bullet, False):
                 if not pygame.sprite.spritecollide(self.shield_image, self.own_bullet_group, False):
+                    hit = pygame.sprite.spritecollide(self.shield_image, bullet, False)
+                    hit[0].kill()
                     self.get_shield_ret = False
     def pos_update(self, plat):
         if self.get_weapon != None:
@@ -150,7 +152,7 @@ class Character(pygame.sprite.Sprite):
                     self.pos.y = pos[0].rect.top + 1
                     self.jump_count = 1
         
-
+    
        
     def detect_hit(self, platform_group):
         hits = pygame.sprite.spritecollide(self, platform_group, False)

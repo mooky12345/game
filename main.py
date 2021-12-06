@@ -64,8 +64,6 @@ while True:
         if event.type == py.KEYDOWN:
             if event.key == py.K_ESCAPE:
                 mainpage_Run=True
-                # if already_start:
-                #     main_page.change_text("first", "back ")
         if event.type == post:
              x, y = py.mouse.get_pos()
              print("滑鼠位置[" + str(x) + "," + str(y) + "]")
@@ -74,12 +72,12 @@ while True:
             turn_false(options)
             setting = True
             main_page_buttons['fifth'].press=False
+
         if main_page_buttons['first'].press:
             turn_false(options)
             Firstgame = True
             main_page_buttons['first'].press=False
             mainpage_Run=False
-
 
             ########################### init first game ##################################################1
             generator = [0] * 5
@@ -117,8 +115,8 @@ while True:
             weapon_group = py.sprite.Group()
             charater_group = py.sprite.Group()
             bullet_group = py.sprite.Group()
-            charater_group.add(player_1)
 
+            charater_group.add(player_1)
 
             move_plat.add(test)
             move_plat.add(test2)

@@ -19,18 +19,11 @@ HEIGHT = 800
 WIDTH = 1500
 
 py.init()
-py.mixer.init()
+
 screen = py.display.set_mode((WIDTH, HEIGHT))
 background = py.Surface(screen.get_size())
 background = background.convert()
 times = py.time.Clock()
-
-post = py.USEREVENT + 5
-py.time.set_timer(post, 3000)
-# main_sound=py.mixer.Sound("music/123.wav")
-# effect = py.mixer.Sound("music/123.mp3")
-# effect.play()
-# main_sound.play(-1)
 main_page = main_Menu("start","two","Fantastic","Guide","Setting")
 setting_page = Setting_menu()
 already_start=False
@@ -45,18 +38,36 @@ playing=False
 Firstgame=False
 Secondgame=False
 options=[Firstgame,Secondgame,setting]
+#gruop
+move_plat=py.sprite.Group()
+can_go_down = py.sprite.Group()
+all_sprites_Group = py.sprite.Group()
+hitbox_group = py.sprite.Group()
+platforms_group = py.sprite.Group()
+weapon_group = py.sprite.Group()
+charater_group = py.sprite.Group()
+bullet_group = py.sprite.Group()
+#timer
+image_COUNT = py.USEREVENT + 1
+mice_COUNT = py.USEREVENT + 2
+continuous_cnt_COUNT = py.USEREVENT + 3
+weapon_generator_COUNT = py.USEREVENT + 4
+post = py.USEREVENT + 5
+py.time.set_timer(post, 3000)
+py.time.set_timer(image_COUNT, 100)
+py.time.set_timer(continuous_cnt_COUNT, 1200)
+py.time.set_timer(weapon_generator_COUNT, 10000)
+#key
+pressed = py.key.get_pressed()
+#init_functions
 def turn_false(options):
     for game in options:
         game = False
 
 
 
-
-
-
 while True:
     event_list = py.event.get()
-    keys=py.key.get_pressed()
     for event in event_list:
         if event.type == py.QUIT:
             py.quit()
@@ -65,8 +76,7 @@ while True:
             if event.key == py.K_ESCAPE:
                 mainpage_Run=True
         if event.type == post:
-             x, y = py.mouse.get_pos()
-             print("滑鼠位置[" + str(x) + "," + str(y) + "]")
+            pass
     if mainpage_Run:
         if main_page_buttons['fifth'].press:
             turn_false(options)
@@ -80,17 +90,6 @@ while True:
             mainpage_Run=False
 
             ########################### init first game ##################################################1
-            generator = [0] * 5
-            image_COUNT = py.USEREVENT + 1
-            mice_COUNT = py.USEREVENT + 2
-            continuous_cnt_COUNT = py.USEREVENT + 3
-            weapon_generator_COUNT = py.USEREVENT + 4
-            py.time.set_timer(image_COUNT, 100)
-            py.time.set_timer(continuous_cnt_COUNT, 1200)
-            py.time.set_timer(weapon_generator_COUNT, 10000)
-
-            pressed = py.key.get_pressed()
-
             player_1 = Character("cats", 150, 150, "character1/L-walk1.png")
             main_Platform_1 = platform(1200, 20, 255, 0, 0, 50, 150, 700)
             float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
@@ -107,14 +106,7 @@ while True:
             
 
             #grouping
-            move_plat=py.sprite.Group()
-            can_go_down = py.sprite.Group()
-            all_sprites_Group = py.sprite.Group()
-            hitbox_group = py.sprite.Group()
-            platforms_group = py.sprite.Group()
-            weapon_group = py.sprite.Group()
-            charater_group = py.sprite.Group()
-            bullet_group = py.sprite.Group()
+            
 
             charater_group.add(player_1)
 
@@ -150,18 +142,8 @@ while True:
             mainpage_Run=False
 
             ########################### init second game ##################################################2
-            generator = [0] * 5
-            image_COUNT = py.USEREVENT + 1
-            mice_COUNT = py.USEREVENT + 2
-            continuous_cnt_COUNT = py.USEREVENT + 3
-            weapon_generator_COUNT = py.USEREVENT + 4
-            post = py.USEREVENT + 5
-            py.time.set_timer(image_COUNT, 100)
-            py.time.set_timer(continuous_cnt_COUNT, 1200)
-            py.time.set_timer(weapon_generator_COUNT, 10000)
-            py.time.set_timer(post, 3000)
 
-            pressed = py.key.get_pressed()
+           
 
 
             player_1 = Character("cats", 150, 150, "character1/L-walk1.png")
@@ -177,18 +159,7 @@ while True:
             all_gener = all_generate()
             all_gener.declear()
 
-            bloodline_1=bloodline()
 
-            #grouping
-            move_plat=py.sprite.Group()
-            can_go_down = py.sprite.Group()
-            all_sprites_Group = py.sprite.Group()
-            hitbox_group = py.sprite.Group()
-            platforms_group = py.sprite.Group()
-            weapon_group = py.sprite.Group()
-            charater_group = py.sprite.Group()
-            bullet_group = py.sprite.Group()
-            charater_group.add(player_1)
 
 
             move_plat.add(test)
@@ -258,7 +229,7 @@ while True:
         if pressed[py.K_ESCAPE]:
             main_page.button_01.press=False
             mainpage_Run=True
-        # py.mixer.Sound.play(main_sound)
+        
         all_gener.detect_hits(player_1)
        
         player_1.key_board_get()
@@ -269,15 +240,13 @@ while True:
         py.display.update()
         
         player_1.movement(main_Platform_1, platforms_group, can_go_down,bullet_group)
-        out=player_1.pos_update(platforms_group)
-
         background.blit(bg.surf, bg.rect)
         cannon.aim_target_rotating(player_1.pos,background)
         cannon.shooting(bullet_group,player_1.pos)
         
         
         for entity in all_gener.generator:
-             background.blit(entity.surf, entity.rect)
+            background.blit(entity.surf, entity.rect)
         for entity in move_plat:
             entity.plat_redraw(move_x,move_y,entity.x/2,entity.y)
         for entity in move_plat:
@@ -310,7 +279,6 @@ while True:
         if pressed[py.K_ESCAPE]:
             main_page.button_01.press=False
             mainpage_Run=True
-        # py.mixer.Sound.play(main_sound)
         all_gener.detect_hits(player_1)
        
         player_1.key_board_get()
@@ -321,10 +289,10 @@ while True:
         py.display.update()
         
         player_1.movement(main_Platform_1, platforms_group, can_go_down,bullet_group)
-        out=player_1.pos_update(platforms_group)
-        bloodline_1.update()
+       
+        
 
-        bloodline_1.cut_blood(20, out)
+       
         background.blit(bg.surf, bg.rect)
         for entity in all_gener.generator:
             background.blit(entity.surf, entity.rect)
@@ -334,13 +302,11 @@ while True:
             background.blit(entity.image, entity.rect)
 
         background.blit(player_1.shield_image.image,player_1.shield_image.rect)
-        background.blit(bloodline_1.surf, (0,0))
         background.blit(main_Platform_1.image,main_Platform_1.rect)
         background.blit(float_plat_1.image,float_plat_1.rect)
         background.blit(float_plat_2.image,float_plat_2.rect)
         background.blit(float_plat_3.image,float_plat_3.rect)
         background.blit(player_1.surf,player_1.rect)
-        background.blit(bloodline_1.surf, (0,0))
        
         screen.blit(background, (0, 0))
         times.tick(40)

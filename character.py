@@ -43,7 +43,6 @@ class Character(pygame.sprite.Sprite):
         self.squat_down_pre = False
         self.background_width = 900
         self.in_attack = False
-        self.attack_mode = [False,False,False]
         self.facing_right = True
         self.shoot_cooldown = 0
         self.ammo = 5

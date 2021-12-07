@@ -10,8 +10,9 @@ from BG import background_test
 from all_menu.setting_menu import Setting_menu
 from main_menu import main_Menu
 from all_of_generate import all_generate
-from blood import bloodline
 from auto_cannon import Auto_cannon
+from Stages.first import first
+from Stages.second import second
 sys.path.append(".")
 mainpage_Run = True
 setting = False
@@ -38,18 +39,8 @@ playing=False
 Firstgame=False
 Secondgame=False
 options=[Firstgame,Secondgame,setting]
-#gruop
-move_plat=py.sprite.Group()
-can_go_down = py.sprite.Group()
-all_sprites_Group = py.sprite.Group()
-hitbox_group = py.sprite.Group()
-platforms_group = py.sprite.Group()
-weapon_group = py.sprite.Group()
-charater_group = py.sprite.Group()
-bullet_group = py.sprite.Group()
 #timer
 image_COUNT = py.USEREVENT + 1
-mice_COUNT = py.USEREVENT + 2
 continuous_cnt_COUNT = py.USEREVENT + 3
 weapon_generator_COUNT = py.USEREVENT + 4
 post = py.USEREVENT + 5
@@ -83,122 +74,35 @@ while True:
             setting = True
             main_page_buttons['fifth'].press=False
 
-        if main_page_buttons['first'].press:
+        elif main_page_buttons['first'].press:
             turn_false(options)
             Firstgame = True
             main_page_buttons['first'].press=False
             mainpage_Run=False
+            stage_1 = first()
+            stage_1.init_factor()
 
-            ########################### init first game ##################################################1
-            player_1 = Character("cats", 150, 150, "character1/L-walk1.png")
-            main_Platform_1 = platform(1200, 20, 255, 0, 0, 50, 150, 700)
-            float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
-            float_plat_2 = platform(100, 30, 255, 0, 0, 50, 450, 600)
-            float_plat_3 = platform(100, 30, 255, 0, 0, 50, 600, 650)
-            attack_character_1 = attack()
-            bg = background_test()
-            test=test_plat(100, 30, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=2)
-            test2=test_plat(30, 150, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=1)
-            cannon = Auto_cannon(100)
-            all_gener = all_generate()
-            all_gener.declear()
-
-            
-
-            #grouping
-            
-
-            charater_group.add(player_1)
-
-            move_plat.add(test)
-            move_plat.add(test2)
-
-            can_go_down.add(float_plat_1)
-            can_go_down.add(float_plat_2)
-
-
-            platforms_group.add(main_Platform_1)
-            platforms_group.add(float_plat_1)
-            platforms_group.add(float_plat_2)
-            platforms_group.add(float_plat_3)
-            platforms_group.add(test)
-            platforms_group.add(test2)
-
-            hitbox_group.add(player_1)
-            hitbox_group.add(attack_character_1)
-
-            all_sprites_Group.add(bg)
-            all_sprites_Group.add(player_1)
-            all_sprites_Group.add(float_plat_1)
-            all_sprites_Group.add(main_Platform_1)
-            all_sprites_Group.add(float_plat_2)
-            ################### #############################################################################1
-
-
-        if main_page_buttons['second'].press:
+        elif main_page_buttons['second'].press:
             turn_false(options)
             Secondgame = True
             main_page_buttons['second'].press=False
             mainpage_Run=False
 
-            ########################### init second game ##################################################2
-
-           
-
-
-            player_1 = Character("cats", 150, 150, "character1/L-walk1.png")
-            main_Platform_1 = platform(554, 20, 255, 0, 0, 50, 0, 266+20)
-            float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
-            float_plat_2 = platform(100, 30, 255, 0, 0, 50, 450, 600)
-            float_plat_3 = platform(100, 30, 255, 0, 0, 50, 600, 650)
-            attack_character_1 = attack()
-            bg = background_test(image="background/2.jpg")
-            test=test_plat(100, 30, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=2)
-            test2=test_plat(30, 150, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=1)
-
-            all_gener = all_generate()
-            all_gener.declear()
-
-
-
-
-            move_plat.add(test)
-            move_plat.add(test2)
-
-            can_go_down.add(float_plat_1)
-            can_go_down.add(float_plat_2)
-
-
-            platforms_group.add(main_Platform_1)
-            platforms_group.add(float_plat_1)
-            platforms_group.add(float_plat_2)
-            platforms_group.add(float_plat_3)
-            platforms_group.add(test)
-            platforms_group.add(test2)
-
-            hitbox_group.add(player_1)
-            hitbox_group.add(attack_character_1)
-
-            all_sprites_Group.add(bg)
-            all_sprites_Group.add(player_1)
-            all_sprites_Group.add(float_plat_1)
-            all_sprites_Group.add(main_Platform_1)
-            all_sprites_Group.add(float_plat_2)
-            ################### #############################################################################2
-        if setting:
+            stage_2 = second()
+            stage_2.init_factor()
+        elif setting:
             for event in event_list:
                 if event.type == py.MOUSEBUTTONDOWN:
                     setting_page.button_back.mousebuttondown()
             if setting_page.button_back.press:
                 setting_page.button_back.press = False
                 setting = False
-
             setting_page.draw(event_list)
             background.blit(setting_page.surf, (0, 0))
             screen.blit(background, (0, 0))
             # 1.0 * setting_page.Volume_slider.get_volume() / 100
             #main_sound.set_volume(0)
-        if not setting :
+        elif not setting:
             for event in event_list:
                 if event.type == py.MOUSEBUTTONDOWN and mainpage_Run:
                     main_page.button_01.mousebuttondown()
@@ -209,104 +113,33 @@ while True:
             main_page.draw()
             background.blit(main_page.surf, (0, 0))
             screen.blit(background, (0, 0))
-
+    
         py.display.update()
         times.tick(40)
-
-         ############# run First Game
     elif Firstgame:
         for event in event_list: 
             if event.type == image_COUNT :
-                player_1.image_reload()
+                stage_1.player_1.image_reload()
             if event.type == continuous_cnt_COUNT :
-                player_1.all_cnt_del()
+                stage_1.player_1.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run :
-                all_gener.all__generate() 
-        
-        bullet_group.update(player_1,bullet_group)
-        bullet_group.draw(screen)
-        already_start=True
-        if pressed[py.K_ESCAPE]:
-            main_page.button_01.press=False
-            mainpage_Run=True
-        
-        all_gener.detect_hits(player_1)
-       
-        player_1.key_board_get()
-
-        background.fill((0, 0, 0))
-        player_1.blood.update()
-        move_x, move_y = player_1.move_position()
-        py.display.update()
-        
-        player_1.movement(main_Platform_1, platforms_group, can_go_down,bullet_group)
-        background.blit(bg.surf, bg.rect)
-        cannon.aim_target_rotating(player_1.pos,background)
-        cannon.shooting(bullet_group,player_1.pos)
-        
-        
-        for entity in all_gener.generator:
-            background.blit(entity.surf, entity.rect)
-        for entity in move_plat:
-            entity.plat_redraw(move_x,move_y,entity.x/2,entity.y)
-        for entity in move_plat:
-            background.blit(entity.image, entity.rect)
-
-        background.blit(player_1.shield_image.image,player_1.shield_image.rect)
-        background.blit(player_1.blood.surf, (0,0))
-        background.blit(main_Platform_1.image,main_Platform_1.rect)
-        background.blit(float_plat_1.image,float_plat_1.rect)
-        background.blit(float_plat_2.image,float_plat_2.rect)
-        background.blit(float_plat_3.image,float_plat_3.rect)
-        background.blit(player_1.surf,player_1.rect)
-       
+                stage_1.all_gener.all__generate() 
+        stage_1.action()
+        stage_1.bliting(background)
         screen.blit(background, (0, 0))
+        py.display.update()
         times.tick(40)
 
-        ############# run Second Game
-    elif Secondgame:       
+    elif Secondgame:
         for event in event_list: 
             if event.type == image_COUNT :
-                player_1.image_reload()
+                stage_2.player_1.image_reload()
             if event.type == continuous_cnt_COUNT :
-                player_1.all_cnt_del()
+                stage_2.player_1.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run :
-                all_gener.all__generate() 
-        bullet_group.update(player_1,bullet_group)
-        bullet_group.draw(screen)
-        already_start=True
-   
-        if pressed[py.K_ESCAPE]:
-            main_page.button_01.press=False
-            mainpage_Run=True
-        all_gener.detect_hits(player_1)
-       
-        player_1.key_board_get()
-
-        background.fill((0, 0, 0))
-     
-        move_x, move_y = player_1.move_position()
-        py.display.update()
-        
-        player_1.movement(main_Platform_1, platforms_group, can_go_down,bullet_group)
-       
-        
-
-       
-        background.blit(bg.surf, bg.rect)
-        for entity in all_gener.generator:
-            background.blit(entity.surf, entity.rect)
-        for entity in move_plat:
-            entity.plat_redraw(move_x,move_y,entity.x/2,entity.y)
-        for entity in move_plat:
-            background.blit(entity.image, entity.rect)
-
-        background.blit(player_1.shield_image.image,player_1.shield_image.rect)
-        background.blit(main_Platform_1.image,main_Platform_1.rect)
-        background.blit(float_plat_1.image,float_plat_1.rect)
-        background.blit(float_plat_2.image,float_plat_2.rect)
-        background.blit(float_plat_3.image,float_plat_3.rect)
-        background.blit(player_1.surf,player_1.rect)
-       
+                stage_2.all_gener.all__generate() 
+        stage_2.action()
+        stage_2.bliting(background)
         screen.blit(background, (0, 0))
+        py.display.update()
         times.tick(40)

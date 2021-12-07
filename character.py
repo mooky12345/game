@@ -120,7 +120,7 @@ class Character(pygame.sprite.Sprite):
             if self.shoot_cooldown == 0 and self.get_weapon.bullet_count  > 0 and self.shooting_ret:
                 self.shoot_cooldown = 20
                 
-                bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * math.cos(math.degrees(self.direction))*0.3),self.rect.centery-5, self.direction)
+                bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * math.cos(math.degrees(self.direction))),self.rect.centery-5, self.direction)
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
                 self.get_weapon.bullet_count -= 1
@@ -162,7 +162,7 @@ class Character(pygame.sprite.Sprite):
             return False   
 
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
-
+        
         self.keyboard_control(platforms)
         self.speed_change(platforms, platform_group)
         self.pos_change(platforms, platform_group)
@@ -172,6 +172,7 @@ class Character(pygame.sprite.Sprite):
         self.shoot(bullet_group)
         self.disard_weapon()
         self.shield_broken(bullet_group)
+        self.pos_update(platform_group)
 
     def keyboard_control(self, platforms):
         self.downcatch_button()

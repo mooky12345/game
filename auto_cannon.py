@@ -14,13 +14,13 @@ class Auto_cannon(pygame.sprite.Sprite):
         pygame.draw.circle(self.image, (255,255,0,100), (radium,radium), radium/2)
         self.player_rotated = None
         self.player_rotated_rect = None
-        self.shoot_cooldown = 5
+        self.shoot_cooldown = 40
     def shooting(self,bullet_group,pos):
         angle = self.get_angle(pos) + 270 +4
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1
         if self.shoot_cooldown == 0:
-            self.shoot_cooldown = 5
+            self.shoot_cooldown = 40
             bullet = Bullet(self.rect.centerx + (math.cos(angle)*5),
             self.rect.centery - (math.sin(angle)*5),angle)
             bullet_group.add(bullet)
@@ -32,13 +32,12 @@ class Auto_cannon(pygame.sprite.Sprite):
     def get_angle(self,pos):#down to 0, right to 90
         return (90-math.degrees(math.atan2((pos[1]-self.rect.center[1]),(pos[0]-self.rect.center[0])))) 
 
-    def aim_target_rotating(self,pos,background):
+    def aim_target_rotating(self,pos):
         try:
             angle = self.get_angle(pos)+4
         except ZeroDivisionError:
             pass
         self.player_rotated,self.player_rotated_rect = self.rotated(self.image,angle)
-        background.blit(self.player_rotated,self.player_rotated_rect)
         
 
     

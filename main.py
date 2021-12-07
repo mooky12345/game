@@ -29,8 +29,8 @@ main_page = main_Menu("start","two","Fantastic","Guide","Setting")
 setting_page = Setting_menu()
 already_start=False
 main_page_buttons = {
-    "first":main_page.button_01,
-    'second': main_page.button_02,
+    "first_stage":main_page.button_01,
+    'second_stage': main_page.button_02,
     'third': main_page.button_03,
     'forth': main_page.button_04,
     'fifth':main_page.button_05
@@ -74,23 +74,22 @@ while True:
             setting = True
             main_page_buttons['fifth'].press=False
 
-        elif main_page_buttons['first'].press:
+        if main_page_buttons['first_stage'].press:
             turn_false(options)
             Firstgame = True
-            main_page_buttons['first'].press=False
+            main_page_buttons['first_stage'].press=False
             mainpage_Run=False
             stage_1 = first()
             stage_1.init_factor()
 
-        elif main_page_buttons['second'].press:
+        if main_page_buttons['second_stage'].press:
             turn_false(options)
             Secondgame = True
-            main_page_buttons['second'].press=False
+            main_page_buttons['second_stage'].press=False
             mainpage_Run=False
-
             stage_2 = second()
             stage_2.init_factor()
-        elif setting:
+        if setting:
             for event in event_list:
                 if event.type == py.MOUSEBUTTONDOWN:
                     setting_page.button_back.mousebuttondown()

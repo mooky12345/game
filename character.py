@@ -241,7 +241,6 @@ class Character(pygame.sprite.Sprite):
     def shoot_botton(self):
         if self.get_weapon != None:
             if self.keys[pygame.K_k] and self.pre_shooting_ret == False and self.get_weapon.image_weapon == "gun":
-                print(22)
                 self.shooting_ret = True
             else:
                 self.shooting_ret = False

@@ -35,10 +35,11 @@ main_page_buttons = {
     'forth': main_page.button_04,
     'fifth':main_page.button_05
 }
-playing=False
-Firstgame=False
-Secondgame=False
-options=[Firstgame,Secondgame,setting]
+options={
+    "Firstgame" : False,
+    "Secondgame" : False,
+    "setting" : False
+}
 #timer
 image_COUNT = py.USEREVENT + 1
 continuous_cnt_COUNT = py.USEREVENT + 3
@@ -51,9 +52,9 @@ py.time.set_timer(weapon_generator_COUNT, 10000)
 #key
 pressed = py.key.get_pressed()
 #init_functions
-def turn_false(options):
-    for game in options:
-        game = False
+def turn_false():
+    for key, value  in options.items():
+        options[key] = False
 
 
 
@@ -66,29 +67,25 @@ while True:
         if event.type == py.KEYDOWN:
             if event.key == py.K_ESCAPE:
                 mainpage_Run=True
-        if event.type == post:
-            pass
     if mainpage_Run:
         if main_page_buttons['fifth'].press:
-            turn_false(options)
+            turn_false()
             setting = True
             main_page_buttons['fifth'].press=False
-
-        if main_page_buttons['first_stage'].press:
-            turn_false(options)
-            Firstgame = True
-            main_page_buttons['first_stage'].press=False
-            mainpage_Run=False
-            stage_1 = first()
-            stage_1.init_factor()
-
         if main_page_buttons['second_stage'].press:
-            turn_false(options)
-            Secondgame = True
+            turn_false()
+            options["Secondgame"] = True
             main_page_buttons['second_stage'].press=False
             mainpage_Run=False
             stage_2 = second()
             stage_2.init_factor()
+        if main_page_buttons['first_stage'].press:
+            turn_false()
+            options["Firstgame"] = True
+            main_page_buttons['first_stage'].press=False
+            mainpage_Run=False
+            stage_1 = first()
+            stage_1.init_factor()
         if setting:
             for event in event_list:
                 if event.type == py.MOUSEBUTTONDOWN:
@@ -112,10 +109,7 @@ while True:
             main_page.draw()
             background.blit(main_page.surf, (0, 0))
             screen.blit(background, (0, 0))
-    
-        py.display.update()
-        times.tick(40)
-    elif Firstgame:
+    elif options["Firstgame"]:
         for event in event_list: 
             if event.type == image_COUNT :
                 stage_1.player_1.image_reload()
@@ -126,10 +120,7 @@ while True:
         stage_1.action()
         stage_1.bliting(background)
         screen.blit(background, (0, 0))
-        py.display.update()
-        times.tick(40)
-
-    elif Secondgame:
+    elif options["Secondgame"]:
         for event in event_list: 
             if event.type == image_COUNT :
                 stage_2.player_1.image_reload()
@@ -140,5 +131,5 @@ while True:
         stage_2.action()
         stage_2.bliting(background)
         screen.blit(background, (0, 0))
-        py.display.update()
-        times.tick(40)
+    py.display.update()
+    times.tick(40)

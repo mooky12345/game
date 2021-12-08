@@ -7,8 +7,9 @@ class ouohand(pygame.sprite.Sprite):
         self.rect.center = (-100,-100)
         self.direction = None
         self.exist = False
-        self.spped = 10
+        self.speed = 10
         self.cooldown = 100
+            
     def implement(self,pos):
         self.exist = True
         self.cooldown = 100

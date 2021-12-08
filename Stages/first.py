@@ -75,6 +75,7 @@ class first():
             entity.plat_redraw(self.move_x,self.move_y,entity.x/2,entity.y)
         for entity in self.move_plat:
             background.blit(entity.image, entity.rect)
+        background.blit(self.player_1.ouohand.surf,self.player_1.ouohand.rect)
         background.blit(self.cannon.player_rotated,self.cannon.player_rotated_rect)
         background.blit(self.player_1.shield_image.image,self.player_1.shield_image.rect)
         background.blit(self.player_1.blood.surf, (0,0))

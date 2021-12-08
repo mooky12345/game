@@ -9,9 +9,9 @@ class ouodefense(pygame.sprite.Sprite):
         self.direction = None
     def implement(self,pos):
         if self.cooldown == 0:
-            if dir == 0:
+            if self.direction == 0:
                 self.rect.bottomleft = (pos[0],pos[1])
-            if dir == 180:
+            if self.direction == 180:
                 self.rect.bottomleft = (pos[0]-30,pos[1])
     def out_width(self):
         self.rect.center = (-100,100)

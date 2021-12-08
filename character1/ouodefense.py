@@ -16,6 +16,8 @@ class ouodefense(pygame.sprite.Sprite):
         self.rect.center = (-100,100)
     def reset_cooldown(self):
         self.cooldown = 500
+    def update(self):
+        self.cooldown_creasing()
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -=1

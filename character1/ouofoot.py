@@ -14,17 +14,17 @@ class ouofoot(pygame.sprite.Sprite):
         self.cooldown = 100
         if self.cooldown == 0:
             if dir == 0:
-                self.rect.bottomleft = (pos[0],pos[1])
+                self.rect.topleft = (pos[0]+30,pos[1])
             if dir == 180:
-                self.rect.bottomleft = (pos[0]-30,pos[1])
-    def update(self):
+                self.rect.topright = (pos[0],pos[1])
+    def update(self,pos):
         self.cooldown_creasing()
         if self.exist:
-            if dir == 0:
-                self.rect.bottomleft += self.speed
-            if dir == 180:
-                self.rect.right -= self.speed
-            if self.rect.bottomleft > 1500 or self.rect.bottomright < 0:
+            if self.dir == 0:
+                pass
+            if self.dir == 180:
+                pass
+            if self.rect.top > pos[1] + 60:
                 self.rect.center = (-100,-100)
                 self.exist = False
     def cooldown_creasing(self):

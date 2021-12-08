@@ -18,11 +18,14 @@ class player1(Character):
         self.ouofoot_pre_ret = False 
     def defense(self):
         if self.hand_defense_ret:
+            self.stop_moving()
             ouodefense.implement(self.pos,self.direction)
         if self.hand_defense_pre_ret and not self.hand_defense_ret:
             ouodefense.reset_cooldown()
             ouodefense.out_width() 
         ouodefense.update()
+    def stop_moving(self):
+        self.vel = (0,0)
     def The_ouohand(self):
         if not self.ouohand_pre_ret and self.ouohand_ret:
             ouohand.implement(self.pos,self.direction)

@@ -5,7 +5,7 @@ from Platform import *
 from Test_plat import *
 from pygame.constants import K_k
 from character import *
-from attack import *
+
 from BG import background_test
 from all_menu.setting_menu import Setting_menu
 from main_menu import main_Menu
@@ -18,7 +18,6 @@ class second():
         self.float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
         self.float_plat_2 = platform(100, 30, 255, 0, 0, 50, 450, 600)
         self.float_plat_3 = platform(100, 30, 255, 0, 0, 50, 600, 650)
-        self.attack_character_1 = attack()
         self.bg = background_test(image="background/2.jpg")
         self.test=test_plat(100, 30, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=2)
         self.test2=test_plat(30, 150, 255, 0, 0, 50, x=900, y=700,cnt=150,v=6,dir=1)

@@ -9,21 +9,21 @@ class ouohand(pygame.sprite.Sprite):
         self.exist = False
         self.spped = 10
         self.cooldown = 100
-    def implement(self,pos,dir):
+    def implement(self,pos):
         self.exist = True
-        self.direction = dir
         self.cooldown = 100
         if self.cooldown == 0:
-            if dir == 0:
+            if self.direction  == 0:
                 self.rect.bottomleft = (pos[0]+30,pos[1])
-            if dir == 180:
+            if self.direction  == 180:
                 self.rect.bottomright = (pos[0],pos[1])
-    def update(self):
+    def update(self,dir):
         self.cooldown_creasing()
+        self.direction = dir
         if self.exist:
-            if dir == 0:
+            if self.direction == 0:
                 self.rect.left += self.speed
-            if dir == 180:
+            if self.direction  == 180:
                 self.rect.right -= self.speed
             if self.rect.left > 1500 or self.rect.right < 0:
                 self.exist = False

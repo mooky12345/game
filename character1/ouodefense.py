@@ -6,7 +6,8 @@ class ouodefense(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
         self.cooldown = 500
-    def implement(self,pos,dir):
+        self.direction = None
+    def implement(self,pos):
         if self.cooldown == 0:
             if dir == 0:
                 self.rect.bottomleft = (pos[0],pos[1])
@@ -16,7 +17,8 @@ class ouodefense(pygame.sprite.Sprite):
         self.rect.center = (-100,100)
     def reset_cooldown(self):
         self.cooldown = 500
-    def update(self):
+    def update(self,dir):
+        self.direction = dir
         self.cooldown_creasing()
     def cooldown_creasing(self):
         if self.cooldown > 0:

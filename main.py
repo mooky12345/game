@@ -5,7 +5,6 @@ from Platform import *
 from Test_plat import *
 from pygame.constants import K_k
 from character import *
-from attack import *
 from BG import background_test
 from all_menu.setting_menu import Setting_menu
 from main_menu import main_Menu

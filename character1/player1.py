@@ -1,7 +1,7 @@
-from character import Character
-from ouodefense import ouodefense
-from ouofoot import ouofoot
-from ouohand import ouohand
+from character import *
+from character1.ouodefense import *
+from character1.ouofoot import ouofoot
+from character1.ouohand import ouohand
 import pygame
 class player1(Character):
     def __init__(self, name, cx, cy, image_path):
@@ -19,25 +19,25 @@ class player1(Character):
     def defense(self):
         if self.hand_defense_ret:
             self.stop_moving()
-            ouodefense.implement(self.pos,self.direction)
+            self.hand_defense.implement(self.pos)
         if self.hand_defense_pre_ret and not self.hand_defense_ret:
-            ouodefense.reset_cooldown()
-            ouodefense.out_width() 
-        ouodefense.update()
+            self.hand_defense.reset_cooldown()
+            self.hand_defense.out_width() 
+        self.hand_defense.update(self.direction)
     def stop_moving(self):
         self.vel = (0,0)
     def The_ouohand(self):
         if not self.ouohand_pre_ret and self.ouohand_ret:
-            ouohand.implement(self.pos,self.direction)
-        ouohand.update()
+            self.ouohand.implement(self.pos)
+        self.ouohand.update(self.direction)
     def The_ouofoot(self):
         if not self.ouohand_pre_ret and self.ouohand_ret:
-            ouofoot.implement(self.pos)
-        ouofoot.update()
+            self.ouofoot.implement(self.pos)
+        self.ouofoot.update(self.pos,self.direction)
     def key_gets(self):
         self.hand_defense_pre_ret = self.hand_defense_ret
         self.ouohand_pre_ret = self.ouohand_ret
-        self.ouofoot_pre_ret = self.ouufoot_ret
+        self.ouofoot_pre_ret = self.ouofoot_ret
         if self.keys[pygame.K_y]:
             self.hand_defense_ret = True
         else:

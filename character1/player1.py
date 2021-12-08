@@ -14,6 +14,8 @@ class player1(Character):
         self.ouohand_pre_ret = False
         self.hand_defense_ret = False
         self.hand_defense_pre_ret = False
+        self.ouofoot_ret = False
+        self.ouofoot_pre_ret = False 
     def defense(self):
         if self.hand_defense_ret:
             ouodefense.implement(self.pos,self.direction)
@@ -26,10 +28,13 @@ class player1(Character):
             ouohand.implement(self.pos,self.direction)
         ouohand.update()
     def The_ouofoot(self):
-        pass
+        if not self.ouohand_pre_ret and self.ouohand_ret:
+            ouofoot.implement(self.pos)
+        ouofoot.update()
     def key_gets(self):
         self.hand_defense_pre_ret = self.hand_defense_ret
         self.ouohand_pre_ret = self.ouohand_ret
+        self.ouofoot_pre_ret = self.ouufoot_ret
         if self.keys[pygame.K_y]:
             self.hand_defense_ret = True
         else:
@@ -39,7 +44,11 @@ class player1(Character):
         else:
             self.ouohand_ret = False
         if self.keys[pygame.K_i]:
-            pass
+            self.ouofoot_ret = True
+        else:
+            self.ouofoot_ret = False
     
     def using_skill(self):
-        pass
+        self.defense()
+        self.The_ouohand()
+        self.The_ouofoot()

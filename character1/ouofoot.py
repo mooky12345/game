@@ -8,7 +8,7 @@ class ouofoot(pygame.sprite.Sprite):
         self.exist = False
         self.spped = 10
         self.cooldown = 100
-    def implement(self,dir,pos):
+    def implement(self,pos,dir):
         self.exist = True
         self.direction = dir
         self.cooldown = 100
@@ -25,6 +25,7 @@ class ouofoot(pygame.sprite.Sprite):
             if dir == 180:
                 self.rect.right -= self.speed
             if self.rect.bottomleft > 1500 or self.rect.bottomright < 0:
+                self.rect.center = (-100,-100)
                 self.exist = False
     def cooldown_creasing(self):
         if self.cooldown > 0:

@@ -47,7 +47,6 @@ class player1(Character):
             self.ouofoot_ret = True
         else:
             self.ouofoot_ret = False
-    
     def using_skill(self):
         self.defense()
         self.The_ouohand()

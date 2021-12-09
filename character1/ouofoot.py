@@ -9,9 +9,9 @@ class ouofoot(pygame.sprite.Sprite):
         self.exist = False
         self.spped = 10
         self.lenth = None
-        self.degree = None
+        self.angle = None
         self.cooldown = 100
-    def implement(self,pos,dir):
+    def implement(self,pos,dir,rect):
         
         self.direction = dir
        
@@ -22,12 +22,14 @@ class ouofoot(pygame.sprite.Sprite):
                 self.rect.topleft = (pos[0]+30,pos[1])
             if self.direction  == 180:
                 self.rect.topright = (pos[0],pos[1])
-    def update(self,rect):
-        self.cooldown_creasing()
+    def get_varible(self,rect):
         center = rect.center
         
-        lenth = math.hypot(self.rect.top - center[1],self.rect.left - center[0])
-        degree = math.degrees(math.atan2(self.rect.top - center[1],self.rect.left - center[0]))
+        self.lenth = math.hypot(self.rect.top - center[1],self.rect.left - center[0])
+        self.degree = math.degrees(math.atan2(self.rect.top - center[1],self.rect.left - center[0]))
+    def update(self,rect):
+        self.cooldown_creasing()
+        
         
         degree -= 3
         if self.exist:

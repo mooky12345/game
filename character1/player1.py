@@ -31,7 +31,7 @@ class player1(Character):
         self.ouohand.update()
     def The_ouofoot(self):
         if not self.ouofoot_pre_ret and self.ouofoot_ret:
-            self.ouofoot.implement(self.pos,self.direction)
+            self.ouofoot.implement(self.pos,self.direction,self.rect)
         self.ouofoot.update(self.rect)
     def key_gets(self):
         self.hand_defense_pre_ret = self.hand_defense_ret

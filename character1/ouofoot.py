@@ -22,11 +22,11 @@ class ouofoot(pygame.sprite.Sprite):
                 self.rect.topleft = (pos[0]+30,pos[1])
             if self.direction  == 180:
                 self.rect.topright = (pos[0],pos[1])
+            self.get_varible(rect)
     def get_varible(self,rect):
         center = rect.center
-        
         self.lenth = math.hypot(self.rect.top - center[1],self.rect.left - center[0])
-        self.degree = math.degrees(math.atan2(self.rect.top - center[1],self.rect.left - center[0]))
+        self.angle = math.degrees(math.atan2(self.rect.top - center[1],self.rect.left - center[0]))
     def update(self,rect):
         self.cooldown_creasing()
         
@@ -44,7 +44,7 @@ class ouofoot(pygame.sprite.Sprite):
             if self.rect.top > rect.top + 100:
                 pass
                 self.rect.center = (-100,-100)
-                #self.exist = False
+                self.exist = False
             print(self.rect.topleft)
     def cooldown_creasing(self):
         if self.cooldown > 0:

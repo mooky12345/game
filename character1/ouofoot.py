@@ -13,6 +13,7 @@ class ouofoot(pygame.sprite.Sprite):
         self.cooldown = 100
         self.center = None
         self.angle1 = 1000
+        self.lenth1 = None
     def implement(self,pos,dir,rect):
         
         self.direction = dir
@@ -27,7 +28,8 @@ class ouofoot(pygame.sprite.Sprite):
             self.get_varible(rect)
     def get_varible(self,rect):
         self.center = rect.center
-        self.lenth = math.hypot(self.rect.top - self.center[1],self.rect.left - self.center[0])
+        self.lenth = math.hypot(self.rect.top - self.center[1],self.rect.left - self.center[0])+2
+        self.lenth1 = math.hypot(self.rect.top - self.center[1],self.rect.right - self.center[0])+2
         self.angle1 = math.degrees(math.atan2(self.rect.top - self.center[1],self.rect.right - self.center[0]))
         self.angle = math.degrees(math.atan2(self.rect.top - self.center[1],self.rect.left - self.center[0]))
     def update(self,rect):
@@ -36,14 +38,12 @@ class ouofoot(pygame.sprite.Sprite):
         self.angle1 += 3
         self.angle -= 3
         if self.exist:
-           
             if self.direction  == 0:
-                
                 self.rect.top = self.center[1]+self.lenth*math.sin(math.radians(self.angle)) 
                 self.rect.left = self.center[0]+self.lenth*math.cos(math.radians(self.angle)) 
-            if self.direction  == 180:
-                self.rect.top = self.center[1]+self.lenth*math.sin(math.radians(self.angle1)) 
-                self.rect.right = self.center[0]+self.lenth*math.cos(math.radians(self.angle1)) 
+            if self.direction == 180:
+                self.rect.top = self.center[1]+self.lenth1*math.sin(math.radians(self.angle1)) 
+                self.rect.right = self.center[0]+self.lenth1*math.cos(math.radians(self.angle1)) 
             if self.rect.top < rect.top:
                 pass
                 self.rect.center = (-100,-100)

@@ -8,6 +8,8 @@ class ouofoot(pygame.sprite.Sprite):
         self.direction = None
         self.exist = False
         self.spped = 10
+        self.lenth = None
+        self.degree = None
         self.cooldown = 100
     def implement(self,pos,dir):
         
@@ -27,21 +29,20 @@ class ouofoot(pygame.sprite.Sprite):
         lenth = math.hypot(self.rect.top - center[1],self.rect.left - center[0])
         degree = math.degrees(math.atan2(self.rect.top - center[1],self.rect.left - center[0]))
         
-        degree += 0.1
+        degree -= 3
         if self.exist:
             print(self.rect.topleft)
             print(degree)
             if self.direction  == 0:
                 
-                self.rect.top = rect.center[1]+lenth*math.sin(math.degrees(degree))
-                self.rect.left = rect.center[0]+lenth*math.cos(math.degrees(degree))
-                print(lenth*math.sin(math.degrees(degree)))
-                print(self.rect.topleft)
+                self.rect.top = center[1]+self.lenth*math.sin(math.radians(self.angle)) 
+                self.rect.left = center[0]+self.lenth*math.cos(math.radians(self.angle)) 
             if self.direction  == 180:
                 pass
             if self.rect.top > rect.top + 100:
+                pass
                 self.rect.center = (-100,-100)
-                self.exist = False
+                #self.exist = False
             print(self.rect.topleft)
     def cooldown_creasing(self):
         if self.cooldown > 0:

@@ -21,13 +21,13 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
         if pygame.sprite.spritecollide(player, bullet_group, False):
+            
             if self.direction_degree < 270:
-                
-                player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree)
+                player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
+
             if self.direction_degree > 270:
-                player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree)
+                player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
 
             player.blood.cut_blood(5,1)
             self.kill()
-            
                

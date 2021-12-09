@@ -30,6 +30,7 @@ class Character(pygame.sprite.Sprite):
         self.chhie = 60
         self.name = name
         self.pos = vec(cx,cy)
+        self.moving_ret = True
         self.vel = vec(0, 0)
         self.acc = vec(0, 0.5)
         self.move_left_press = False
@@ -283,12 +284,13 @@ class Character(pygame.sprite.Sprite):
             return False
     
     def pos_change(self, platforms, platform_group):
-        self.acc.x += self.vel.x * FRIC
-        self.vel += self.acc
-        if self.detect_sqaut_down():
-            self.vel.x = 0 
-            self.acc.x = 0
-        self.pos += self.vel + 0.5 * self.acc
+        if self.moving_ret:
+            self.acc.x += self.vel.x * FRIC
+            self.vel += self.acc
+            if self.detect_sqaut_down():
+                self.vel.x = 0 
+                self.acc.x = 0
+            self.pos += self.vel + 0.5 * self.acc
 
     def border_detect_and_xpos_update(self, platforms, platform_group):
         if self.pos.x > 1500:

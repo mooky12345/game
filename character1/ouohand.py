@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import spritecollide
 class ouohand(pygame.sprite.Sprite):
     def __init__(self):
-        self.surf = pygame.Surface([30,120])
+        self.surf = pygame.Surface([30,120]).convert()
         self.surf.fill((0,0,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)

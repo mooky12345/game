@@ -60,11 +60,12 @@ class first():
         self.all_gener.detect_hits(self.player_1)
         self.player_1.key_board_get()
         self.player_1.blood.update()
-        self.player_1.key_gets()
-        self.player_1.using_skill()
+        
         self.player_1.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
         self.cannon.aim_target_rotating(self.player_1.pos)
         self.cannon.shooting(self.bullet_group,self.player_1.pos) 
+        self.player_1.key_gets()
+        self.player_1.using_skill(self.bullet_group)
     def bliting(self,background):
         background.fill((0, 0, 0))
         background.blit(self.bg.surf, self.bg.rect)
@@ -84,3 +85,4 @@ class first():
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
         background.blit(self.player_1.surf,self.player_1.rect)
+        background.blit(self.player_1.hand_defense.surf,self.player_1.hand_defense.rect)

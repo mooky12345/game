@@ -3,6 +3,7 @@ from pygame.sprite import spritecollide
 class ouohand(pygame.sprite.Sprite):
     def __init__(self):
         self.surf = pygame.Surface([30,120])
+        self.surf.fill((0,0,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
         self.direction = None
@@ -12,8 +13,8 @@ class ouohand(pygame.sprite.Sprite):
             
     def implement(self,pos):
         self.exist = True
-        self.cooldown = 100
         if self.cooldown == 0:
+            self.cooldown = 100 
             if self.direction  == 0:
                 self.rect.bottomleft = (pos[0]+30,pos[1])
             if self.direction  == 180:

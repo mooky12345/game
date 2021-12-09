@@ -2,10 +2,10 @@ import pygame
 class ouodefense(pygame.sprite.Sprite):
     def __init__(self):
         self.surf = pygame.Surface([30,120]).convert_alpha()
-        self.surf.fill((0,0,0,0))
+        self.surf.fill((0,0,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
-        self.cooldown = 500
+        self.cooldown = 100
         self.direction = None
     def implement(self,pos):
         if self.cooldown == 0:
@@ -16,7 +16,7 @@ class ouodefense(pygame.sprite.Sprite):
     def out_width(self):
         self.rect.center = (-100,100)
     def reset_cooldown(self):
-        self.cooldown = 500
+        self.cooldown = 100
     def update(self,dir):
         self.direction = dir
         self.cooldown_creasing()

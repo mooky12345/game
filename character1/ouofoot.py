@@ -11,8 +11,9 @@ class ouofoot(pygame.sprite.Sprite):
     def implement(self,pos):
         self.exist = True
       
-        self.cooldown = 100
+       
         if self.cooldown == 0:
+            self.cooldown = 100
             if self.direction  == 0:
                 self.rect.topleft = (pos[0]+30,pos[1])
             if self.direction  == 180:

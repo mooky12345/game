@@ -85,4 +85,5 @@ class first():
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
         background.blit(self.player_1.surf,self.player_1.rect)
+        background.blit(self.player_1.ouofoot.surf,self.player_1.ouofoot.rect)      
         background.blit(self.player_1.hand_defense.surf,self.player_1.hand_defense.rect)

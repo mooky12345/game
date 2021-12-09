@@ -11,17 +11,17 @@ class ouohand(pygame.sprite.Sprite):
         self.speed = 10
         self.cooldown = 100
             
-    def implement(self,pos):
+    def implement(self,pos,dir):
         self.exist = True
+        self.direction = dir
         if self.cooldown == 0:
             self.cooldown = 100 
             if self.direction  == 0:
                 self.rect.bottomleft = (pos[0]+30,pos[1])
             if self.direction  == 180:
                 self.rect.bottomright = (pos[0],pos[1])
-    def update(self,dir):
+    def update(self,):
         self.cooldown_creasing()
-        self.direction = dir
         if self.exist:
             if self.direction == 0:
                 self.rect.left += self.speed

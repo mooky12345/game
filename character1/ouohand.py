@@ -10,7 +10,8 @@ class ouohand(pygame.sprite.Sprite):
         self.exist = False
         self.speed = 10
         self.cooldown = 100
-            
+        self.image = pygame.image.load("character1/hand/1.png")
+        self.surf.blit(self.image,(0,0))
     def implement(self,pos,dir):
         self.exist = True
         self.direction = dir

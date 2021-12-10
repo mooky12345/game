@@ -8,7 +8,6 @@ class main_Menu():
         self.button_03 = Button("{}".format(Fantastic), (WIDTH/2, 260), my_fantastic_function, bg=(50, 200, 20))
         self.button_04 = Button("{}".format(Guide), (WIDTH/2, 300), my_fantastic_function, bg=(50, 200, 20))
         self.button_05 = Button("{}".format(Setting), (WIDTH/2, 340), my_fantastic_function, bg=(50, 200, 20))
-        
         self.buttons = {
             'first': self.button_01,
             'second': self.button_02,
@@ -23,11 +22,6 @@ class main_Menu():
           self.buttons[key].redraw()
         for key in self.buttons:
           self.surf.blit(self.buttons[key].surf,self.buttons[key].rect)
-        # for button in buttons:
-        #   button.redraw()
-        # for button in buttons:
-        #   self.surf.blit(button.surf,button.rect)
-
     def change_text(self,option,text):
         self.buttons["{}".format(option)].change(text)
 

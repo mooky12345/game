@@ -14,27 +14,24 @@ class transport_damage(pygame.sprite.Sprite):
         self.speed = 10
         self.cooldown = 100
             
-    def implement(self,pos,dir):
+    def implement(self,pos):
         self.exist = True
-        self.direction = dir
         if self.cooldown == 0:
             self.cooldown = 100 
-            if self.direction  == 0:
-                self.rect.bottomleft = (pos[0]+30,pos[1])
-            if self.direction  == 180:
-                self.rect.bottomright = (pos[0],pos[1])
-    def transport(self):
-        pass
+            self.rect1.bottomleft = (pos[0]+30,pos[1])
+            self.rect2.bottomright = (pos[0],pos[1])
+            self.transport()
+    def transport(self,player):
+        player.pos += 100
     def update(self):
         self.cooldown_creasing()
         if self.exist:
-            if self.direction == 0:
-                self.rect.left += self.speed
-            if self.direction  == 180:
-                self.rect.right -= self.speed
-            if self.rect.left > 1500 or self.rect.right < 0:
+            self.rect1.left += self.speed
+            self.rect2.right -= self.speed
+            if self.rect1.left > 1500 or self.rect2.right < 0:
                 self.exist = False
-                self.rect.center = (-100,-100)
+                self.rect1.center = (-100,-100)
+                self.rect2.center = (-100,-100)
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -=1

@@ -17,13 +17,12 @@ class main_Menu():
             'fifth':self.button_05
         }
     def draw(self):
-        buttons=[self.button_01,self.button_02,self.button_03,self.button_04,self.button_05]
         self.surf = pygame.Surface((WIDTH,800))
         self.surf.fill((0,0,0))
         for key in self.buttons:
           self.buttons[key].redraw()
         for key in self.buttons:
-          self.surf.blit(   self.buttons[key].surf   ,   self.buttons[key].rect  )
+          self.surf.blit(self.buttons[key].surf,self.buttons[key].rect)
         # for button in buttons:
         #   button.redraw()
         # for button in buttons:

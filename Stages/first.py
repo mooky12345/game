@@ -57,15 +57,14 @@ class first():
     def action(self):
         self.bullet_group.update(self.player_1,self.bullet_group)
         self.move_x,self.move_y = self.player_1.move_position()
-        self.all_gener.detect_hits(self.player_1)
+        self.all_gener.update(self.player_1,self.platforms_group)
         self.player_1.key_board_get()
         self.player_1.blood.update()
-        
         self.player_1.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
-        self.cannon.aim_target_rotating(self.player_1.pos)
-        self.cannon.shooting(self.bullet_group,self.player_1.pos) 
         self.player_1.key_gets()
         self.player_1.using_skill(self.bullet_group)
+        self.cannon.aim_target_rotating(self.player_1.pos)
+        self.cannon.shooting(self.bullet_group,self.player_1.pos) 
     def bliting(self,background):
         background.fill((0, 0, 0))
         background.blit(self.bg.surf, self.bg.rect)

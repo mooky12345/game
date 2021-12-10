@@ -178,7 +178,6 @@ class Character(pygame.sprite.Sprite):
         self.downcatch_button()
         self.jumping_button()
         self.squat_down_button()
-        self.attack_button()
         self.shoot_botton()
         self.moving_button()
 
@@ -223,22 +222,6 @@ class Character(pygame.sprite.Sprite):
             self.squat_down_cnt+=1
         self.squat_down_pre = self.squat_down
 
-    def attack_button(self):
-        pass
-        if self.keys[pygame.K_KP4]:
-
-            if self.keys[pygame.K_LEFT] or self.keys[pygame.K_RIGHT]:
-                self.attack_mode[1] = True
-            else:
-                self.attack_mode[1] = False
-            if self.keys[pygame.K_DOWN]:
-                self.attack_mode[2] = True
-            else:
-                self.attack_mode[2] = False
-            if not(self.keys[pygame.K_LEFT] or self.keys[pygame.K_RIGHT] or self.keys[pygame.K_DOWN]):
-                self.attack_mode[0] = True
-            else:
-                self.attack_mode[0] = False
     def shoot_botton(self):
         if self.get_weapon != None:
             if self.keys[pygame.K_k] and self.pre_shooting_ret == False and self.get_weapon.image_weapon == "gun":
@@ -252,13 +235,11 @@ class Character(pygame.sprite.Sprite):
     def walking_speed(self):
         if self.move_left_press:
             self.acc.x = -ACC
-            # print("left")
         else:
             if self.move_right_press:
                 self.acc.x = ACC
-                # print("right")
+                
             else:
-                # print("stop")
                 self.acc.x = 0
                 self.vel.x = 0
     

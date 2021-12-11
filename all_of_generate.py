@@ -10,9 +10,10 @@ class all_generate():
     def declear(self):
         for i in range(self.total):
             self.generator[i] = random_generation()
+        for i in range(self.total):
             self.generator_guoup.add(self.generator[i])
     def all__generate(self):
-        if(self.generator_cnt == 5):
+        if(self.generator_cnt == 6):
             return 
         self.generator[self.generator_cnt].generate()
         self.generator_cnt+=1

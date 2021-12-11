@@ -55,13 +55,13 @@ class random_generation(pygame.sprite.Sprite):
                 play.get_shield_ret = True
                 item.pos_out_width()
     def posy_updating(self,platform_gruop,weapon_gruop):
-        if pygame.sprite.spritecollide(self,weapon_gruop,False):
+        if len(pygame.sprite.spritecollide(self,weapon_gruop,False))>1:
             return
         if not pygame.sprite.spritecollide(self,platform_gruop,False):
             self.rect.bottom += 3
         else:
             for hit in pygame.sprite.spritecollide(self,platform_gruop,False):
-                if hit.top < self.top:
+                if hit.rect.top < self.rect.top:
                     self.rect.bottom += 3
     def get_weapon(self):
         return self.image_weapon
@@ -70,7 +70,6 @@ class random_generation(pygame.sprite.Sprite):
     def pos_out_width(self):
         self.pos.x = -111
         self.pos.y = -111
-        self.image_varible_setter()
         self.pos_updating()
     def generate(self):
         choose_x_range = self.x_range[rd.choice(list(self.y_position))]
@@ -79,5 +78,4 @@ class random_generation(pygame.sprite.Sprite):
         chh = rd.choice(list(self.weapon_image))
         self.image = self.image_type[self.weapon_image[chh]]
         self.image_weapon = chh
-        self.image_varible_setter()
         self.pos_updating()

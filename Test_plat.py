@@ -24,24 +24,6 @@ class test_plat(pygame.sprite.Sprite):
         self.refresh()
         self.bg_x = change_x
         self.bg_y = change_y
-
-        # if self.bg_y < 100:
-        #     self.test_y = 100 - self.bg_y
-        # if self.bg_y >= 100: self.test_y = 0
-
-        # if change_y<0:
-        #    self.set_visible(False)
-        # else :
-        #     self.set_visible(True)
-        
-        # if change_x:   # X軸
-        #     if self.bg_x < backgound_WIDTH / 2:
-        #         self.rect.center = (original_x, HEIGHT - original_y+self.test_y+self.cnt)
-        #     elif self.bg_x > backgound_WIDTH / 2 and self.bg_x < self.background_width - backgound_WIDTH / 2:
-        #         self.rect.center = (original_x - (change_x - backgound_WIDTH / 2),
-        #                             HEIGHT - original_y+self.test_y+self.cnt)
-        #     elif self.bg_x > self.background_width - backgound_WIDTH / 2:
-        #         self.rect.center = (original_x-(550-backgound_WIDTH / 2), HEIGHT - original_y+self.test_y+self.cnt)
         if self.dir==1:
             self.rect.center = (original_x, -(HEIGHT - original_y+self.test_y+self.cnt))
         if self.dir==2:
@@ -50,7 +32,8 @@ class test_plat(pygame.sprite.Sprite):
         self.visible=bool
         if not(self.visible):
             self.image.fill((self.R, self.G, self.B, 0))
-        else : self.image.fill((self.R, self.G, self.B, 50))
+        else: 
+            self.image.fill((self.R, self.G, self.B, 50))
     def refresh(self):
         if self.cnt<self.cnt_max:
             self.cnt+=self.v

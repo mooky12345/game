@@ -4,7 +4,7 @@ import pygame as py
 class all_generate():
     def __init__(self):
         self.generator_cnt = 0
-        self.total = 5
+        self.total = 6
         self.generator = [0]*self.total
         self.generator_guoup = py.sprite.Group()
     def declear(self):

@@ -1,6 +1,8 @@
 import pygame
 import random as rd
 
+from pygame import image
+
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 700
@@ -30,18 +32,18 @@ class random_generation(pygame.sprite.Sprite):
         for im in self.weapon_image:
             self.image_type.append("weapon/{}.png".format(im))
         self.image = self.image_type[self.weapon_image[rd.choice(list(self.weapon_image))]]
-        self.rect.left = -100
-        self.rect.bottom = -100
-        self.background_width = 900
-        self.background_height = 400
-        self.image_varible_setter()
-        self.pos_updating()
-    def image_varible_setter(self):
         charImage = pygame.image.load(self.image)
         charImage = pygame.transform.scale(charImage, (self.chwid,self.chhie))
         self.rect = charImage.get_rect()
         self.surf = pygame.Surface((self.rect.right, self.rect.bottom))
         self.surf.blit(charImage, ((0,0)))
+        self.rect.left = -100
+        self.rect.bottom = -100
+        self.background_width = 900
+        self.background_height = 400
+        self.pos_updating()
+    
+        
     def image_detect_hit(play,group):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
@@ -56,11 +58,11 @@ class random_generation(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self,weapon_gruop,False):
             return
         if not pygame.sprite.spritecollide(self,platform_gruop,False):
-            self.rect.bottom += 5
+            self.rect.bottom += 3
         else:
             for hit in pygame.sprite.spritecollide(self,platform_gruop,False):
                 if hit.top < self.top:
-                    self.rect.bottom += 5
+                    self.rect.bottom += 3
     def get_weapon(self):
         return self.image_weapon
     def pos_updating(self):

@@ -1,8 +1,5 @@
 import pygame
 import random as rd
-
-from pygame import image
-
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 700
@@ -18,9 +15,9 @@ class random_generation(pygame.sprite.Sprite):
             "gun" : 1
         }
         self.x_range = {
-            "background": [150,1350],
-            "plat1" : [150,1350],
-            "plat2" : [150,1350]
+            "background": [150,1320],
+            "plat1" : [150,1320],
+            "plat2" : [150,1320]
         }
         self.y_position =  {
             "background":110,
@@ -37,13 +34,19 @@ class random_generation(pygame.sprite.Sprite):
         self.rect = charImage.get_rect()
         self.surf = pygame.Surface((self.rect.right, self.rect.bottom))
         self.surf.blit(charImage, ((0,0)))
+        self.image_varible_setter()
         self.rect.left = -100
         self.rect.bottom = -100
         self.background_width = 900
         self.background_height = 400
+        self.image_varible_setter()
         self.pos_updating()
-    
-        
+    def image_varible_setter(self):
+        charImage = pygame.image.load(self.image)
+        charImage = pygame.transform.scale(charImage, (self.chwid,self.chhie))
+        self.rect = charImage.get_rect()
+        self.surf = pygame.Surface((self.rect.right, self.rect.bottom))
+        self.surf.blit(charImage, ((0,0)))
     def image_detect_hit(play,group):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
@@ -70,6 +73,7 @@ class random_generation(pygame.sprite.Sprite):
     def pos_out_width(self):
         self.pos.x = -111
         self.pos.y = -111
+        self.image_varible_setter()
         self.pos_updating()
     def generate(self):
         choose_x_range = self.x_range[rd.choice(list(self.y_position))]
@@ -78,4 +82,5 @@ class random_generation(pygame.sprite.Sprite):
         chh = rd.choice(list(self.weapon_image))
         self.image = self.image_type[self.weapon_image[chh]]
         self.image_weapon = chh
+        self.image_varible_setter()
         self.pos_updating()

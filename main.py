@@ -47,7 +47,7 @@ post = py.USEREVENT + 5
 py.time.set_timer(post, 3000)
 py.time.set_timer(image_COUNT, 100)
 py.time.set_timer(continuous_cnt_COUNT, 1200)
-py.time.set_timer(weapon_generator_COUNT, 10000)
+py.time.set_timer(weapon_generator_COUNT, 6000)
 #key
 pressed = py.key.get_pressed()
 #init_functions
@@ -110,7 +110,7 @@ while True:
             screen.blit(background, (0, 0))
     elif options["Firstgame"]:
         for event in event_list: 
-            if event.type == image_COUNT :
+            if event.type == image_COUNT:
                 stage_1.player_1.image_reload()
             if event.type == continuous_cnt_COUNT :
                 stage_1.player_1.all_cnt_del()
@@ -123,7 +123,7 @@ while True:
         for event in event_list: 
             if event.type == image_COUNT :
                 stage_2.player_1.image_reload()
-            if event.type == continuous_cnt_COUNT :
+            if event.type == continuous_cnt_COUNT:
                 stage_2.player_1.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run :
                 stage_2.all_gener.all__generate() 

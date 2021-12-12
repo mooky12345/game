@@ -17,6 +17,7 @@ jump_speed = -13
 class Character(pygame.sprite.Sprite):
     def __init__(self, name, cx, cy, image_path):
         super().__init__()
+        self.player_count = None 
         self.pre_shooting_ret = False
         self.shooting_ret = False
         self.get_weapon = None
@@ -173,7 +174,7 @@ class Character(pygame.sprite.Sprite):
         self.disard_weapon()
         self.shield_broken(bullet_group)
         self.pos_update(platform_group)
-
+        
     def keyboard_control(self, platforms):
         self.downcatch_button()
         self.jumping_button()

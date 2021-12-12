@@ -1,7 +1,7 @@
 import pygame
-from pygame.sprite import spritecollide
 class transport_damage(pygame.sprite.Sprite):
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         self.surf1 = pygame.Surface([30,120]).convert()
         self.surf1.fill((0,0,0,100))
         self.rect1 = self.surf.get_rect()
@@ -14,15 +14,15 @@ class transport_damage(pygame.sprite.Sprite):
         self.speed = 10
         self.cooldown = 100
             
-    def implement(self,pos):
+    def implement(self,pos,player):
         self.exist = True
         if self.cooldown == 0:
             self.cooldown = 100 
             self.rect1.bottomleft = (pos[0]+30,pos[1])
             self.rect2.bottomright = (pos[0],pos[1])
-            self.transport()
+            self.transport(player)
     def transport(self,player):
-        player.pos += 100
+        player.pos -= 100
     def update(self):
         self.cooldown_creasing()
         if self.exist:

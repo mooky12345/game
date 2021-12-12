@@ -4,7 +4,7 @@ import pygame as py
 class all_generate():
     def __init__(self):
         self.generator_cnt = 0
-        self.total = 6
+        self.total = 12
         self.generator = [0]*self.total
         self.generator_guoup = py.sprite.Group()
     def declear(self):
@@ -13,7 +13,7 @@ class all_generate():
         for i in range(self.total):
             self.generator_guoup.add(self.generator[i])
     def all__generate(self):
-        if(self.generator_cnt == 6):
+        if(self.generator_cnt == self.total):
             return 
         self.generator[self.generator_cnt].generate()
         self.generator_cnt+=1

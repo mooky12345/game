@@ -1,5 +1,6 @@
 import pygame
 from explosion import explosion
+import math
 class missile():
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -25,12 +26,8 @@ class missile():
     def reset_cooldown(self):
         self.cooldown = 300
     def update(self,player):
+        center = player.rect.center
         if self.exist:
-            if self.direction == 0:
-                self.rect.bottomright += 10
-            if self.direction == 180:
-                self.rect.bottom += 10
-                self.rect.right -= 10
             if pygame.sprite.spritecollide(self,player):
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft)
@@ -39,11 +36,14 @@ class missile():
             if  self.explosion_cooldown == 0:
                 self.explosion.implement(self.rect.bottomleft)
                 self.out_width()
-
+            self.explosion_cooldown_creasing()
         self.explosion.update()
         self.cooldown_creasing()
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -=1
+    def explosion_cooldown_creasing(self):
+        if self.cooldown > 0:
+            self.cooldown -=1      
     def knock_back(player,dir):
         pass

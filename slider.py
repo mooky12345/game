@@ -6,26 +6,26 @@ blue=((0,0,255))
 WIDTH=700
 class Slider():
         def __init__(self):
-                self.surf=py.Surface((WIDTH,400))
-                vec = py.math.Vector2
-                self.pos=vec(200,100)
-                self.slider_lengh=200
-                self.slider_height=20
+            self.surf=py.Surface((WIDTH,400))
+            vec = py.math.Vector2
+            self.pos=vec(200,100)
+            self.slider_lengh=200
+            self.slider_height=20
 
-                self.circle_radias=30
-                self.interval=self.slider_lengh/float(100)
-                self.volume=50
-                self.up=False
-                self.down=False
-                py.draw.circle(self.surf,white,(self.pos.x+self.interval*self.volume,self.pos.y+self.slider_height/2),self.circle_radias,0)
-                py.draw.rect(self.surf,white,[self.pos.x,self.pos.y,self.slider_lengh,self.slider_height],0)
-                self.circle_pos=vec(self.pos.x+self.interval*self.volume,self.pos.y+self.slider_height/2)
-                self.font = py.font.Font('freesansbold.ttf', 32)
-                self.text = self.font.render('Volume is ' +str( self.volume), True, green, blue)
-                self.textRect = self.text.get_rect()
-                self.textRect.topleft = (10, 10)
-                self.surf.blit(self.text,self.textRect)
-                self.t=0
+            self.circle_radias=30
+            self.interval=self.slider_lengh/float(100)
+            self.volume=50
+            self.up=False
+            self.down=False
+            py.draw.circle(self.surf,white,(self.pos.x+self.interval*self.volume,self.pos.y+self.slider_height/2),self.circle_radias,0)
+            py.draw.rect(self.surf,white,[self.pos.x,self.pos.y,self.slider_lengh,self.slider_height],0)
+            self.circle_pos=vec(self.pos.x+self.interval*self.volume,self.pos.y+self.slider_height/2)
+            self.font = py.font.Font('freesansbold.ttf', 32)
+            self.text = self.font.render('Volume is ' +str( self.volume), True, green, blue)
+            self.textRect = self.text.get_rect()
+            self.textRect.topleft = (10, 10)
+            self.surf.blit(self.text,self.textRect)
+            self.t=0
         def get_volume(self):
             pass
         def on_slider(self,event_list):
@@ -44,10 +44,10 @@ class Slider():
             return False
         def update(self,event_list):
             if  self.on_slider(event_list):
-                  self.update_volume()
-                  self.update_text()
-                  self.redraw()
-          
+                self.update_volume()
+                self.update_text()
+                self.redraw()
+        
         def set_volume(self,Sound_name):
             Sound_name.set_volume(1.0*self.volume/100)
         

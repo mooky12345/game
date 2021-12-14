@@ -38,7 +38,10 @@ class Slider():
                     self.down=False
                 if self.down:
                     (mouse_x,mouse_y)=py.mouse.get_pos()
-                    if(mouse_x<=self.circle_pos.x+self.circle_radias and mouse_x>=self.circle_pos.x-self.circle_radias and mouse_y<= self.circle_pos.y+self.circle_radias and  mouse_y>= self.circle_pos.y-self.circle_radias):
+                    if(mouse_x<=self.circle_pos.x+self.circle_radias and 
+                       mouse_x>=self.circle_pos.x-self.circle_radias and
+                       mouse_y<= self.circle_pos.y+self.circle_radias and  
+                       mouse_y>= self.circle_pos.y-self.circle_radias):
 
                         return True
             return False

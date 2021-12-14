@@ -24,7 +24,6 @@ class Bullet(pygame.sprite.Sprite):
             
             if self.direction_degree < 270:
                 player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
-
             if self.direction_degree > 270:
                 player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
 

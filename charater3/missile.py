@@ -28,6 +28,7 @@ class missile():
     def update(self,player):
         center = player.rect.center
         if self.exist:
+            
             if pygame.sprite.spritecollide(self,player):
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft)

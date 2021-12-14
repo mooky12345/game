@@ -1,8 +1,8 @@
 import pygame
 from pygame import sprite
-from explosion import explosion
-from litttle_fire import little_fireball
-from charater2.player2 import player2
+from character2.explosion import explosion
+from character2.litttle_fire import little_fireball
+
 class fireball(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -13,7 +13,7 @@ class fireball(pygame.sprite.Sprite):
         self.cooldown = 100
         self.direction = None
         self.exist = False 
-        self.littlefire_group = pygame.sprite.group()
+        self.littlefire_group = pygame.sprite.Group()
         self.explosion = explosion()
     def implement(self,pos,dir):
         self.direction = dir
@@ -30,38 +30,38 @@ class fireball(pygame.sprite.Sprite):
     def update(self,player,platform):
         if self.exist:
             if self.direction == 0:
-                self.rect.bottomright += 10
+                self.rect.bottom += 10
+                self.rect.right += 10
             if self.direction == 180:
                 self.rect.bottom += 10
                 self.rect.right -= 10
-            if pygame.sprite.spritecollide(self,player):
+            # if pygame.sprite.spritecollide(self,player,False):
+            #     self.exist = False
+            #     if self.direction == 0:
+            #         self.explosion.implement(self.rect.bottomright)
+            #     if self.direction == 180:
+            #         self.explosion.implement(self.rect.bottomleft)
+            #     player.cut_blood(10,1)
+            #     self.littlefire_generate(self.rect.center)
+            #     self.out_width()
+            if pygame.sprite.spritecollide(self,platform,False):
                 self.exist = False
                 if self.direction == 0:
-                    self.explosion.implement(self.rect.bottomright)
+                    self.explosion.implement(self.rect.bottomright,self.direction)
                 if self.direction == 180:
-                    self.explosion.implement(self.rect.bottomleft)
-                player.cut_blood(10,1)
+                    self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.littlefire_generate(self.rect.center)
                 self.out_width()
-            if pygame.sprite.spritecollide(self,platform):
-                self.exist = False
-                if self.direction == 0:
-                    self.explosion.implement(self.rect.bottomright)
-                if self.direction == 180:
-                    self.explosion.implement(self.rect.bottomleft)
-                self.littlefire_generate(self.rect.center)
-                self.out_width()
-        self.littlefire_group.update()
-        self.explosion.update()
+        self.littlefire_group.update(player,platform)
+        self.explosion.update(player)
         self.cooldown_creasing()
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -=1
     def littlefire_generate(self,pos):
-        self.littlefire_group.empty()
-        for _ in range(3):
+        for _ in range(5):
             fire = little_fireball(pos,180)
             self.littlefire_group.add(fire)
-        for _ in range(3):
+        for _ in range(5):
             fire = little_fireball(pos,0)
             self.littlefire_group.add(fire)

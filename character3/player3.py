@@ -1,5 +1,5 @@
 from character import Character
-from missile import missile
+from character3.missile import missile
 import pygame
 class player3(Character):
     def __init__(self, name, cx, cy, image_path):
@@ -11,11 +11,13 @@ class player3(Character):
         pass
     def shooting_missile(self):
         if self.missile_ret and not self.missile_pre_ret:
-            self.shoting_missile.implement()
-        self.shoting_missile.update()
-    def key_get(self):
+            self.shoting_missile.implement(self.pos,self.direction)
+        self.shoting_missile.update(self)
+    def key_gets(self):
         self.missile_pre_ret = self.missile_ret
         if self.keys[pygame.K_y]:
             self.missile_ret = True
         else:
             self.missile_ret = False
+    def using_skill(self):
+        self.shooting_missile()

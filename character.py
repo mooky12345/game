@@ -44,7 +44,7 @@ class Character(pygame.sprite.Sprite):
         self.pre_space = 0
         self.squat_down_pre = False
         self.background_width = 900
-        self.in_attack = False
+        self.in_ack = False
         self.facing_right = True
         self.shoot_cooldown = 0
         self.ammo = 5

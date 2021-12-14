@@ -5,7 +5,7 @@ from Platform import *
 from Test_plat import *
 from pygame.constants import K_k
 from character import *
-
+from character3.player3 import player3
 from BG import background_test
 from all_menu.setting_menu import Setting_menu
 from main_menu import main_Menu
@@ -13,7 +13,7 @@ from all_of_generate import all_generate
 from auto_cannon import Auto_cannon
 class second():
     def __init__(self):
-        self.player_1 = Character("cats", 150, 150, "character1/L-walk1.png")
+        self.player_1 = player3("cats", 150, 150, "character1/L-walk1.png")
         self.main_Platform_1 = platform(554, 20, 255, 0, 0, 50, 0, 266+20)
         self.float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
         self.float_plat_2 = platform(100, 30, 255, 0, 0, 50, 450, 600)
@@ -57,9 +57,11 @@ class second():
     def action(self):
         self.bullet_group.update(self.player_1,self.bullet_group)
         self.move_x,self.move_y = self.player_1.move_position()
-        self.all_gener.detect_hits(self.player_1)
+        self.all_gener.update(self.player_1,self.platforms_group)
         self.player_1.key_board_get()
         self.player_1.blood.update()
+        self.player_1.key_gets()
+        self.player_1.using_skill()
         self.player_1.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
         self.cannon.aim_target_rotating(self.player_1.pos)
         self.cannon.shooting(self.bullet_group,self.player_1.pos) 
@@ -81,3 +83,4 @@ class second():
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
         background.blit(self.player_1.surf,self.player_1.rect)
+        background.blit(self.player_1.shoting_missile.surf,self.player_1.shoting_missile.rect)

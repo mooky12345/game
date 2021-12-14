@@ -28,8 +28,8 @@ class explosion(pygame.sprite.Sprite):
     def update(self,player):
         if self.exist:
             self.width_changing()
-            if pygame.sprite.spritecollide(self,player):
-                player.cut_blood(3,1)
+            # if pygame.sprite.spritecollide(self,player):
+            #     player.cut_blood(3,1)
         if self.size > 100:
             self.size = 1
             self.surf = pygame.Surface([self.size,self.size]).convert()

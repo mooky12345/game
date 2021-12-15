@@ -19,7 +19,7 @@ HEIGHT = 800
 WIDTH = 1500
 
 py.init()
-
+cnt = 1
 screen = py.display.set_mode((WIDTH, HEIGHT))
 background = py.Surface(screen.get_size())
 background = background.convert()
@@ -39,6 +39,9 @@ options={
     "Secondgame" : False,
     "setting" : False
 }
+#joystick
+pygame.joystick.init()
+joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 #timer
 image_COUNT = py.USEREVENT + 1
 continuous_cnt_COUNT = py.USEREVENT + 3
@@ -114,8 +117,12 @@ while True:
                 stage_1.player.image_reload()
             if event.type == continuous_cnt_COUNT :
                 stage_1.player.all_cnt_del()
-            if event.type == weapon_generator_COUNT and not mainpage_Run :
-                stage_1.all_gener.all__generate() 
+            if event.type == weapon_generator_COUNT and not mainpage_Run:
+                stage_1.all_gener.all__generate()
+            if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP:
+                stage_1.player.keyboard_control(event)
+            else:
+                stage_1.player.keyboard_control(0)
         stage_1.action()
         stage_1.bliting(background)
         screen.blit(background, (0, 0))
@@ -126,7 +133,7 @@ while True:
             if event.type == continuous_cnt_COUNT:
                 stage_2.player.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run :
-                stage_2.all_gener.all__generate() 
+                stage_2.all_gener.all__generate()
         stage_2.action()
         stage_2.bliting(background)
         screen.blit(background, (0, 0))

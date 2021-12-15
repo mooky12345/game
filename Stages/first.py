@@ -61,7 +61,6 @@ class first():
         self.bullet_group.update(self.player,self.bullet_group)
         self.move_x,self.move_y = self.player.move_position()
         self.all_gener.update(self.player,self.platforms_group)
-        self.player.key_board_get()
         self.player.blood.update()
         self.player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
         self.player.key_gets()

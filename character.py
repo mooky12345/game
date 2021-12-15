@@ -18,6 +18,7 @@ jump_speed = -13
 class Character(pygame.sprite.Sprite):
     def __init__(self, name, cx, cy, image_path):
         super().__init__()
+        self.key_event = None
         self.normal_attack_ret = False
         self.normal_attack_pre_ret = False
         self.toxic_statement = False
@@ -34,7 +35,7 @@ class Character(pygame.sprite.Sprite):
         self.chwid = 30
         self.chhie = 60
         self.name = name
-        self.pos = vec(cx,cy)
+        self.pos = vec(300,300)
         self.moving_ret = True
         self.vel = vec(0, 0)
         self.acc = vec(0, 0.5)
@@ -45,7 +46,7 @@ class Character(pygame.sprite.Sprite):
         self.image_left_cnt = 0
         self.image_right_cnt = 0
         self.jump_count = 1
-        self.pre_space = 0
+        self.pre_space = False
         self.squat_down_pre = False
         self.background_width = 900
         self.in_ack = False
@@ -59,6 +60,7 @@ class Character(pygame.sprite.Sprite):
         self.blit_shield_ret = False
         self.shield_image = Shield(50,(0,0,0),backgound_WIDTH/2,0)
         self.blood = bloodline()
+        self.cnt =0
         self.normal_attack_image = normal_attack()
         self.own_bullet_group = pygame.sprite.Group()
         self.animation_type = {
@@ -152,8 +154,6 @@ class Character(pygame.sprite.Sprite):
                     hit[0].kill()
                     self.get_shield_ret = False
     def pos_update(self, plat):
-        if self.get_weapon != None:
-            print(self.get_weapon.pos.x,self.get_weapon.pos.y)
         if self.vel.y > 0:
             if self.go_down_ground_button:
                 pass
@@ -172,79 +172,6 @@ class Character(pygame.sprite.Sprite):
             return hits
         else:
             return False   
-
-    def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
-        self.keyboard_control(platforms)
-        self.speed_change(platforms, platform_group)
-        self.pos_change(platforms, platform_group)
-        self.border_detect_and_xpos_update(platforms, platform_group)
-        self.shield_following_and_invisible()
-        self.jump_down_platform(able_to_scroll)
-        self.shoot(bullet_group)
-        self.shield_broken(bullet_group)
-        self.pos_update(platform_group)
-        self.normal_attacking()
-    def keyboard_control(self, platforms):
-        self.downcatch_button()
-        self.jumping_button()
-        self.squat_down_button()
-        self.shoot_botton()
-        self.moving_button()
-        self.normal_attack_button()
-
-    def normal_attack_button(self):
-        self.normal_attack_pre_ret = self.normal_attack_ret
-        if self.keys[pygame.K_k]:
-            self.normal_attack_ret = True
-        else:
-            self.normal_attack_ret = False
-    def moving_button(self):
-
-        if self.keys[pygame.K_LEFT]:
-            self.move_left_press = True
-            self.move_right_press = False
-            self.facing_right = False
-        else:
-            self.move_left_press = False
-        if self.keys[pygame.K_RIGHT]:
-            self.move_right_press = True
-            self.move_left_press = False
-            self.facing_right = True
-        else:
-            self.move_right_press = False
-        if self.keys[pygame.K_LEFT] and self.keys[pygame.K_RIGHT]:
-            self.move_left_press = False
-            self.move_right_press = False
-
-    def downcatch_button(self):
-        if self.keys[pygame.K_d] and self.keys[pygame.K_RIGHT]:
-            self.downcatch_right = True
-        if self.keys[pygame.K_d] and self.keys[pygame.K_LEFT]:            
-            self.downcatch_left = True
-
-    def jumping_button(self):
-        if not self.pre_space and self.keys[pygame.K_SPACE]:
-            self.jump_button = True
-        else:
-            self.jump_button = False
-        self.pre_space = self.keys[pygame.K_SPACE]
-        
-    def squat_down_button(self):
-        if self.keys[pygame.K_DOWN]:
-            self.squat_down = True
-        else:
-            self.squat_down = False
-        if not self.squat_down_pre and self.squat_down:
-            self.squat_down_cnt+=1
-        self.squat_down_pre = self.squat_down
-
-    def shoot_botton(self):
-        if self.get_weapon != None:
-            if self.keys[pygame.K_k] and self.pre_shooting_ret == False and self.get_weapon.image_weapon == "gun":
-                self.shooting_ret = True
-            else:
-                self.shooting_ret = False
-        self.pre_shooting_ret = self.keys[pygame.K_k]
     def speed_change(self, platforms, platform_group):
         self.walking_speed()
         self.jumping_speed(platform_group)
@@ -260,11 +187,15 @@ class Character(pygame.sprite.Sprite):
                 self.vel.x = 0
     
     def jumping_speed(self, platform_group):
-       
-        if self.jump_button:
+      
+        if not self.pre_space and self.jump_button:
+            print(self.cnt)
+            self.cnt += 1
             if self.on_ground():
+                
                 self.vel.y = jump_speed        
             elif self.jump_count > 0:
+            
                 self.vel.y = jump_speed
                 self.jump_count -= 1
                 
@@ -313,5 +244,77 @@ class Character(pygame.sprite.Sprite):
 
     def all_cnt_del(self):
         self.squat_down_cnt = 0
+
+    def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
+        self.speed_change(platforms, platform_group)
+        self.pos_change(platforms, platform_group)
+        self.border_detect_and_xpos_update(platforms, platform_group)
+        self.shield_following_and_invisible()
+        self.jump_down_platform(able_to_scroll)
+        self.shoot(bullet_group)
+        self.shield_broken(bullet_group)
+        self.pos_update(platform_group)
+        self.normal_attacking()
+    
+
+    def normal_attack_button(self):
+        self.normal_attack_pre_ret = self.normal_attack_ret
+        if self.keys[pygame.K_k]:
+            self.normal_attack_ret = True
+        else:
+            self.normal_attack_ret = False
+    def moving_button(self):
+
+        if self.keys[pygame.K_LEFT]:
+            self.move_left_press = True
+            self.move_right_press = False
+            self.facing_right = False
+        else:
+            self.move_left_press = False
+        if self.keys[pygame.K_RIGHT]:
+            self.move_right_press = True
+            self.move_left_press = False
+            self.facing_right = True
+        else:
+            self.move_right_press = False
+        if self.keys[pygame.K_LEFT] and self.keys[pygame.K_RIGHT]:
+            self.move_left_press = False
+            self.move_right_press = False
+    def jumping_button(self):
+        self.pre_space = self.jump_button
+        print(self.pre_space)
+        if self.key_event == 0:
+            return
+            
+        if  self.key_event.button == 0 and self.key_event.type == JOYBUTTONDOWN:
+            self.jump_button = True
+        elif self.key_event.button == 0 and self.key_event.type == JOYBUTTONUP:
+            self.jump_button = False
+        
+    def squat_down_button(self):
+        if self.keys[pygame.K_DOWN]:
+            self.squat_down = True
+        else:
+            self.squat_down = False
+        if not self.squat_down_pre and self.squat_down:
+            self.squat_down_cnt+=1
+        self.squat_down_pre = self.squat_down
+
+    def shoot_botton(self):
+        if self.get_weapon != None:
+            if self.keys[pygame.K_k] and self.pre_shooting_ret == False and self.get_weapon.image_weapon == "gun":
+                self.shooting_ret = True
+            else:
+                self.shooting_ret = False
+        self.pre_shooting_ret = self.keys[pygame.K_k]
+
+    def keyboard_control(self,key_event):
+        self.key_event = key_event
+        self.jumping_button()
+        self.squat_down_button()
+        self.shoot_botton()
+        self.moving_button()
+        self.normal_attack_button()
+    
 
 

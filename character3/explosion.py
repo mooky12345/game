@@ -5,7 +5,7 @@ class explosion(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.size = 1
         self.surf = pygame.Surface([self.size,self.size]).convert()
-        self.surf.fill((0,0,0,100))
+        self.surf.fill((0,255,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
         self.cooldown = 100
@@ -21,15 +21,15 @@ class explosion(pygame.sprite.Sprite):
         self.rect.center = (-100,-100)
     def reset_cooldown(self):
         self.cooldown = 100
-    def width_changing(self):
+    def width_changing(self,pos):
         self.size += 1
         self.surf = pygame.Surface([self.size,self.size]).convert()
         self.rect = self.surf.get_rect()
-    def update(self,player):
+        self.rect = pos
+    def update(self,player,pos):
         if self.exist:
-            self.width_changing()
-            # if pygame.sprite.spritecollide(self,player):
-            #     player.cut_blood(3,1)
+            print(1)
+            self.width_changing(pos)
         if self.size > 100:
             self.size = 1
             self.surf = pygame.Surface([self.size,self.size]).convert()

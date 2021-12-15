@@ -6,7 +6,7 @@ class player3(Character):
         super().__init__(name, cx, cy, image_path)
         self.missile_ret = False
         self.missile_pre_ret = False
-        self.shoting_missile = missile()
+        self.shoting_missile = missile(self)
     def shooting_follow(self):
         pass
     def shooting_missile(self):

@@ -88,6 +88,7 @@ class Character(pygame.sprite.Sprite):
         charImage = pygame.image.load(self.image)
         charImage = pygame.transform.scale(charImage, (self.chwid, self.chhie))
         self.rect = charImage.get_rect()
+        self.rect.center = (1000,1000)
         self.surf = pygame.Surface((self.chwid, self.chhie))
         self.surf.blit(charImage, (0, 0))
     

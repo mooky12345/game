@@ -94,4 +94,5 @@ class first():
         background.blit(self.player_2.fireball.surf,self.player_2.fireball.rect)
         background.blit(self.player_2.fireball.explosion.surf,
                         self.player_2.fireball.explosion.rect)
+        
         self.player_2.fireball.littlefire_group.draw(background)

@@ -84,3 +84,4 @@ class second():
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
         background.blit(self.player_1.surf,self.player_1.rect)
         background.blit(self.player_1.shoting_missile.surf,self.player_1.shoting_missile.rect)
+        background.blit(self.player_1.shoting_missile.explosion.surf,self.player_1.shoting_missile.explosion.rect)

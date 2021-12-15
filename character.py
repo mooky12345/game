@@ -6,6 +6,7 @@ from pygame.locals import *
 from blood import bloodline
 from bullet import Bullet
 from shield import *
+from normal_attack import normal_attack
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 900
@@ -17,6 +18,8 @@ jump_speed = -13
 class Character(pygame.sprite.Sprite):
     def __init__(self, name, cx, cy, image_path):
         super().__init__()
+        self.normal_attack_ret = False
+        self.normal_attack_pre_ret = False
         self.player_count = None 
         self.pre_shooting_ret = False
         self.shooting_ret = False
@@ -55,6 +58,7 @@ class Character(pygame.sprite.Sprite):
         self.blit_shield_ret = False
         self.shield_image = Shield(50,(0,0,0),backgound_WIDTH/2,0)
         self.blood = bloodline()
+        self.normal_attack_image = normal_attack()
         self.own_bullet_group = pygame.sprite.Group()
         self.animation_type = {
             "Left_walk": 0,
@@ -125,6 +129,12 @@ class Character(pygame.sprite.Sprite):
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
                 self.get_weapon.count -= 1
+    def normal_attacking(self):
+        if self.normal_attack_ret and not self.normal_attack_pre_ret:
+            if self.get_weapon.image_weapon == "sword" and  self.get_weapon.count > 0:
+                self.normal_attack_image.implement(self.direction,self.pos)
+            else:
+                self.normal_attack_image.rect.center = (-100,-100)
     def disard_weapon(self):
         if self.get_weapon != None:
             if self.keys[pygame.K_h] :
@@ -163,7 +173,6 @@ class Character(pygame.sprite.Sprite):
             return False   
 
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
-        
         self.keyboard_control(platforms)
         self.speed_change(platforms, platform_group)
         self.pos_change(platforms, platform_group)
@@ -180,8 +189,13 @@ class Character(pygame.sprite.Sprite):
         self.squat_down_button()
         self.shoot_botton()
         self.moving_button()
+        self.normal_attack_button
 
-
+    def normal_attack_button(self):
+        if self.keys[pygame.K_k]:
+            self.normal_attack_ret = True
+        else:
+            self.normal_attack_ret = False
     def moving_button(self):
 
         if self.keys[pygame.K_LEFT]:

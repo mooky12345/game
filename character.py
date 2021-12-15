@@ -117,18 +117,18 @@ class Character(pygame.sprite.Sprite):
     def shoot(self,bullet_group):
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1
-        if self.get_weapon != None:
-            if self.shoot_cooldown == 0 and self.get_weapon.bullet_count  > 0 and self.shooting_ret:
+        if self.get_weapon != None and self.get_weapon.image_weapon == "gun":
+            if self.shoot_cooldown == 0 and self.get_weapon.count  > 0 and self.shooting_ret:
                 self.shoot_cooldown = 20
                 
                 bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * math.cos(math.degrees(self.direction))),self.rect.centery-5, self.direction)
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
-                self.get_weapon.bullet_count -= 1
+                self.get_weapon.count -= 1
     def disard_weapon(self):
         if self.get_weapon != None:
-            if self.keys[pygame.K_h] and self.get_weapon.image_weapon == "gun":
-                if self.get_weapon.bullet_count != 0:
+            if self.keys[pygame.K_h] :
+                if self.get_weapon.count != 0:
                     self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos.y
                     self.get_weapon = None
                 else:
@@ -171,7 +171,6 @@ class Character(pygame.sprite.Sprite):
         self.shield_following_and_invisible()
         self.jump_down_platform(able_to_scroll)
         self.shoot(bullet_group)
-        self.disard_weapon()
         self.shield_broken(bullet_group)
         self.pos_update(platform_group)
         

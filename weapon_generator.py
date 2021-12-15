@@ -8,11 +8,12 @@ class random_generation(pygame.sprite.Sprite):
         super().__init__()
         self.chwid = 30
         self.chhie = 30 
-        self.bullet_count = 5
+        self.count = 10
         self.image_weapon = None
         self.weapon_image = {
             "shield" : 0,
-            "gun" : 1
+            "gun" : 1,
+            "sword" : 2
         }
         self.x_range = {
             "background": [150,1320],
@@ -51,7 +52,7 @@ class random_generation(pygame.sprite.Sprite):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
         for item in hits:
-            if play.get_weapon == None and item.image_weapon == "gun" and pressed[pygame.K_j]:
+            if  item.image_weapon != "shield" and pressed[pygame.K_j]:
                 item.pos_out_width()
                 play.get_weapon = item
             elif item.image_weapon == "shield":

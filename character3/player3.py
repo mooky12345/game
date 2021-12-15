@@ -21,3 +21,10 @@ class player3(Character):
             self.missile_ret = False
     def using_skill(self):
         self.shooting_missile()
+    def bliting(self,background):
+        background.blit(self.surf,self.rect)
+        background.blit(self.blood.surf, (0,0))
+        background.blit(self.shield_image.image,self.shield_image.rect)
+        background.blit(self.surf,self.rect)
+        background.blit(self.shoting_missile.surf,self.shoting_missile.rect)
+        background.blit(self.shoting_missile.explosion.surf,self.shoting_missile.explosion.rect)

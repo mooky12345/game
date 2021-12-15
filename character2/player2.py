@@ -33,4 +33,12 @@ class player2(Character):
     def using_skill(self,platform):
         self.shooting_fireball(platform)
         self.transporting_damage()
-       
+    def bliting(self,background):
+        background.blit(self.surf,self.rect)
+        background.blit(self.trans_damage.surf1,self.trans_damage.rect1)
+        background.blit(self.trans_damage.surf2,self.trans_damage.rect2)
+        background.blit(self.fireball.surf,self.fireball.rect)
+        background.blit(self.fireball.explosion.surf,self.fireball.explosion.rect)
+        self.fireball.littlefire_group.draw(background)
+        background.blit(self.shield_image.image,self.shield_image.rect)
+        background.blit(self.blood.surf, (0,0))

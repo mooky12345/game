@@ -53,3 +53,10 @@ class player1(Character):
         self.defense(bullet_group)
         self.The_ouohand()
         self.The_ouofoot()
+    def bliting(self,background):
+        background.blit(self.surf,self.rect)
+        background.blit(self.ouohand.surf,self.ouohand.rect)
+        background.blit(self.ouofoot.surf,self.ouofoot.rect)      
+        background.blit(self.hand_defense.surf,self.hand_defense.rect)
+        background.blit(self.shield_image.image,self.shield_image.rect)
+        background.blit(self.blood.surf, (0,0))

@@ -111,9 +111,9 @@ while True:
     elif options["Firstgame"]:
         for event in event_list: 
             if event.type == image_COUNT:
-                stage_1.player_2.image_reload()
+                stage_1.player.image_reload()
             if event.type == continuous_cnt_COUNT :
-                stage_1.player_2.all_cnt_del()
+                stage_1.player.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run :
                 stage_1.all_gener.all__generate() 
         stage_1.action()
@@ -122,9 +122,9 @@ while True:
     elif options["Secondgame"]:
         for event in event_list: 
             if event.type == image_COUNT :
-                stage_2.player_1.image_reload()
+                stage_2.player.image_reload()
             if event.type == continuous_cnt_COUNT:
-                stage_2.player_1.all_cnt_del()
+                stage_2.player.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run :
                 stage_2.all_gener.all__generate() 
         stage_2.action()

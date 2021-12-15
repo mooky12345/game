@@ -135,9 +135,10 @@ class Character(pygame.sprite.Sprite):
             if self.get_weapon.image_weapon == "sword" and  self.get_weapon.count > 0:
                 self.normal_attack_image.implement(self.direction,self.pos)
                 self.get_weapon.count -= 1
+        self.normal_attack_image.update()
     def disard_weapon(self):
         if self.get_weapon != None:
-            if self.keys[pygame.K_h] :
+            if self.keys[pygame.K_h]:
                 if self.get_weapon.count != 0:
                     self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos.y
                     self.get_weapon = None
@@ -182,14 +183,14 @@ class Character(pygame.sprite.Sprite):
         self.shoot(bullet_group)
         self.shield_broken(bullet_group)
         self.pos_update(platform_group)
-        
+        self.normal_attacking()
     def keyboard_control(self, platforms):
         self.downcatch_button()
         self.jumping_button()
         self.squat_down_button()
         self.shoot_botton()
         self.moving_button()
-        self.normal_attack_button
+        self.normal_attack_button()
 
     def normal_attack_button(self):
         self.normal_attack_pre_ret = self.normal_attack_ret

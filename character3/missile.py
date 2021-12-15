@@ -19,7 +19,6 @@ class missile():
         self.play_group.add(player)
     def implement(self,pos,dir):
         self.direction = dir
-        print(self.cooldown)
         if self.cooldown == 0:
             self.exist = True
             self.cooldown = 300
@@ -55,13 +54,12 @@ class missile():
                 self.out_width()
             self.explosion_cooldown_creasing()
             self.rect.topleft = self.pos
-        self.explosion.update(player,self.pos)
+        self.explosion.update(player)
         self.cooldown_creasing()
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -= 1
     def explosion_cooldown_creasing(self):
-        print(self.explosion_cooldown)
         if self.explosion_cooldown > 0:
             self.explosion_cooldown -=1      
     def knock_back(player,dir):

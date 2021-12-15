@@ -20,6 +20,7 @@ class Character(pygame.sprite.Sprite):
         super().__init__()
         self.normal_attack_ret = False
         self.normal_attack_pre_ret = False
+        self.toxic_statement = False
         self.player_count = None 
         self.pre_shooting_ret = False
         self.shooting_ret = False
@@ -125,7 +126,6 @@ class Character(pygame.sprite.Sprite):
         if self.get_weapon != None and self.get_weapon.image_weapon == "gun":
             if self.shoot_cooldown == 0 and self.get_weapon.count  > 0 and self.shooting_ret:
                 self.shoot_cooldown = 20
-                
                 bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * math.cos(math.degrees(self.direction))),self.rect.centery-5, self.direction)
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
@@ -134,8 +134,7 @@ class Character(pygame.sprite.Sprite):
         if self.normal_attack_ret and not self.normal_attack_pre_ret:
             if self.get_weapon.image_weapon == "sword" and  self.get_weapon.count > 0:
                 self.normal_attack_image.implement(self.direction,self.pos)
-            else:
-                self.normal_attack_image.rect.center = (-100,-100)
+                self.get_weapon.count -= 1
     def disard_weapon(self):
         if self.get_weapon != None:
             if self.keys[pygame.K_h] :
@@ -193,6 +192,7 @@ class Character(pygame.sprite.Sprite):
         self.normal_attack_button
 
     def normal_attack_button(self):
+        self.normal_attack_pre_ret = self.normal_attack_ret
         if self.keys[pygame.K_k]:
             self.normal_attack_ret = True
         else:

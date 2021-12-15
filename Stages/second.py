@@ -77,7 +77,7 @@ class second():
             background.blit(entity.image, entity.rect)
         background.blit(self.cannon.player_rotated,self.cannon.player_rotated_rect)
         background.blit(self.player_1.shield_image.image,self.player_1.shield_image.rect)
-        background.blit(self.player_1.blood.surf, (0,0))
+        background.blit(self.player_1.blood.surf,(0,0))
         background.blit(self.main_Platform_1.image,self.main_Platform_1.rect)
         background.blit(self.float_plat_1.image,self.float_plat_1.rect)
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)

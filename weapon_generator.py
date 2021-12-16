@@ -52,7 +52,7 @@ class random_generation(pygame.sprite.Sprite):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
         for item in hits:
-            if  item.image_weapon != "shield" and pressed[pygame.K_j]:
+            if  play.get_weapon == None and pressed[pygame.K_j]:
                 item.pos_out_width()
                 play.get_weapon = item
             elif item.image_weapon == "shield":

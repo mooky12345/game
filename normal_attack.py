@@ -1,7 +1,7 @@
 import pygame
 class normal_attack(pygame.sprite.Sprite):
     def __init__(self):
-        self.surf = pygame.Surface([30,30]).convert()
+        self.surf = pygame.Surface([120,30]).convert()
         self.surf.fill((0,0,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
@@ -17,10 +17,10 @@ class normal_attack(pygame.sprite.Sprite):
             self.exist = True
             if self.direction == 0:
                 self.rect.left = pos[0]+30
-                self.rect.top = pos[1]
+                self.rect.top = pos[1]-60
             if self.direction == 180:
                 self.rect.right = pos[0]
-                self.rect.top = pos[1]
+                self.rect.top = pos[1]-69
     def update(self):
         if self.exist:
             self.cooldown_creaing()

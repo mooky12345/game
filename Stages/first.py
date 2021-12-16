@@ -62,8 +62,10 @@ class first():
         self.move_x,self.move_y = self.player.move_position()
         self.all_gener.update(self.player,self.platforms_group)
         self.player.blood.update()
+        self.player.key_board_get()
         self.player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
         self.player.key_gets()
+    
         self.player.using_skill(self.platforms_group)
         self.cannon.aim_target_rotating(self.player.pos)
         self.cannon.shooting(self.bullet_group,self.player.pos) 

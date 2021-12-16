@@ -41,4 +41,5 @@ class player2(Character):
         background.blit(self.fireball.explosion.surf,self.fireball.explosion.rect)
         self.fireball.littlefire_group.draw(background)
         background.blit(self.shield_image.image,self.shield_image.rect)
+        background.blit(self.normal_attack_image.surf,self.normal_attack_image.rect)
         background.blit(self.blood.surf, (0,0))

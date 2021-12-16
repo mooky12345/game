@@ -10,7 +10,7 @@ class fireball(pygame.sprite.Sprite):
         self.surf.fill((0,0,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
-        self.cooldown = 100
+        self.cooldown = 300
         self.direction = None
         self.exist = False 
         self.littlefire_group = pygame.sprite.Group()

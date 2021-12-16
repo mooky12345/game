@@ -10,7 +10,7 @@ class little_fireball(pygame.sprite.Sprite):
         self.rect.center = (-100,-100)
         self.cooldown = 200
         self.direction = dir
-        self.vel = [random.uniform(3,10),random.uniform(3,10)]     
+        self.vel = [random.uniform(3,10),random.uniform(3,20)]     
         self.init_pos(pos)
     def init_pos(self,pos):
         self.rect.center = pos

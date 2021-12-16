@@ -128,12 +128,15 @@ class Character(pygame.sprite.Sprite):
         if self.get_weapon != None and self.get_weapon.image_weapon == "gun":
             if self.shoot_cooldown == 0 and self.get_weapon.count  > 0 and self.shooting_ret:
                 self.shoot_cooldown = 20
-                bullet = Bullet(self.rect.centerx + (self.rect.size[0] / 2 * math.cos(math.degrees(self.direction))),self.rect.centery-5, self.direction)
+                if self.direction == 0:
+                    bullet = Bullet(self.rect.centerx + 50,self.rect.centery-5, self.direction)
+                if self.direction == 180:
+                    bullet = Bullet(self.rect.centerx - 50,self.rect.centery-5, self.direction)
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
                 self.get_weapon.count -= 1
     def normal_attacking(self):
-        if self.normal_attack_ret and not self.normal_attack_pre_ret:
+        if self.normal_attack_ret and not self.normal_attack_pre_ret and self.get_weapon != None:
             if self.get_weapon.image_weapon == "sword" and  self.get_weapon.count > 0:
                 self.normal_attack_image.implement(self.direction,self.pos)
                 self.get_weapon.count -= 1
@@ -246,10 +249,12 @@ class Character(pygame.sprite.Sprite):
         self.squat_down_cnt = 0
 
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
+        self.keyboard_control(0)
         self.speed_change(platforms, platform_group)
         self.pos_change(platforms, platform_group)
         self.border_detect_and_xpos_update(platforms, platform_group)
         self.shield_following_and_invisible()
+        self.disard_weapon()
         self.jump_down_platform(able_to_scroll)
         self.shoot(bullet_group)
         self.shield_broken(bullet_group)
@@ -282,15 +287,18 @@ class Character(pygame.sprite.Sprite):
             self.move_right_press = False
     def jumping_button(self):
         self.pre_space = self.jump_button
-        print(self.pre_space)
-        if self.key_event == 0:
-            return
+        # print(self.pre_space)
+        # if self.key_event == 0:
+        #     return
             
-        if  self.key_event.button == 0 and self.key_event.type == JOYBUTTONDOWN:
+        # if  self.key_event.button == 0 and self.key_event.type == JOYBUTTONDOWN:
+        #     self.jump_button = True
+        # elif self.key_event.button == 0 and self.key_event.type == JOYBUTTONUP:
+        #     self.jump_button = False
+        if self.keys[pygame.K_SPACE]:
             self.jump_button = True
-        elif self.key_event.button == 0 and self.key_event.type == JOYBUTTONUP:
+        else:
             self.jump_button = False
-        
     def squat_down_button(self):
         if self.keys[pygame.K_DOWN]:
             self.squat_down = True

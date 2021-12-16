@@ -10,7 +10,7 @@ class Bullet(pygame.sprite.Sprite):
         self.image = pygame.image.load("bullet/1.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.chwid, self.chhie))
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
+        self.rect.center = (x, y)
         self.direction_degree = direction_degree
         self.knock_back_range = 5
     def update(self,player,bullet_group):

@@ -122,6 +122,7 @@ while True:
             if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP:
                 stage_1.player.keyboard_control(event)
             else:
+                print(123)
                 stage_1.player.keyboard_control(0)
         stage_1.action()
         stage_1.bliting(background)

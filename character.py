@@ -192,10 +192,9 @@ class Character(pygame.sprite.Sprite):
     def jumping_speed(self, platform_group):
       
         if not self.pre_space and self.jump_button:
-            print(self.cnt)
+            print(self.pre_space,self.jump_button)
             self.cnt += 1
             if self.on_ground():
-                
                 self.vel.y = jump_speed        
             elif self.jump_count > 0:
             
@@ -249,7 +248,7 @@ class Character(pygame.sprite.Sprite):
         self.squat_down_cnt = 0
 
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
-        self.keyboard_control(0)
+        #self.keyboard_control()
         self.speed_change(platforms, platform_group)
         self.pos_change(platforms, platform_group)
         self.border_detect_and_xpos_update(platforms, platform_group)
@@ -264,10 +263,16 @@ class Character(pygame.sprite.Sprite):
 
     def normal_attack_button(self):
         self.normal_attack_pre_ret = self.normal_attack_ret
-        if self.keys[pygame.K_k]:
+        if self.key_event == 0:
+            return
+        if self.key_event.button == 0 and  self.key_event.type == JOYBUTTONDOWN:
             self.normal_attack_ret = True
-        else:
+        elif self.key_event.button == 0 and  self.key_event.type == JOYBUTTONUP:
             self.normal_attack_ret = False
+        # if self.keys[pygame.K_k]:
+        #     self.normal_attack_ret = True
+        # else:
+        #     self.normal_attack_ret = False
     def moving_button(self):
 
         if self.keys[pygame.K_LEFT]:
@@ -287,18 +292,19 @@ class Character(pygame.sprite.Sprite):
             self.move_right_press = False
     def jumping_button(self):
         self.pre_space = self.jump_button
-        # print(self.pre_space)
-        # if self.key_event == 0:
-        #     return
-            
-        # if  self.key_event.button == 0 and self.key_event.type == JOYBUTTONDOWN:
-        #     self.jump_button = True
-        # elif self.key_event.button == 0 and self.key_event.type == JOYBUTTONUP:
-        #     self.jump_button = False
-        if self.keys[pygame.K_SPACE]:
+        if self.key_event == 0:
+            return
+        if  self.key_event.button == 0 and self.key_event.type == JOYBUTTONDOWN:
             self.jump_button = True
-        else:
+            print(self.jump_button)
+        if self.key_event.button == 0 and self.key_event.type == JOYBUTTONUP:
             self.jump_button = False
+        
+
+        # if self.keys[pygame.K_SPACE]:
+        #     self.jump_button = True
+        # else:
+        #     self.jump_button = False
     def squat_down_button(self):
         if self.keys[pygame.K_DOWN]:
             self.squat_down = True

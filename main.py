@@ -112,6 +112,7 @@ while True:
             background.blit(main_page.surf, (0, 0))
             screen.blit(background, (0, 0))
     elif options["Firstgame"]:
+        stage_1.player.keyboard_control(0)
         for event in event_list: 
             if event.type == image_COUNT:
                 stage_1.player.image_reload()
@@ -121,8 +122,7 @@ while True:
                 stage_1.all_gener.all__generate()
             if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP:
                 stage_1.player.keyboard_control(event)
-            else:
-                stage_1.player.keyboard_control(0)
+               
         stage_1.action()
         stage_1.bliting(background)
         screen.blit(background, (0, 0))

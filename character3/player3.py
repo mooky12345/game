@@ -7,7 +7,8 @@ class player3(Character):
         self.missile_ret = False
         self.missile_pre_ret = False
         self.shoting_missile = missile(self)
-    def shooting_follow(self):
+        self.toxic_ret = False
+    def toxic_shooting(self):
         pass
     def shooting_missile(self):
         if self.missile_ret and not self.missile_pre_ret:
@@ -19,6 +20,10 @@ class player3(Character):
             self.missile_ret = True
         else:
             self.missile_ret = False
+        if self.keys[pygame.K_u]:
+            self.toxic_ret = True
+        else:
+            self.toxic_ret = False
     def using_skill(self):
         self.shooting_missile()
     def bliting(self,background):

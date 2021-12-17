@@ -122,14 +122,13 @@ while True:
             if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP:
                 stage_1.player.keyboard_control(event)
             else:
-                print(123)
                 stage_1.player.keyboard_control(0)
         stage_1.action()
         stage_1.bliting(background)
         screen.blit(background, (0, 0))
     elif options["Secondgame"]:
         for event in event_list: 
-            if event.type == image_COUNT :
+            if event.type == image_COUNT:
                 stage_2.player.image_reload()
             if event.type == continuous_cnt_COUNT:
                 stage_2.player.all_cnt_del()

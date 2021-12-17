@@ -2,7 +2,7 @@ import pygame
 import math
 SCREEN_WIDTH = 1500
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, x, y, direction_degree):
+    def __init__(self, x, y, direction_degree,toxic_ret):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 10
         self.chwid = 20
@@ -13,6 +13,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.center = (x, y)
         self.direction_degree = direction_degree
         self.knock_back_range = 5
+        self.toxic_statement = toxic_ret
     def update(self,player,bullet_group):
         
         self.rect.x += (self.speed * math.cos(math.radians(self.direction_degree)))
@@ -21,7 +22,10 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
         if pygame.sprite.spritecollide(player, bullet_group, False):
-            
+            hits = pygame.sprite.spritecollide(player, bullet_group, False)
+            for i in hits:
+                if i.toxic_statement:
+                    player.toxic_
             if self.direction_degree < 270:
                 player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
             if self.direction_degree > 270:

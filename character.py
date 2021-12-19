@@ -2,6 +2,7 @@ import pygame
 from genericpath import isfile
 from pathlib import Path
 import os
+from pygame.event import event_name
 from pygame.locals import *
 from blood import bloodline
 from bullet import Bullet
@@ -129,9 +130,9 @@ class Character(pygame.sprite.Sprite):
             if self.shoot_cooldown == 0 and self.get_weapon.count  > 0 and self.shooting_ret:
                 self.shoot_cooldown = 20
                 if self.direction == 0:
-                    bullet = Bullet(self.rect.centerx + 50,self.rect.centery-5, self.direction)
+                    bullet = Bullet(self.rect.centerx + 50,self.rect.centery-5, self.direction,toxic=False)
                 if self.direction == 180:
-                    bullet = Bullet(self.rect.centerx - 50,self.rect.centery-5, self.direction)
+                    bullet = Bullet(self.rect.centerx - 50,self.rect.centery-5, self.direction,toxic=False)
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
                 self.get_weapon.count -= 1
@@ -143,12 +144,16 @@ class Character(pygame.sprite.Sprite):
         self.normal_attack_image.update()
     def disard_weapon(self):
         if self.get_weapon != None:
-            if self.keys[pygame.K_h]:
-                if self.get_weapon.count != 0:
-                    self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos.y
-                    self.get_weapon = None
-                else:
-                    self.get_weapon = None
+            try:
+                if self.key_event.button == 5:
+                    if self.get_weapon.count != 0:
+                        self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos.y
+                        self.get_weapon = None
+                    else:
+                        self.get_weapon.rect.x,self.get_weapon.rect.y = (-100,-100)
+                        self.get_weapon = None
+            except AttributeError:
+                return
     def shield_broken(self,bullet):
         if self.get_shield_ret == True:
             if pygame.sprite.spritecollide(self.shield_image, bullet, False):
@@ -192,7 +197,7 @@ class Character(pygame.sprite.Sprite):
     def jumping_speed(self, platform_group):
       
         if not self.pre_space and self.jump_button:
-            print(self.pre_space,self.jump_button)
+       
             self.cnt += 1
             if self.on_ground():
                 self.vel.y = jump_speed        
@@ -263,64 +268,71 @@ class Character(pygame.sprite.Sprite):
 
     def normal_attack_button(self):
         self.normal_attack_pre_ret = self.normal_attack_ret
-        if self.key_event == 0:
+        try:
+            if self.key_event.button == 6 and  self.key_event.type == JOYBUTTONDOWN:
+                
+                self.normal_attack_ret = True
+            elif self.key_event.button == 6 and  self.key_event.type == JOYBUTTONUP:
+                self.normal_attack_ret = False
+        except AttributeError:
             return
-        if self.key_event.button == 0 and  self.key_event.type == JOYBUTTONDOWN:
-            self.normal_attack_ret = True
-        elif self.key_event.button == 0 and  self.key_event.type == JOYBUTTONUP:
-            self.normal_attack_ret = False
         # if self.keys[pygame.K_k]:
         #     self.normal_attack_ret = True
         # else:
         #     self.normal_attack_ret = False
     def moving_button(self):
-
-        if self.keys[pygame.K_LEFT]:
-            self.move_left_press = True
-            self.move_right_press = False
-            self.facing_right = False
-        else:
-            self.move_left_press = False
-        if self.keys[pygame.K_RIGHT]:
-            self.move_right_press = True
-            self.move_left_press = False
-            self.facing_right = True
-        else:
-            self.move_right_press = False
-        if self.keys[pygame.K_LEFT] and self.keys[pygame.K_RIGHT]:
-            self.move_left_press = False
-            self.move_right_press = False
+        try:
+            if self.key_event.value == (-1, 0):
+                self.move_left_press = True
+                self.move_right_press = False
+                self.facing_right = False
+            elif self.key_event.value == (0, 0):
+                self.move_left_press = False
+            if self.key_event.value == (1, 0):
+                self.move_right_press = True
+                self.move_left_press = False
+                self.facing_right = True
+            elif self.key_event.value == (0, 0):
+                self.move_right_press = False
+        except AttributeError:
+            return
     def jumping_button(self):
         self.pre_space = self.jump_button
-        if self.key_event == 0:
+        try:
+            if  self.key_event.button == 0 and self.key_event.type == JOYBUTTONDOWN:
+                self.jump_button = True
+            if self.key_event.button == 0 and self.key_event.type == JOYBUTTONUP:
+                self.jump_button = False
+        except AttributeError:
             return
-        if  self.key_event.button == 0 and self.key_event.type == JOYBUTTONDOWN:
-            self.jump_button = True
-            print(self.jump_button)
-        if self.key_event.button == 0 and self.key_event.type == JOYBUTTONUP:
-            self.jump_button = False
-        
 
         # if self.keys[pygame.K_SPACE]:
         #     self.jump_button = True
         # else:
         #     self.jump_button = False
     def squat_down_button(self):
-        if self.keys[pygame.K_DOWN]:
-            self.squat_down = True
-        else:
-            self.squat_down = False
-        if not self.squat_down_pre and self.squat_down:
-            self.squat_down_cnt+=1
         self.squat_down_pre = self.squat_down
+        try:
+            if self.key_event.value == (0,-1):
+                self.squat_down = True
+            elif self.key_event.value == (0,0):
+                self.squat_down = False
+            if self.key_event.value == (0,-1):
+                self.squat_down_cnt+=1
+        except AttributeError:
+            return
+        
 
     def shoot_botton(self):
         if self.get_weapon != None:
-            if self.keys[pygame.K_k] and self.pre_shooting_ret == False and self.get_weapon.image_weapon == "gun":
-                self.shooting_ret = True
-            else:
+            try:
+                if self.key_event.button == 6 and self.key_event.type == JOYBUTTONDOWN:
+                    self.shooting_ret = True
+                else:
+                    self.shooting_ret = False
+            except AttributeError:
                 self.shooting_ret = False
-        self.pre_shooting_ret = self.keys[pygame.K_k]
+       
 
     def keyboard_control(self,key_event):
         self.key_event = key_event

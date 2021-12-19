@@ -1,4 +1,5 @@
 import pygame
+from pygame.constants import JOYBUTTONDOWN, JOYBUTTONUP
 from character import Character
 from character2.fireball import *
 from character2.transport_damage import transport_damage 
@@ -19,17 +20,21 @@ class player2(Character):
         if self.transporting_damage_ret and self.transporting_damage_pre_ret:
            self.trans_damage.implement(self.pos,self)
         self.trans_damage.update()
-    def key_gets(self):
+    def key_gets(self,event):
         self.shooting_fireball_pre_ret = self.shooting_fireball_ret
         self.transporting_damage_pre_ret = self.transporting_damage_ret 
-        if self.keys[pygame.K_y]:
-            self.shooting_fireball_ret = True
-        else:
-            self.shooting_fireball_ret = False
-        if self.keys[pygame.K_u]:
-            self.transporting_damage_ret = True
-        else:
-            self.transporting_damage_pre_ret = False
+        print( self.transporting_damage_ret )
+        try:
+            if event.button == 1 and event.type == JOYBUTTONDOWN:
+                self.shooting_fireball_ret = True
+            elif event.button == 1 and event.type == JOYBUTTONUP:
+                self.shooting_fireball_ret = False
+            if event.button == 2 and event.type == JOYBUTTONDOWN:
+                self.transporting_damage_ret = True
+            elif event.button == 2 and event.type == JOYBUTTONUP:
+                self.transporting_damage_ret = False
+        except AttributeError:
+            return
     def using_skill(self,platform):
         self.shooting_fireball(platform)
         self.transporting_damage()

@@ -1,6 +1,8 @@
 from typing import Tuple
 import pygame as py
 import sys
+
+from pygame import joystick
 from Platform import *
 from Test_plat import *
 from pygame.constants import K_k
@@ -57,7 +59,8 @@ pressed = py.key.get_pressed()
 def turn_false():
     for key, value  in options.items():
         options[key] = False
-
+def joystick_key_update(stage_1):
+    stage_1.player.keyboard_control(0) 
 
 
 while True:
@@ -112,7 +115,7 @@ while True:
             background.blit(main_page.surf, (0, 0))
             screen.blit(background, (0, 0))
     elif options["Firstgame"]:
-        stage_1.player.keyboard_control(0)
+        joystick_key_update(stage_1)   
         for event in event_list: 
             if event.type == image_COUNT:
                 stage_1.player.image_reload()
@@ -120,13 +123,14 @@ while True:
                 stage_1.player.all_cnt_del()
             if event.type == weapon_generator_COUNT and not mainpage_Run:
                 stage_1.all_gener.all__generate()
-            if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP:
+            if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP or  event.type == JOYHATMOTION:
                 stage_1.player.keyboard_control(event)
-               
+                stage_1.player.key_gets(event)
         stage_1.action()
         stage_1.bliting(background)
         screen.blit(background, (0, 0))
     elif options["Secondgame"]:
+        joystick_key_update(stage_1)   
         for event in event_list: 
             if event.type == image_COUNT:
                 stage_2.player.image_reload()

@@ -1,6 +1,10 @@
+from pygame.constants import JOYBUTTONDOWN, JOYBUTTONUP
 from character import Character
 from character3.missile import missile
+from character3.toxic import toxic
 import pygame
+
+
 class player3(Character):
     def __init__(self, name, cx, cy, image_path):
         super().__init__(name, cx, cy, image_path)
@@ -8,22 +12,31 @@ class player3(Character):
         self.missile_pre_ret = False
         self.shoting_missile = missile(self)
         self.toxic_ret = False
+        self.toxic_pre_ret = False
+        self.toxic_shoot = toxic()
     def toxic_shooting(self):
         pass
+        if self.toxic_ret and not self.toxic_pre_ret:
+            self.toxic_shoot.implement(self.pos,self.direction)
+        self.shoting_missile.update(self)
     def shooting_missile(self):
         if self.missile_ret and not self.missile_pre_ret:
             self.shoting_missile.implement(self.pos,self.direction)
         self.shoting_missile.update(self)
-    def key_gets(self):
+    def key_gets(self,event):
         self.missile_pre_ret = self.missile_ret
-        if self.keys[pygame.K_y]:
-            self.missile_ret = True
-        else:
-            self.missile_ret = False
-        if self.keys[pygame.K_u]:
-            self.toxic_ret = True
-        else:
-            self.toxic_ret = False
+        self.toxic_pre_ret = self.toxic_ret
+        try:
+            if event.button == 1 and event.type == JOYBUTTONDOWN:
+                self.missile_ret = True
+            elif event.button == 1 and event.type == JOYBUTTONUP:
+                self.missile_ret = False
+            if event.button == 2 and event.type == JOYBUTTONDOWN:
+                self.toxic_ret = True
+            elif event.button == 2 and event.type == JOYBUTTONUP:
+                self.toxic_ret = False
+        except AttributeError:
+            return
     def using_skill(self):
         self.shooting_missile()
     def bliting(self,background):

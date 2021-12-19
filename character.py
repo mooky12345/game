@@ -130,9 +130,9 @@ class Character(pygame.sprite.Sprite):
             if self.shoot_cooldown == 0 and self.get_weapon.count  > 0 and self.shooting_ret:
                 self.shoot_cooldown = 20
                 if self.direction == 0:
-                    bullet = Bullet(self.rect.centerx + 50,self.rect.centery-5, self.direction,toxic=False)
+                    bullet = Bullet(self.rect.centerx + 50,self.rect.centery-5, self.direction,False)
                 if self.direction == 180:
-                    bullet = Bullet(self.rect.centerx - 50,self.rect.centery-5, self.direction,toxic=False)
+                    bullet = Bullet(self.rect.centerx - 50,self.rect.centery-5, self.direction,False)
                 bullet_group.add(bullet)
                 self.own_bullet_group.add(bullet)
                 self.get_weapon.count -= 1

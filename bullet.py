@@ -7,7 +7,10 @@ class Bullet(pygame.sprite.Sprite):
         self.speed = 10
         self.chwid = 20
         self.chhie = 10
-        self.image = pygame.image.load("bullet/1.png").convert_alpha()
+        if toxic_ret:
+            self.image = pygame.image.load("bullet/1.png").convert()
+        else:
+            self.image = pygame.image.load("bullet/1.png").convert()
         self.image = pygame.transform.scale(self.image, (self.chwid, self.chhie))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)

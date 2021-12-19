@@ -14,10 +14,10 @@ class player3(Character):
         self.toxic_ret = False
         self.toxic_pre_ret = False
         self.toxic_shoot = toxic()
-    def toxic_shooting(self):
+    def toxic_shooting(self,bullet_group):
         pass
         if self.toxic_ret and not self.toxic_pre_ret:
-            self.toxic_shoot.implement(self.pos,self.direction)
+            self.toxic_shoot.implement(bullet_group,self.own_bullet_group,self.direction)
         self.shoting_missile.update(self)
     def shooting_missile(self):
         if self.missile_ret and not self.missile_pre_ret:
@@ -37,8 +37,9 @@ class player3(Character):
                 self.toxic_ret = False
         except AttributeError:
             return
-    def using_skill(self):
+    def using_skill(self,bullet_group):
         self.shooting_missile()
+        self.toxic_shoot(bullet_group)
     def bliting(self,background):
         background.blit(self.surf,self.rect)
         background.blit(self.blood.surf, (0,0))

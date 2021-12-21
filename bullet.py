@@ -8,9 +8,9 @@ class Bullet(pygame.sprite.Sprite):
         self.chwid = 20
         self.chhie = 10
         if toxic_ret:
-            self.image = pygame.image.load("bullet/2.png").convert()
+            self.image = pygame.image.load("bullet/2.png").convert_alpha()
         else:
-            self.image = pygame.image.load("bullet/1.png").convert()
+            self.image = pygame.image.load("bullet/1.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.chwid, self.chhie))
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)

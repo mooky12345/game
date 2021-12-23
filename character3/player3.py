@@ -39,7 +39,7 @@ class player3(Character):
             return
     def using_skill(self,platfrom,bullet_group):
         self.shooting_missile()
-        self.toxic_shoot(bullet_group)
+        self.toxic_shooting(bullet_group)
     def bliting(self,background):
         background.blit(self.surf,self.rect)
         background.blit(self.blood.surf, (0,0))

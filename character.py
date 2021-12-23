@@ -36,7 +36,7 @@ class Character(pygame.sprite.Sprite):
         self.chwid = 30
         self.chhie = 60
         self.name = name
-        self.pos = vec(300,300)
+        self.pos = vec(cx,cy)
         self.moving_ret = True
         self.vel = vec(0, 0)
         self.acc = vec(0, 0.5)

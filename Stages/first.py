@@ -64,15 +64,14 @@ class first():
     def init_player(self):
         for item in range(self.player_cnt):
             self.player_own_play_list[item] = self.player_own_play_list[item].name
-        
     def init_player_object(self):
         for item in range(self.player_cnt):
             if self.player_own_play_list[item] == "1":
-                self.player_own_play_list[item] = player1("cats", 150, 150, "character1/L-walk1.png")
+                self.player_own_play_list[item] = player1("ouo", 900, 150, "character1/L-walk1.png")
             if self.player_own_play_list[item] == "2":
-                self.player_own_play_list[item] = player2("cats", 150, 150, "character1/L-walk1.png")
+                self.player_own_play_list[item] = player2("mazz", 600, 150, "character1/L-walk1.png")
             if self.player_own_play_list[item] == "3":
-                self.player_own_play_list[item] = player3("cats", 150, 150, "character1/L-walk1.png")
+                self.player_own_play_list[item] = player3("bomk", 300, 150, "character1/L-walk1.png")
     def init_factor(self):
         self.init_player()
         self.init_player_object()
@@ -83,7 +82,7 @@ class first():
             for player in self.player_own_play_list:
                 player.keyboard_control(event)
                 player.key_gets(event)
-            return
+            return 
         for index in range(self.player_cnt):
             if event.joy == index:
                 self.player_own_play_list[index].keyboard_control(event)

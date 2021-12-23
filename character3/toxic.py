@@ -4,6 +4,7 @@ from bullet import Bullet
 class toxic():
     def __init__(self):
         self.cooldown = 300
+        self.max_cooldown = 300
     def implement(self,bullet_group,own_group,dir):
         if self.cooldown == 0:
             self.cooldown = 300

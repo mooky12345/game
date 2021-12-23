@@ -2,7 +2,9 @@ from character import *
 from character1.ouodefense import *
 from character1.ouofoot import ouofoot
 from character1.ouohand import ouohand
+from persons_skill_cool_bar import cool_bar
 import pygame
+width=1500
 class player1(Character):
     def __init__(self, name, cx, cy, image_path):
         super().__init__(name, cx, cy, image_path)
@@ -10,6 +12,7 @@ class player1(Character):
         self.ouohand = ouohand()
         self.ouofoot = ouofoot()
         self.hand_defense =  ouodefense()
+        self.cool_bar = cool_bar(src="player_1")
         self.ouohand_ret = False
         self.ouohand_pre_ret = False
         self.hand_defense_ret = False
@@ -52,7 +55,15 @@ class player1(Character):
                 self.ouofoot_ret = False
         except AttributeError:
             return
+    def cooldowm_bar(self):
+        a,b,c=self.return_cooldown()  #1231231213
+        m1,m2,m3=self.return_max_cooldown()
+        arc =round(float(1-a/m1)*360,1)-90
+        arc2=round(float(1-b/m2)*360,1)-90
+        arc3=round(float(1-c/m3)*360,1)-90
+        self.cool_bar.update(arc=arc,arc2=arc2,arc3=arc3)
     def using_skill(self,platform,bullet_group):
+        self.cooldowm_bar()
         self.defense(bullet_group)
         self.The_ouohand()
         self.The_ouofoot()
@@ -61,5 +72,10 @@ class player1(Character):
         background.blit(self.ouohand.surf,self.ouohand.rect)
         background.blit(self.ouofoot.surf,self.ouofoot.rect)      
         background.blit(self.hand_defense.surf,self.hand_defense.rect)
+        background.blit(self.cool_bar.surf,(width-150,0))
         background.blit(self.shield_image.image,self.shield_image.rect)
         background.blit(self.blood.surf, (0,0))
+    def return_cooldown(self):
+        return self.ouohand.cooldown, self.ouofoot.cooldown, self.hand_defense.cooldown
+    def return_max_cooldown(self):
+        return self.ouohand.max_cooldown,self.ouofoot.max_cooldown ,self.hand_defense.max_cooldown

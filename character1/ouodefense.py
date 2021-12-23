@@ -6,6 +6,7 @@ class ouodefense(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
         self.cooldown = 100
+        self.max_cooldown = 100
         self.direction = None
     def implement(self,pos):
         if self.cooldown == 0:

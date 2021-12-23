@@ -82,7 +82,7 @@ class first():
             for player in self.player_own_play_list:
                 player.keyboard_control(event)
                 player.key_gets(event)
-                self.all_gener.update(self.player_own_play_list[0],self.platforms_group)
+                self.all_gener.update(self.player_own_play_list[0],self.platforms_group,event)
             return 
         for index in range(self.player_cnt):
             if event.joy == index:
@@ -97,11 +97,7 @@ class first():
             player.blood.update()
             player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
             player.using_skill(self.platforms_group,self.bullet_group)
-        # a,b=self.player_2.return_cooldown()  #1231231213
-        # m1,m2=self.player_2.return_max_cooldown()
-        # arc =round(float(1-a/m1)*360,1)-90
-        # arc2=round(float(1-b/m2)*360,1)-90
-        # self.cool_bar.update(arc=arc,arc2=arc2)
+        
         self.cannon.aim_target_rotating(self.player_own_play_list[0].pos)
         self.cannon.shooting(self.bullet_group,self.player_own_play_list[0].pos) 
     def bliting(self,background):
@@ -119,5 +115,6 @@ class first():
         background.blit(self.float_plat_1.image,self.float_plat_1.rect)
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
+       
         for player in self.player_own_play_list:
             player.bliting(background)

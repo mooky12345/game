@@ -28,7 +28,7 @@ class explosion(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.rect.center = self.pos
     def update(self,player):
-        print(self.rect.center)
+        
         if self.exist:
             self.width_changing()
         if self.size > 100:

@@ -11,6 +11,7 @@ class ouofoot(pygame.sprite.Sprite):
         self.lenth = None
         self.angle = 1000
         self.cooldown = 100
+        self.max_cooldown = 100
         self.center = None
         self.angle1 = 1000
         self.lenth1 = None

@@ -7,7 +7,8 @@ from pygame.locals import *
 from blood import bloodline
 from bullet import Bullet
 from shield import *
-from Normal_attack import normal_attack
+from persons_skill_cool_bar import cool_bar
+from normal_attack import normal_attack
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 900
@@ -19,6 +20,7 @@ jump_speed = -13
 class Character(pygame.sprite.Sprite):
     def __init__(self, name, cx, cy, image_path):
         super().__init__()
+        
         self.key_event = None
         self.normal_attack_ret = False
         self.normal_attack_pre_ret = False
@@ -138,7 +140,8 @@ class Character(pygame.sprite.Sprite):
                 self.get_weapon.count -= 1
     def normal_attacking(self):
         if self.normal_attack_ret and not self.normal_attack_pre_ret and self.get_weapon != None:
-            if self.get_weapon.image_weapon == "sword" and  self.get_weapon.count > 0:
+            if self.get_weapon.image_weapon == "sword" and  self.get_weapon.count > 0 and self.normal_attack_image.cooldown == 0:
+                self.normal_attack_image.cooldown = 100
                 self.normal_attack_image.implement(self.direction,self.pos)
                 self.get_weapon.count -= 1
         self.normal_attack_image.update()
@@ -232,7 +235,6 @@ class Character(pygame.sprite.Sprite):
             self.pos.x = 1500
         if self.pos.x < 0:
             self.pos.x = 0
-
         self.rect.bottomleft = (self.pos.x, self.pos.y)
        
     def shield_following_and_invisible(self):
@@ -253,7 +255,7 @@ class Character(pygame.sprite.Sprite):
         self.squat_down_cnt = 0
 
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
-        #self.keyboard_control()
+    
         self.speed_change(platforms, platform_group)
         self.pos_change(platforms, platform_group)
         self.border_detect_and_xpos_update(platforms, platform_group)
@@ -269,10 +271,9 @@ class Character(pygame.sprite.Sprite):
     def normal_attack_button(self):
         self.normal_attack_pre_ret = self.normal_attack_ret
         try:
-            if self.key_event.button == 6 and  self.key_event.type == JOYBUTTONDOWN:
-                
+            if self.key_event.button == 8 and  self.key_event.type == JOYBUTTONDOWN:
                 self.normal_attack_ret = True
-            elif self.key_event.button == 6 and  self.key_event.type == JOYBUTTONUP:
+            elif self.key_event.button == 8 and  self.key_event.type == JOYBUTTONUP:
                 self.normal_attack_ret = False
         except AttributeError:
             return
@@ -326,7 +327,7 @@ class Character(pygame.sprite.Sprite):
     def shoot_botton(self):
         if self.get_weapon != None:
             try:
-                if self.key_event.button == 6 and self.key_event.type == JOYBUTTONDOWN:
+                if self.key_event.button == 8 and self.key_event.type == JOYBUTTONDOWN:
                     self.shooting_ret = True
                 else:
                     self.shooting_ret = False

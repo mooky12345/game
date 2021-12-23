@@ -1,5 +1,7 @@
 import pygame
 import random as rd
+
+from pygame.constants import JOYBUTTONDOWN
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 700
@@ -51,13 +53,16 @@ class random_generation(pygame.sprite.Sprite):
     def image_detect_hit(play,group,event):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
-        for item in hits:
-            if  item.image_weapon != "shield" and pressed[pygame.K_j]:
-                item.pos_out_width()
-                play.get_weapon = item
-            elif item.image_weapon == "shield":
-                play.get_shield_ret = True
-                item.pos_out_width()
+        try:
+            for item in hits:
+                if  item.image_weapon != "shield" and event.button == 4 and event.type == JOYBUTTONDOWN:
+                    item.pos_out_width()
+                    play.get_weapon = item
+                elif item.image_weapon == "shield":
+                    play.get_shield_ret = True
+                    item.pos_out_width()
+        except AttributeError:
+            return
     def posy_updating(self,platform_gruop,weapon_gruop):
         if len(pygame.sprite.spritecollide(self,weapon_gruop,False))>1:
             return

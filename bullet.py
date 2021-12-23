@@ -5,8 +5,8 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, x, y, direction_degree,toxic_ret):
         pygame.sprite.Sprite.__init__(self)
         self.speed = 10
-        self.chwid = 20
-        self.chhie = 10
+        self.chwid = 15
+        self.chhie = 15
         if toxic_ret:
             self.image = pygame.image.load("bullet/2.png").convert_alpha()
         else:
@@ -24,17 +24,17 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
             self.kill()
 
-        # if pygame.sprite.groupcollide(players,bullet_group,False,False):
-        #     pass
-            # hits = pygame.sprite.groupcollide(players,bullet_group,False,False)
-            # for key,valve in hits.items:
-            #     if i.toxic_statement:
-            #         player.toxic_statement = True
-            #     if self.direction_degree < 270:
-            #         player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
-            #     if self.direction_degree > 270:
-            #         player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
+        if pygame.sprite.spritecollide(self,players,False):
+            pass
+            hits = pygame.sprite.groupcollide(players,bullet_group,False,False)
+            for i in hits.items:
+                if i.toxic_statement:
+                    players.toxic_statement = True
+                if self.direction_degree < 270:
+                    player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
+                if self.direction_degree > 270:
+                    player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
 
-            #         player.blood.cut_blood(5,1)
-            # .kill()
+                    player.blood.cut_blood(5,1)
+            .kill()
                

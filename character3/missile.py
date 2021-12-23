@@ -9,6 +9,7 @@ class missile():
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
         self.cooldown = 300
+        self.max_cooldown = 300
         self.explosion_cooldown = 400
         self.direction = 180
         self.exist = False 

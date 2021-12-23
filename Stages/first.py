@@ -16,6 +16,7 @@ from character2.player2 import player2
 from character3.player3 import player3
 from persons_skill_cool_bar import cool_bar
 from select_player_number import select_role_number_screen
+import random
 width=1500
 height=800
 class first():
@@ -49,6 +50,7 @@ class first():
         self.move_plat.add(self.test2)
         self.can_go_down.add(self.float_plat_1)
         self.can_go_down.add(self.float_plat_2)
+        self.can_go_down.add(self.float_plat_3)
         self.platforms_group.add(self.main_Platform_1)
         self.platforms_group.add(self.float_plat_1)
         self.platforms_group.add(self.float_plat_2)
@@ -67,11 +69,11 @@ class first():
     def init_player_object(self):
         for item in range(self.player_cnt):
             if self.player_own_play_list[item] == "1":
-                self.player_own_play_list[item] = player1("ouo", 900, 150, "character1/L-walk1.png",)
+                self.player_own_play_list[item] = player1("ouo", 900, 150, "character1/L-walk1.png",self.player_group)
             if self.player_own_play_list[item] == "2":
-                self.player_own_play_list[item] = player2("mazz", 600, 150, "character1/L-walk1.png")
+                self.player_own_play_list[item] = player2("mazz", 600, 150, "character1/L-walk1.png",self.player_group)
             if self.player_own_play_list[item] == "3":
-                self.player_own_play_list[item] = player3("bomk", 300, 150, "character1/L-walk1.png")
+                self.player_own_play_list[item] = player3("bomk", 300, 150, "character1/L-walk1.png",self.player_group)
     def init_factor(self):
         self.init_player()
         self.init_player_object()
@@ -97,9 +99,9 @@ class first():
             player.blood.update()
             player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
             player.using_skill(self.platforms_group,self.bullet_group)
-        
-        self.cannon.aim_target_rotating(self.player_own_play_list[0].pos)
-        self.cannon.shooting(self.bullet_group,self.player_own_play_list[0].pos) 
+        pos = self.random_pos()
+        self.cannon.aim_target_rotating(pos)
+        self.cannon.shooting(self.bullet_group,pos) 
     def bliting(self,background):
         background.fill((0, 0, 0))
         background.blit(self.bg.surf, self.bg.rect)
@@ -118,3 +120,5 @@ class first():
        
         for player in self.player_own_play_list:
             player.bliting(background)
+    def random_pos(self):
+        return (random.randint(0,width),random.randint(1,height))

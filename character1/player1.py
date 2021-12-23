@@ -6,8 +6,8 @@ from persons_skill_cool_bar import cool_bar
 import pygame
 width=1500
 class player1(Character):
-    def __init__(self, name, cx, cy, image_path):
-        super().__init__(name, cx, cy, image_path)
+    def __init__(self, name, cx, cy, image_path,player_group):
+        super().__init__(name, cx, cy, image_path,player_group)
         self.keys = pygame.key.get_pressed()
         self.ouohand = ouohand()
         self.ouofoot = ouofoot()

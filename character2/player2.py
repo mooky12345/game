@@ -6,8 +6,8 @@ from persons_skill_cool_bar import cool_bar
 from character2.transport_damage import transport_damage 
 width = 1500
 class player2(Character):
-    def __init__(self, name, cx, cy, image_path):
-        super().__init__(name, cx, cy, image_path)
+    def __init__(self, name, cx, cy, image_path,player_group):
+        super().__init__(name, cx, cy, image_path,player_group)
         self.shooting_fireball_ret = False
         self.transporting_damage_ret = False
         self.shooting_fireball_pre_ret = False
@@ -18,7 +18,7 @@ class player2(Character):
     def shooting_fireball(self,platform):
         if self.shooting_fireball_ret and not self.shooting_fireball_pre_ret:
             self.fireball.implement(self.pos,self.direction)
-        self.fireball.update(self,platform)
+        self.fireball.update(self.player_group,platform)
     def transporting_damage(self):
         if self.transporting_damage_ret and self.transporting_damage_pre_ret:
            self.trans_damage.implement(self.pos,self)
@@ -39,7 +39,7 @@ class player2(Character):
         except AttributeError:
             return
     def cooldowm_bar(self):
-        a,b=self.return_cooldown()  #1231231213
+        a,b=self.return_cooldown() 
         m1,m2=self.return_max_cooldown()
         arc =round(float(1-a/m1)*360,1)-90
         arc2=round(float(1-b/m2)*360,1)-90

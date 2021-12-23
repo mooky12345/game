@@ -18,9 +18,9 @@ jump_speed = -13
 
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self, name, cx, cy, image_path):
+    def __init__(self,name,cx,cy,image_path,player_group):
         super().__init__()
-        
+        self.player_group = player_group
         self.key_event = None
         self.normal_attack_ret = False
         self.normal_attack_pre_ret = False

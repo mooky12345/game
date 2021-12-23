@@ -7,8 +7,8 @@ import pygame
 
 width = 1500
 class player3(Character):
-    def __init__(self, name, cx, cy, image_path):
-        super().__init__(name, cx, cy, image_path)
+    def __init__(self, name, cx, cy, image_path,player_group):
+        super().__init__(name, cx, cy, image_path,player_group)
         self.missile_ret = False
         self.missile_pre_ret = False
         self.shoting_missile = missile(self)
@@ -17,14 +17,12 @@ class player3(Character):
         self.toxic_shoot = toxic()
         self.cool_bar = cool_bar(src="player_1")
     def toxic_shooting(self,bullet_group):
-        pass
         if self.toxic_ret and not self.toxic_pre_ret:
             self.toxic_shoot.implement(bullet_group,self.own_bullet_group,self.direction)
-        self.shoting_missile.update(self)
-    def shooting_missile(self):
+    def shooting_missile(self,platfrom):
         if self.missile_ret and not self.missile_pre_ret:
             self.shoting_missile.implement(self.pos,self.direction)
-        self.shoting_missile.update(self)
+        self.shoting_missile.update(self.player_group,platfrom)
     def key_gets(self,event):
         self.missile_pre_ret = self.missile_ret
         self.toxic_pre_ret = self.toxic_ret
@@ -41,7 +39,7 @@ class player3(Character):
             return
     def using_skill(self,platfrom,bullet_group):
         self.cooldowm_bar()
-        self.shooting_missile()
+        self.shooting_missile(platfrom)
         self.toxic_shooting(bullet_group)
     def bliting(self,background):
         background.blit(self.surf,self.rect)

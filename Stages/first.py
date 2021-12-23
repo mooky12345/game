@@ -67,7 +67,7 @@ class first():
     def init_player_object(self):
         for item in range(self.player_cnt):
             if self.player_own_play_list[item] == "1":
-                self.player_own_play_list[item] = player1("ouo", 900, 150, "character1/L-walk1.png")
+                self.player_own_play_list[item] = player1("ouo", 900, 150, "character1/L-walk1.png",)
             if self.player_own_play_list[item] == "2":
                 self.player_own_play_list[item] = player2("mazz", 600, 150, "character1/L-walk1.png")
             if self.player_own_play_list[item] == "3":
@@ -82,16 +82,17 @@ class first():
             for player in self.player_own_play_list:
                 player.keyboard_control(event)
                 player.key_gets(event)
+                self.all_gener.update(self.player_own_play_list[0],self.platforms_group)
             return 
         for index in range(self.player_cnt):
             if event.joy == index:
                 self.player_own_play_list[index].keyboard_control(event)
                 self.player_own_play_list[index].key_gets(event)
+                self.all_gener.update(self.player_own_play_list[index],self.platforms_group,event)
       
     def action(self):
-        self.bullet_group.update(self.player_own_play_list[0],self.bullet_group)
+        self.bullet_group.update(self.player_group,self.bullet_group)
         self.move_x,self.move_y = self.player_own_play_list[0].move_position()
-        self.all_gener.update(self.player_own_play_list[0],self.platforms_group)
         for player in self.player_own_play_list:
             player.blood.update()
             player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)

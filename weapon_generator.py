@@ -48,7 +48,7 @@ class random_generation(pygame.sprite.Sprite):
         self.rect = charImage.get_rect()
         self.surf = pygame.Surface((self.rect.right, self.rect.bottom))
         self.surf.blit(charImage, ((0,0)))
-    def image_detect_hit(play,group):
+    def image_detect_hit(play,group,event):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
         for item in hits:

@@ -24,16 +24,17 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
             self.kill()
 
-        if pygame.sprite.groupcollide(players,bullet_group,False,False):
-            hits = pygame.sprite.groupcollide(players,bullet_group,False,False)
-            for key,valve in hits.items:
-                if i.toxic_statement:
-                    player.toxic_statement = True
-                if self.direction_degree < 270:
-                    player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
-                if self.direction_degree > 270:
-                    player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
+        # if pygame.sprite.groupcollide(players,bullet_group,False,False):
+        #     pass
+            # hits = pygame.sprite.groupcollide(players,bullet_group,False,False)
+            # for key,valve in hits.items:
+            #     if i.toxic_statement:
+            #         player.toxic_statement = True
+            #     if self.direction_degree < 270:
+            #         player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
+            #     if self.direction_degree > 270:
+            #         player.pos.x += self.knock_back_range*math.cos(math.radians(self.direction_degree))
 
-                    player.blood.cut_blood(5,1)
-            .kill()
+            #         player.blood.cut_blood(5,1)
+            # .kill()
                

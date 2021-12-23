@@ -145,7 +145,7 @@ class Character(pygame.sprite.Sprite):
     def disard_weapon(self):
         if self.get_weapon != None:
             try:
-                if self.key_event.button == 5:
+                if self.key_event.button == 5 and self.key_event.type == JOYBUTTONDOWN:
                     if self.get_weapon.count != 0:
                         self.get_weapon.rect.x,self.get_weapon.rect.y = self.pos.x,self.pos.y
                         self.get_weapon = None

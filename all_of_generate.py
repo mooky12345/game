@@ -17,7 +17,7 @@ class all_generate():
             return 
         self.generator[self.generator_cnt].generate()
         self.generator_cnt+=1
-    def update(self,play,platform):
-        random_generation.image_detect_hit(play,self.generator_guoup)
+    def update(self,play,platform,event):
+        random_generation.image_detect_hit(play,self.generator_guoup,event)
         for item in self.generator:
             item.posy_updating(platform,self.generator_guoup)

@@ -35,7 +35,7 @@ class player2(Character):
                 self.transporting_damage_ret = False
         except AttributeError:
             return
-    def using_skill(self,platform):
+    def using_skill(self,platform,bullet_group):
         self.shooting_fireball(platform)
         self.transporting_damage()
     def bliting(self,background):

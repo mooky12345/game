@@ -4,9 +4,9 @@ class guide_Menu():
     def __init__(self):
       self.DOWN_key=False
       self.UP_key=False
-      self.button_01=Button("start!", (225, 180),start_function)
-      self.button_02 = Button("Fantastic!", (225, 220), my_fantastic_function, bg=(50, 200, 20))
-      self.button_03 = Button("guild", (225, 260), my_fantastic_function, bg=(50, 200, 20))
+      self.button_01=Button("start!", (225, 180))
+      self.button_02 = Button("Fantastic!", (225, 220), bg=(50, 200, 20))
+      self.button_03 = Button("guild", (225, 260), bg=(50, 200, 20))
     def check_event(self):
       self.DOWN_key=False
       self.UP_key=False

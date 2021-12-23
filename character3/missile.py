@@ -6,7 +6,6 @@ class missile():
         pygame.sprite.Sprite.__init__(self)
         self.surf = pygame.Surface([60,60]).convert()
         self.surf.fill((0,0,0,100))
-        self.color = "black"
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
         self.cooldown = 300
@@ -37,16 +36,6 @@ class missile():
         self.pos[1] = -100
     def reset_cooldown(self):
         self.cooldown = 300
-    def change_color(self):
-        if self.cooldown % 10 == 0:
-            if self.color == "red":
-                self.surf = pygame.Surface([60,60]).convert()
-                self.surf.fill((0,0,0,100))
-                self.color = "black"
-            elif self.color == "black":
-                self.surf = pygame.Surface([60,60]).convert()
-                self.surf.fill((255,0,0,100))
-                self.color = "red"
     def update(self,player):
         if self.exist:
             angle = (180-math.degrees(math.atan2((player.pos[1]-self.rect.center[1]),(player.pos[0]-self.rect.center[0]))))
@@ -56,8 +45,8 @@ class missile():
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.out_width()
-            if  self.explosion_cooldown < 100:
-                self.change_color()
+            if  self.explosion_cooldown == 100:
+                pass
             if  self.explosion_cooldown == 0:
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft,self.direction)

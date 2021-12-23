@@ -12,8 +12,9 @@ from main_menu import main_Menu
 from all_of_generate import all_generate
 from auto_cannon import Auto_cannon
 class second():
-    def __init__(self):
-        self.player = player3("cats", 150, 150, "character1/L-walk1.png")
+    def __init__(self,player_cnt):
+        self.player_cnt = player_cnt
+        self.player_1 = player3("cats", 150, 150, "character1/L-walk1.png")
         self.main_Platform_1 = platform(554, 20, 255, 0, 0, 50, 0, 266+20)
         self.float_plat_1 = platform(100, 30, 255, 0, 0, 50, 300, 650)
         self.float_plat_2 = platform(100, 30, 255, 0, 0, 50, 450, 600)
@@ -35,7 +36,7 @@ class second():
         self.charater_group = py.sprite.Group()
         self.bullet_group = py.sprite.Group()
     def init_group(self):
-        self.charater_group.add(self.player)
+        self.charater_group.add(self.player_1)
         self.move_plat.add(self.test)
         self.move_plat.add(self.test2)
         self.can_go_down.add(self.float_plat_1)
@@ -47,7 +48,7 @@ class second():
         self.platforms_group.add(self.test)
         self.platforms_group.add(self.test2)
         self.all_sprites_Group.add(self.bg)
-        self.all_sprites_Group.add(self.player)
+        self.all_sprites_Group.add(self.player_1)
         self.all_sprites_Group.add(self.float_plat_1)
         self.all_sprites_Group.add(self.main_Platform_1)
         self.all_sprites_Group.add(self.float_plat_2)
@@ -55,18 +56,17 @@ class second():
         self.init_group()
         self.all_gener.declear()
     def action(self):
-        self.bullet_group.update(self.player,self.bullet_group)
-        self.move_x,self.move_y = self.player.move_position()
-        self.all_gener.update(self.player,self.platforms_group)
-        self.player.key_board_get()
-        self.player.blood.update()
-        self.player.key_gets()
-        self.player.using_skill()
-        self.player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
-        self.cannon.aim_target_rotating(self.player.pos)
-        self.cannon.shooting(self.bullet_group,self.player.pos) 
+        self.bullet_group.update(self.player_1,self.bullet_group)
+        self.move_x,self.move_y = self.player_1.move_position()
+        self.all_gener.update(self.player_1,self.platforms_group)
+        self.player_1.key_board_get()
+        self.player_1.blood.update()
+        self.player_1.key_gets()
+        self.player_1.using_skill()
+        self.player_1.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
+        self.cannon.aim_target_rotating(self.player_1.pos)
+        self.cannon.shooting(self.bullet_group,self.player_1.pos) 
     def bliting(self,background):
-        
         background.fill((0, 0, 0))
         background.blit(self.bg.surf, self.bg.rect)
         self.bullet_group.draw(background)
@@ -77,8 +77,12 @@ class second():
         for entity in self.move_plat:
             background.blit(entity.image, entity.rect)
         background.blit(self.cannon.player_rotated,self.cannon.player_rotated_rect)
+        background.blit(self.player_1.shield_image.image,self.player_1.shield_image.rect)
+        background.blit(self.player_1.blood.surf, (0,0))
         background.blit(self.main_Platform_1.image,self.main_Platform_1.rect)
         background.blit(self.float_plat_1.image,self.float_plat_1.rect)
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
-        self.player.bliting(background)
+        background.blit(self.player_1.surf,self.player_1.rect)
+        background.blit(self.player_1.shoting_missile.surf,self.player_1.shoting_missile.rect)
+        background.blit(self.player_1.shoting_missile.explosion.surf,self.player_1.shoting_missile.explosion.rect)

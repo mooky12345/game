@@ -12,7 +12,7 @@ class transport_damage(pygame.sprite.Sprite):
         self.exist = False
         self.speed = 10
         self.cooldown = 100
-            
+        self.max_cooldown=100
     def implement(self,pos,player):
         self.exist = True
         if self.cooldown == 0:

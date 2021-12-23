@@ -21,7 +21,7 @@ class Auto_cannon(pygame.sprite.Sprite):
             self.shoot_cooldown -= 1
         if self.shoot_cooldown == 0:
             self.shoot_cooldown = 40
-            bullet = Bullet(self.rect.centerx + (math.cos(angle))*5,
+            bullet = Bullet(self.rect.centerx + (math.cos(angle)*5),
             self.rect.centery - (math.sin(angle)*5),angle,False)
             bullet_group.add(bullet)
     def rotated(self,surface,angle):

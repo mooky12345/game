@@ -7,7 +7,7 @@ from pygame.locals import *
 from blood import bloodline
 from bullet import Bullet
 from shield import *
-from normal_attack import normal_attack
+from Normal_attack import normal_attack
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 900
@@ -332,8 +332,6 @@ class Character(pygame.sprite.Sprite):
                     self.shooting_ret = False
             except AttributeError:
                 self.shooting_ret = False
-       
-
     def keyboard_control(self,key_event):
         self.key_event = key_event
         self.jumping_button()
@@ -344,3 +342,4 @@ class Character(pygame.sprite.Sprite):
     
 
 
+                 

@@ -5,7 +5,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 class Button():
-    def __init__(self, txt, location, function, bg=WHITE, fg=BLACK, size=(80, 30), font_name="Segoe Print", font_size=16):
+    def __init__(self, txt, location, bg=WHITE, fg=BLACK, size=(80, 30), font_name="Segoe Print", font_size=16):
         self.color = bg  # the static (normal) color
         self.bg = bg  # actual background color, can change on mouseover
         self.fg = fg  # text color
@@ -18,7 +18,6 @@ class Button():
         self.rect = self.surf.get_rect(center=location)
         self.surf.fill(self.bg)
         self.surf.blit(self.txt_surf, self.txt_rect)
-        self.call_back_ = function
         self.press=False
     def redraw(self):
         self.mouseover()
@@ -30,15 +29,11 @@ class Button():
         pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(pos):
             self.bg = GREY
- 
-    def call_back(self):
-        self.call_back_()
- 
+
     def mousebuttondown(self):
       pos = pygame.mouse.get_pos()
       if self.rect.collidepoint(pos):
         self.press=True
-        self.call_back()
     def change(self,text):
         self.txt = text
         self.txt_surf = self.font.render(self.txt, 1, self.fg)

@@ -37,7 +37,7 @@ class player3(Character):
                 self.toxic_ret = False
         except AttributeError:
             return
-    def using_skill(self,bullet_group):
+    def using_skill(self,platfrom,bullet_group):
         self.shooting_missile()
         self.toxic_shoot(bullet_group)
     def bliting(self,background):

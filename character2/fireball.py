@@ -10,14 +10,16 @@ class fireball(pygame.sprite.Sprite):
         self.surf.fill((0,0,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
-        self.cooldown = 300
+        self.cooldown = 200
         self.direction = None
         self.exist = False 
         self.littlefire_group = pygame.sprite.Group()
         self.explosion = explosion()
+        self.max_cooldown=200
     def implement(self,pos,dir):
         self.direction = dir
         if self.cooldown == 0:
+            self.cooldown=self.max_cooldown
             self.exist = True
             if self.direction == 0:
                 self.rect.bottomleft = (pos[0]+31,pos[1])
@@ -26,7 +28,7 @@ class fireball(pygame.sprite.Sprite):
     def out_width(self):
         self.rect.center = (-100,-100)
     def reset_cooldown(self):
-        self.cooldown = 100
+        self.cooldown = self.max_cooldown
     def update(self,player,platform):
         if self.exist:
             if self.direction == 0:
@@ -65,3 +67,4 @@ class fireball(pygame.sprite.Sprite):
         for _ in range(5):
             fire = little_fireball(pos,0)
             self.littlefire_group.add(fire)
+    

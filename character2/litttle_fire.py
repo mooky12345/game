@@ -10,7 +10,7 @@ class little_fireball(pygame.sprite.Sprite):
         self.rect.center = (-100,-100)
         self.cooldown = 200
         self.direction = dir
-        self.vel = [random.uniform(3,10),random.uniform(3,20)]     
+        self.vel = [random.uniform(3,10),random.uniform(3,10)]     
         self.init_pos(pos)
     def init_pos(self,pos):
         self.rect.center = pos
@@ -26,11 +26,6 @@ class little_fireball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self,platforms,False):
             self.vel[1] = 0
             self.vel[0] = 0
-        if pygame.sprite.spritecollide(self,player,False):
-            hits = pygame.sprite.spritecollide(self,player,False)
-            for play in hits:
-                play.blood.cut_blood(3,1)
-                self.knock_back(play)
         self.rect.y -= self.vel[1]
         self.vel[1] -= 0.5
         self.cooldown_creasing()

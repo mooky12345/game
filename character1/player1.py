@@ -33,23 +33,26 @@ class player1(Character):
         if not self.ouofoot_pre_ret and self.ouofoot_ret:
             self.ouofoot.implement(self.pos,self.direction,self.rect)
         self.ouofoot.update(self.rect)
-    def key_gets(self):
+    def key_gets(self,event):
         self.hand_defense_pre_ret = self.hand_defense_ret
         self.ouohand_pre_ret = self.ouohand_ret
         self.ouofoot_pre_ret = self.ouofoot_ret
-        if self.keys[pygame.K_y]:
-            self.hand_defense_ret = True
-        else:
-            self.hand_defense_ret = False
-        if self.keys[pygame.K_u]:
-            self.ouohand_ret = True
-        else:
-            self.ouohand_ret = False
-        if self.keys[pygame.K_i]:
-            self.ouofoot_ret = True
-        else:
-            self.ouofoot_ret = False
-    def using_skill(self,bullet_group):
+        try:
+            if event.button == 1 and event.type == JOYBUTTONDOWN:
+                self.hand_defense_ret = True
+            elif event.button == 1 and event.type == JOYBUTTONUP:
+                self.hand_defense_ret = False
+            if event.button == 2 and event.type == JOYBUTTONDOWN:
+                self.ouohand_ret = True
+            elif event.button == 2 and event.type == JOYBUTTONUP:
+                self.ouohand_ret = False
+            if event.button == 3 and event.type == JOYBUTTONDOWN:
+                self.ouofoot_ret = True
+            elif event.button == 3 and event.type == JOYBUTTONUP:
+                self.ouofoot_ret = False
+        except AttributeError:
+            return
+    def using_skill(self,platform,bullet_group):
         self.defense(bullet_group)
         self.The_ouohand()
         self.The_ouofoot()

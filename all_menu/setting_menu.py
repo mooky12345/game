@@ -5,7 +5,7 @@ class Setting_menu():
     def __init__(self):
       self.DOWN_key=False
       self.UP_key=False
-      self.button_back=Button("back!", (280, 28),start_function)
+      self.button_back=Button("back!", (280, 28))
       self.surf=pygame.Surface((450,400))
       self.Volume_slider=Slider()
     def check_event(self):
@@ -26,5 +26,4 @@ class Setting_menu():
         self.surf.blit(slider.surf,(0,0))
       for button in buttons:
         self.surf.blit(button.surf,button.rect)
-def start_function():
-    print("back")
+

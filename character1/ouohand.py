@@ -10,6 +10,7 @@ class ouohand(pygame.sprite.Sprite):
         self.exist = False
         self.speed = 10
         self.cooldown = 100
+        self.max_cooldown=100
         self.image = pygame.image.load("character1/hand/1.png")
         self.surf.blit(self.image,(0,0))
     def implement(self,pos,dir):
@@ -21,7 +22,7 @@ class ouohand(pygame.sprite.Sprite):
                 self.rect.bottomleft = (pos[0]+30,pos[1])
             if self.direction  == 180:
                 self.rect.bottomright = (pos[0],pos[1])
-    def update(self,player):
+    def update(self):
         self.cooldown_creasing()
         if self.exist:
             if self.direction == 0:
@@ -31,11 +32,6 @@ class ouohand(pygame.sprite.Sprite):
             if self.rect.left > 1500 or self.rect.right < 0:
                 self.exist = False
                 self.rect.center = (-100,-100)
-            if pygame.sprite.spritecollide(self,player,False):
-                hits = pygame.sprite.spritecollide(self,player,False)
-                for play in hits:
-                    play.blood.cut_blood(10,1)
-                    self.knock_back(play)
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -=1

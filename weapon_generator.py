@@ -47,22 +47,17 @@ class random_generation(pygame.sprite.Sprite):
         charImage = pygame.transform.scale(charImage, (self.chwid,self.chhie))
         self.rect = charImage.get_rect()
         self.surf = pygame.Surface((self.rect.right, self.rect.bottom))
-        self.surf.blit(charImage, (0,0))
+        self.surf.blit(charImage, ((0,0)))
     def image_detect_hit(play,group):
         pressed = pygame.key.get_pressed()
         hits = pygame.sprite.spritecollide(play,group,False)
         for item in hits:
-            try:
-                if  play.get_weapon == None and play.key_event.button == 4:
-                    item.pos_out_width()
-                    play.get_weapon = item
-                elif item.image_weapon == "shield":
-                    play.get_shield_ret = True
-                    item.pos_out_width()
-            except AttributeError:
-                if item.image_weapon == "shield":
-                    play.get_shield_ret = True
-                    item.pos_out_width()
+            if  item.image_weapon != "shield" and pressed[pygame.K_j]:
+                item.pos_out_width()
+                play.get_weapon = item
+            elif item.image_weapon == "shield":
+                play.get_shield_ret = True
+                item.pos_out_width()
     def posy_updating(self,platform_gruop,weapon_gruop):
         if len(pygame.sprite.spritecollide(self,weapon_gruop,False))>1:
             return

@@ -125,6 +125,8 @@ class Character(pygame.sprite.Sprite):
         
         
         self.image_varible_setter()
+    def knock_back(self):
+        pass
     def shoot(self,bullet_group):
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1

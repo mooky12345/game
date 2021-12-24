@@ -29,6 +29,11 @@ class explosion(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
         self.rect.center = pos
     def update(self,player):
+        if pygame.sprite.spritecollide(self,player,False):
+            hits=pygame.sprite.spritecollide(self,player,False)
+            for player in hits:
+                player.knock_back()
+                player.blood.cut_blood(15,True)
         if self.exist:
             self.width_changing(self.pos)
             # if pygame.sprite.spritecollide(self,player,False):

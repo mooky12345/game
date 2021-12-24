@@ -69,11 +69,11 @@ class first():
     def init_player_object(self):
         for item in range(self.player_cnt):
             if self.player_own_play_list[item] == "1":
-                self.player_own_play_list[item] = player1("1", 900, 150, "character1/L-walk1.png",self.player_group)
+                self.player_own_play_list[item] = player1("1", 900, 150, "character1/L-walk1.png",self.player_own_play_list)
             if self.player_own_play_list[item] == "2":
-                self.player_own_play_list[item] = player2("2", 600, 150, "character1/L-walk1.png",self.player_group)
+                self.player_own_play_list[item] = player2("2", 600, 150, "character1/L-walk1.png",self.player_own_play_list)
             if self.player_own_play_list[item] == "3":
-                self.player_own_play_list[item] = player3("3", 300, 150, "character1/L-walk1.png",self.player_group)
+                self.player_own_play_list[item] = player3("3", 300, 150, "character1/L-walk1.png",self.player_own_play_list)
     def init_factor(self):
         self.init_player()
         self.init_player_object()

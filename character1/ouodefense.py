@@ -19,7 +19,12 @@ class ouodefense(pygame.sprite.Sprite):
         self.rect.center = (-100,-100)
     def reset_cooldown(self):
         self.cooldown = 100
-    def update(self,dir,bullet):
+    def update(self,dir,bullet,player):
+        if pygame.sprite.spritecollide(self,player,False):
+            hits=pygame.sprite.spritecollide(self,player,False)
+            for player in hits:
+                player.knock_back()
+                player.blood.cut_blood(15,True)
         self.direction = dir
         hit = pygame.sprite.spritecollide(self, bullet, False)
         for item in hit:

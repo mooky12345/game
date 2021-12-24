@@ -34,7 +34,12 @@ class ouofoot(pygame.sprite.Sprite):
         self.lenth1 = math.hypot(self.rect.top - self.center[1],self.rect.right - self.center[0])+2
         self.angle = math.degrees(math.atan2(self.rect.top - self.center[1],self.rect.left - self.center[0]))
         self.angle1 = math.degrees(math.atan2(self.rect.top - self.center[1],self.rect.right - self.center[0]))
-    def update(self,rect):
+    def update(self,rect,player):
+        if pygame.sprite.spritecollide(self,player,False):
+            hits=pygame.sprite.spritecollide(self,player,False)
+            for player in hits:
+                player.knock_back()
+                player.blood.cut_blood(10,True)
         self.cooldown_creasing()
         self.center = rect.center
         self.angle1 += 5

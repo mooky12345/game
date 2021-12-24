@@ -22,7 +22,12 @@ class ouohand(pygame.sprite.Sprite):
                 self.rect.bottomleft = (pos[0]+30,pos[1])
             if self.direction  == 180:
                 self.rect.bottomright = (pos[0],pos[1])
-    def update(self):
+    def update(self,player):
+        if pygame.sprite.spritecollide(self,player,False):
+            hits=pygame.sprite.spritecollide(self,player,False)
+            for player in hits:
+                player.knock_back()
+                player.blood.cut_blood(15,True)
         self.cooldown_creasing()
         if self.exist:
             if self.direction == 0:

@@ -27,15 +27,15 @@ class player1(Character):
             self.moving_ret = True
             self.hand_defense.reset_cooldown()
             self.hand_defense.out_width() 
-        self.hand_defense.update(self.direction,bullet_gruop)
+        self.hand_defense.update(self.direction,bullet_gruop,self.player_group)
     def The_ouohand(self):
         if not self.ouohand_pre_ret and self.ouohand_ret:
             self.ouohand.implement(self.pos,self.direction)
-        self.ouohand.update()
+        self.ouohand.update(self.player_group)
     def The_ouofoot(self):
         if not self.ouofoot_pre_ret and self.ouofoot_ret:
             self.ouofoot.implement(self.pos,self.direction,self.rect)
-        self.ouofoot.update(self.rect)
+        self.ouofoot.update(self.rect,self.player_group)
     def key_gets(self,event):
         self.hand_defense_pre_ret = self.hand_defense_ret
         self.ouohand_pre_ret = self.ouohand_ret

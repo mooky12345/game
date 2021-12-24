@@ -30,6 +30,11 @@ class fireball(pygame.sprite.Sprite):
     def reset_cooldown(self):
         self.cooldown = self.max_cooldown
     def update(self,player,platform):
+        if pygame.sprite.spritecollide(self,player,False):
+            hits=pygame.sprite.spritecollide(self,player,False)
+            for player in hits:
+                player.knock_back()
+                player.blood.cut_blood(15,True)
         if self.exist:
             if self.direction == 0:
                 self.rect.bottom += 10

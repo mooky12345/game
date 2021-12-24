@@ -67,6 +67,10 @@ class player1(Character):
         self.defense(bullet_group)
         self.The_ouohand()
         self.The_ouofoot()
+    def return_cooldown(self):
+        return self.ouohand.cooldown, self.ouofoot.cooldown, self.hand_defense.cooldown
+    def return_max_cooldown(self):
+        return self.ouohand.max_cooldown,self.ouofoot.max_cooldown ,self.hand_defense.max_cooldown
     def bliting(self,background):
         background.blit(self.surf,self.rect)
         background.blit(self.ouohand.surf,self.ouohand.rect)
@@ -75,7 +79,4 @@ class player1(Character):
         background.blit(self.cool_bar.surf,(width-150,0))
         background.blit(self.shield_image.image,self.shield_image.rect)
         background.blit(self.blood.surf, (0,0))
-    def return_cooldown(self):
-        return self.ouohand.cooldown, self.ouofoot.cooldown, self.hand_defense.cooldown
-    def return_max_cooldown(self):
-        return self.ouohand.max_cooldown,self.ouofoot.max_cooldown ,self.hand_defense.max_cooldown
+    

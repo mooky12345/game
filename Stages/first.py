@@ -69,11 +69,11 @@ class first():
     def init_player_object(self):
         for item in range(self.player_cnt):
             if self.player_own_play_list[item] == "1":
-                self.player_own_play_list[item] = player1("ouo", 900, 150, "character1/L-walk1.png",self.player_group)
+                self.player_own_play_list[item] = player1("1", 900, 150, "character1/L-walk1.png",self.player_group)
             if self.player_own_play_list[item] == "2":
-                self.player_own_play_list[item] = player2("mazz", 600, 150, "character1/L-walk1.png",self.player_group)
+                self.player_own_play_list[item] = player2("2", 600, 150, "character1/L-walk1.png",self.player_group)
             if self.player_own_play_list[item] == "3":
-                self.player_own_play_list[item] = player3("bomk", 300, 150, "character1/L-walk1.png",self.player_group)
+                self.player_own_play_list[item] = player3("3", 300, 150, "character1/L-walk1.png",self.player_group)
     def init_factor(self):
         self.init_player()
         self.init_player_object()
@@ -100,8 +100,8 @@ class first():
             player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
             player.using_skill(self.platforms_group,self.bullet_group)
         pos = self.random_pos()
-        self.cannon.aim_target_rotating(pos)
-        self.cannon.shooting(self.bullet_group,pos) 
+        # self.cannon.aim_target_rotating()
+        # self.cannon.shooting(self.bullet_group,pos) 
     def bliting(self,background):
         background.fill((0, 0, 0))
         background.blit(self.bg.surf, self.bg.rect)
@@ -112,12 +112,12 @@ class first():
             entity.plat_redraw(self.move_x,self.move_y,entity.x/2,entity.y)
         for entity in self.move_plat:
             background.blit(entity.image, entity.rect)
-        background.blit(self.cannon.player_rotated,self.cannon.player_rotated_rect)
+        
         background.blit(self.main_Platform_1.image,self.main_Platform_1.rect)
         background.blit(self.float_plat_1.image,self.float_plat_1.rect)
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
-       
+        #self.cannon.bliting(background)
         for player in self.player_own_play_list:
             player.bliting(background)
     def random_pos(self):

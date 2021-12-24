@@ -16,12 +16,13 @@ class player3(Character):
         self.toxic_pre_ret = False
         self.toxic_shoot = toxic()
         self.cool_bar = cool_bar(src="player_1")
+        self.player_group = player_group
     def toxic_shooting(self,bullet_group):
         if self.toxic_ret and not self.toxic_pre_ret:
             self.toxic_shoot.implement(bullet_group,self.own_bullet_group,self.direction)
     def shooting_missile(self,platfrom):
         if self.missile_ret and not self.missile_pre_ret:
-            self.shoting_missile.implement(self.pos,self.direction)
+            self.shoting_missile.implement(self.player_group,self.direction)
         self.shoting_missile.update(self.player_group,platfrom)
     def key_gets(self,event):
         self.missile_pre_ret = self.missile_ret

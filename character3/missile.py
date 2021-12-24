@@ -1,6 +1,7 @@
 import pygame
 from character3.explosion import explosion
 import math
+import random
 class missile():
     def __init__(self,player):
         pygame.sprite.Sprite.__init__(self)
@@ -15,12 +16,14 @@ class missile():
         self.exist = False 
         self.speed = 3
         self.pos = [-100,-100]
+        self.target_player = None
         self.explosion = explosion()
-        self.play_group = pygame.sprite.Group()
-        self.play_group.add(player)
-    def implement(self,pos,dir):
+        self.player_rotated = None
+        self.player_rotated_rect = None
+    def implement(self,players,dir):
         self.direction = dir
         if self.cooldown == 0:
+            self.target_player = self.randon_player(players)
             self.exist = True
             self.cooldown = 300
             if self.direction == 0:
@@ -37,15 +40,18 @@ class missile():
         self.pos[1] = -100
     def reset_cooldown(self):
         self.cooldown = 300
-    def update(self,player):
+    def update(self,players,platfrom):
         if self.exist:
-            angle = (180-math.degrees(math.atan2((player.pos[1]-self.rect.center[1]),(player.pos[0]-self.rect.center[0]))))
-            self.pos[0] -= self.speed*math.cos(math.radians(angle))
-            self.pos[1] += self.speed*math.sin(math.radians(angle))
-            if pygame.sprite.spritecollide(self,self.play_group,False):
+            angle = (180-math.degrees(math.atan2((self.target_player.pos[1]-self.rect.center[1]),(self.target_player.pos[0]-self.rect.center[0]))))
+            self.target_player.pos[0] -= self.speed*math.cos(math.radians(angle))
+            self.target_player.pos[1] += self.speed*math.sin(math.radians(angle))
+            if pygame.sprite.spritecollide(self,players,False):
+                hits = pygame.sprite.spritecollide(self,players,False)
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.out_width()
+                for player in hits:
+                    player.blood.cut_blood(20,1)
             if  self.explosion_cooldown == 100:
                 pass
             if  self.explosion_cooldown == 0:
@@ -55,13 +61,27 @@ class missile():
                 self.out_width()
             self.explosion_cooldown_creasing()
             self.rect.topleft = self.pos
-        self.explosion.update(player)
+        self.explosion.update(players)
         self.cooldown_creasing()
+    def randon_player(self,players):
+        player = random.choice(players)
+        while player.name == "3":
+            player = random.choice(players)
+        return player
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -= 1
     def explosion_cooldown_creasing(self):
         if self.explosion_cooldown > 0:
-            self.explosion_cooldown -=1      
+            self.explosion_cooldown -=1
+    def rotated(self,surface,angle):
+        rotate_surface = pygame.transform.rotozoom(surface,angle,1)
+        rotate_rect = rotate_surface.get_rect(center=(750,0))
+        return  rotate_surface,rotate_rect
+    def get_angle(self,pos):#down to 0, right to 90
+        return (90-math.degrees(math.atan2((self.target_player.pos[1]-self.rect.center[1]),(self.target_player.pos[0]-self.rect.center[0])))) 
+    def aim_target_rotating(self,pos):
+        angle = self.get_angle(pos)+4
+        self.player_rotated,self.player_rotated_rect = self.rotated(self.image,angle)      
     def knock_back(player,dir):
         pass

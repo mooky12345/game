@@ -24,8 +24,8 @@ HEIGHT = 800
 WIDTH = 1500
 
 py.init()
-main_sound = pygame.mixer.Sound('music/main_music.mp3')
-main_sound.play()
+# main_sound = pygame.mixer.Sound('music/main_music.mp3')
+# main_sound.play()
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 player_number_screen=select_role_number_screen()
@@ -137,7 +137,7 @@ while True:
     elif options["start"]:
         if pause_condition:
             puase_screen.update()
-            background.blit(puase_screen.surf, (0, 0))
+            background.blit(puase_screen.surf.convert_alpha(), (0, 0))
             screen.blit(background, (0, 0))
             for button in puase_screen.buttons:
                 button.mousebuttondown()

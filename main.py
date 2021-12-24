@@ -133,7 +133,7 @@ while True:
             setting_page.draw(event_list)
             background.blit(setting_page.surf, (0, 0))
             screen.blit(background, (0, 0))
-            main_sound.set_volume(1.0 * setting_page.Volume_slider.get_volume() / 100)
+            #main_sound.set_volume(1.0 * setting_page.Volume_slider.get_volume() / 100)
     elif options["start"]:
         if pause_condition:
             puase_screen.update()

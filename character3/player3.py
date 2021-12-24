@@ -19,7 +19,8 @@ class player3(Character):
         self.player_group = player_group
     def toxic_shooting(self,bullet_group):
         if self.toxic_ret and not self.toxic_pre_ret:
-            self.toxic_shoot.implement(bullet_group,self.own_bullet_group,self.direction)
+            self.toxic_shoot.implement(bullet_group,self.own_bullet_group,self.direction,self.rect)
+        self.toxic_shoot.update()
     def shooting_missile(self,platfrom):
         if self.missile_ret and not self.missile_pre_ret:
             self.shoting_missile.implement(self.player_group,self.direction)
@@ -49,7 +50,10 @@ class player3(Character):
         background.blit(self.cool_bar.surf,(width-150,60))
         background.blit(self.surf,self.rect)
         background.blit(self.shoting_missile.surf,self.shoting_missile.rect)
+        if self.shoting_missile.exist:
+            background.blit(self.shoting_missile.player_rotated,self.shoting_missile.rect)
         background.blit(self.shoting_missile.explosion.surf,self.shoting_missile.explosion.rect)
+        
     def return_cooldown(self):
         return self.shoting_missile.cooldown,self.toxic_shoot.cooldown
     def return_max_cooldown(self):

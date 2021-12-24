@@ -7,11 +7,10 @@ import random
 class missile():
     def __init__(self,player):
         pygame.sprite.Sprite.__init__(self)
-        self.surf = pygame.Surface([60,60]).convert()
-        self.surf.fill((0,0,0,100))
-        self.image = pygame.image.load("missile/missile.jpg").convert_alpha()
-        self.image=pygame.transform.scale(self.image,(60,60))
-        self.surf.blit(self.image,(0,0))
+        # self.surf = pygame.Surface([60,60]).convert()
+        # self.surf.fill((0,0,0,0))
+        self.surf = pygame.image.load("missile/missile.jpg").convert()
+        self.surf=pygame.transform.scale(self.surf,(60,60))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
         self.cooldown = 300
@@ -29,16 +28,17 @@ class missile():
         self.direction = dir
         if self.cooldown == 0:
             self.target_player = self.randon_player(players)
+            self.target_player = players[0]
             self.exist = True
             self.cooldown = 300
             if self.direction == 0:
                 self.rect.topleft = (0,0)
-                self.pos[0] = 0
-                self.pos[1] = 0
+                self.pos[0] = 100
+                self.pos[1] = 100
             if self.direction == 180:
                 self.rect.topleft = (0,0)
-                self.pos[0] = 0
-                self.pos[1] = 0
+                self.pos[0] = 100
+                self.pos[1] = 100
     def out_width(self):
         self.rect.center = (-100,-100)
         self.pos[0] = -100
@@ -60,6 +60,7 @@ class missile():
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.out_width()
+                self.explosion_cooldown = 300
                 for player in hits:
                     player.blood.cut_blood(20,True)
                     player.knock_back()
@@ -68,10 +69,12 @@ class missile():
             if  self.explosion_cooldown == 0:
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft,self.direction)
+                self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.explosion_cooldown = 300
                 self.out_width()
             self.explosion_cooldown_creasing()
             self.rect.topleft = self.pos
+            self.aim_target_rotating(self.target_player.pos)
         self.explosion.update(players)
         self.cooldown_creasing()
     def randon_player(self,players):
@@ -87,12 +90,11 @@ class missile():
             self.explosion_cooldown -=1
     def rotated(self,surface,angle):
         rotate_surface = pygame.transform.rotozoom(surface,angle,1)
-        rotate_rect = rotate_surface.get_rect(center=(750,0))
-        return  rotate_surface,rotate_rect
+        return  rotate_surface
     def get_angle(self,pos):#down to 0, right to 90
-        return (90-math.degrees(math.atan2((self.target_player.pos[1]-self.rect.center[1]),(self.target_player.pos[0]-self.rect.center[0])))) 
+        return (360-math.degrees(math.atan2((self.target_player.pos[1]-self.rect.center[1]),(self.target_player.pos[0]-self.rect.center[0])))) 
     def aim_target_rotating(self,pos):
         angle = self.get_angle(pos)+4
-        self.player_rotated,self.player_rotated_rect = self.rotated(self.image,angle)      
+        self.player_rotated = self.rotated(self.surf,angle)      
     def knock_back(player,dir):
         pass

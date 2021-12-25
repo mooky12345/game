@@ -7,6 +7,7 @@ class Bullet(pygame.sprite.Sprite):
         self.speed = 10
         self.chwid = 15
         self.chhie = 15
+        self.toxic_ret = toxic_ret
         if toxic_ret:
             self.image = pygame.image.load("bullet/2.png").convert_alpha()
         else:
@@ -18,10 +19,9 @@ class Bullet(pygame.sprite.Sprite):
         self.knock_back_range = 5
         self.toxic_statement = toxic_ret
     def update(self,players,bullet_group):
-        
         self.rect.x += (self.speed * math.cos(math.radians(self.direction_degree)))
         self.rect.y -= (self.speed * math.sin(math.radians(self.direction_degree)))
-        if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH:
+        if self.rect.right < 0 or self.rect.left > SCREEN_WIDTH or self.rect.top > 800 or self.rect.top < 0:
             self.kill()
         if pygame.sprite.spritecollide(self,players,False):
             hits = pygame.sprite.spritecollide(self,players,False)

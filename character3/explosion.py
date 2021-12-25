@@ -31,7 +31,7 @@ class explosion(pygame.sprite.Sprite):
             hits =pygame.sprite.spritecollide(self,player,False)
             for player in hits:
                 player.blood.cut_blood(20,True)
-                player.knock_back()
+                player.knock_back(self.rect.center,10,40)
         if self.exist:
             self.width_changing()
         if self.size > 100:

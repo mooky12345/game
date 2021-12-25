@@ -4,9 +4,9 @@ from character3.missile import missile
 from character3.toxic import toxic
 from persons_skill_cool_bar import cool_bar
 import pygame
-
+from bullet import Bullet
 width = 1500
-class player3(Character):
+class player3(Character,pygame.sprite.Sprite):
     def __init__(self, name, cx, cy, image_path,player_group):
         super().__init__(name, cx, cy, image_path,player_group)
         self.missile_ret = False
@@ -39,9 +39,9 @@ class player3(Character):
                 self.toxic_ret = False
         except AttributeError:
             return
-    def using_skill(self,platfrom,bullet_group):
+    def using_skill(self,platform,bullet_group):
         self.cooldowm_bar()
-        self.shooting_missile(platfrom)
+        self.shooting_missile(platform)
         self.toxic_shooting(bullet_group)
     def bliting(self,background):
         background.blit(self.surf,self.rect)
@@ -49,7 +49,7 @@ class player3(Character):
         background.blit(self.shield_image.image,self.shield_image.rect)
         background.blit(self.cool_bar.surf,(width-150,60))
         background.blit(self.surf,self.rect)
-        background.blit(self.shoting_missile.surf,self.shoting_missile.rect)
+        background.blit(self.normal_attack_image.surf,self.normal_attack_image.rect)
         if self.shoting_missile.exist:
             background.blit(self.shoting_missile.player_rotated,self.shoting_missile.rect)
         background.blit(self.shoting_missile.explosion.surf,self.shoting_missile.explosion.rect)

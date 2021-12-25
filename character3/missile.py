@@ -9,7 +9,7 @@ class missile():
         pygame.sprite.Sprite.__init__(self)
         # self.surf = pygame.Surface([60,60]).convert()
         # self.surf.fill((0,0,0,0))
-        self.surf = pygame.image.load("missile/missile.jpg").convert()
+        self.surf = pygame.image.load("missile/missile.jpg").convert_alpha()
         self.surf=pygame.transform.scale(self.surf,(60,60))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
@@ -46,11 +46,6 @@ class missile():
     def reset_cooldown(self):
         self.cooldown = 300
     def update(self,players,platfrom):
-        if pygame.sprite.spritecollide(self,players,False):
-            hits=pygame.sprite.spritecollide(self,players,False)
-            for player in hits:
-                player.knock_back()
-                player.blood.cut_blood(15,True)
         if self.exist:
             angle = (180-math.degrees(math.atan2((self.target_player.pos[1]-self.rect.center[1]),(self.target_player.pos[0]-self.rect.center[0]))))
             self.pos[0] -= self.speed*math.cos(math.radians(angle))
@@ -63,7 +58,7 @@ class missile():
                 self.explosion_cooldown = 300
                 for player in hits:
                     player.blood.cut_blood(20,True)
-                    player.knock_back()
+                    player.knock_back(self.rect.center,10,40)
             if  self.explosion_cooldown == 100:
                 pass
             if  self.explosion_cooldown == 0:

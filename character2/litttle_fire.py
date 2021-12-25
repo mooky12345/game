@@ -14,14 +14,11 @@ class little_fireball(pygame.sprite.Sprite):
         self.init_pos(pos)
     def init_pos(self,pos):
         self.rect.center = pos
-    def update(self,player,platforms):
-        if pygame.sprite.spritecollide(self,player,False):
-            hits=pygame.sprite.spritecollide(self,player,False)
+    def update(self,players,platforms):
+        if pygame.sprite.spritecollide(self,players,False):
+            hits=pygame.sprite.spritecollide(self,players,False)
             for player in hits:
-                player.knock_back()
-                player.blood.cut_blood(15,True)
-        # if pygame.Rect.colliderect(self.rect,player.rect,False):
-        #     player.blood.cut_blood(5,1)
+                player.blood.cut_blood(0.1,True)
         if self.cooldown == 0:
             self.kill()
         if self.direction == 0:

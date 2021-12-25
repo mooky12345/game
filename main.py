@@ -1,5 +1,7 @@
 import pygame as py
 import sys
+
+from pygame.time import delay
 from Platform import *
 from Stages.third import third
 from Test_plat import *
@@ -236,7 +238,9 @@ while True:
                         Player.all_cnt_del()
                 if event.type == weapon_generator_COUNT and not mainpage_Run:
                     stage_1.all_gener.all__generate() 
-                if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP or  event.type == JOYHATMOTION:
+                if event.type == pygame.JOYBUTTONDOWN or event.type == JOYHATMOTION:
+                    stage_1.getjoystick_event(event)
+                elif event.type == pygame.JOYBUTTONUP:
                     stage_1.getjoystick_event(event)
             stage_1.action()
             stage_1.bliting(background)
@@ -253,6 +257,7 @@ while True:
                 if event.type == weapon_generator_COUNT and not mainpage_Run:
                     stage_2.all_gener.all__generate() 
                 if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP or  event.type == JOYHATMOTION:
+                    
                     stage_2.getjoystick_event(event)
             stage_2.action()
             stage_2.bliting(background)
@@ -268,10 +273,15 @@ while True:
                         Player.all_cnt_del()
                 if event.type == weapon_generator_COUNT and not mainpage_Run:
                     stage_3.all_gener.all__generate() 
-                if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP or  event.type == JOYHATMOTION:
+                if event.type == JOYBUTTONDOWN: 
+                    stage_3.getjoystick_event(event)
+                if event.type == JOYBUTTONUP: 
+                    stage_3.getjoystick_event(event)
+                if event.type == JOYHATMOTION:
                     stage_3.getjoystick_event(event)
             stage_3.action()
             stage_3.bliting(background)
             screen.blit(background, (0, 0))
     py.display.update()
-    times.tick(40)
+    times.tick(50)
+    delay(5)

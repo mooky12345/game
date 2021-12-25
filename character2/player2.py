@@ -22,7 +22,7 @@ class player2(Character):
     def transporting_damage(self):
         if self.transporting_damage_ret and self.transporting_damage_pre_ret:
            self.trans_damage.implement(self.pos,self)
-        self.trans_damage.update()
+        self.trans_damage.update(self.player_group)
     def key_gets(self,event):
         self.shooting_fireball_pre_ret = self.shooting_fireball_ret
         self.transporting_damage_pre_ret = self.transporting_damage_ret 

@@ -77,6 +77,7 @@ class player1(Character):
         background.blit(self.ouofoot.surf,self.ouofoot.rect)      
         background.blit(self.hand_defense.surf,self.hand_defense.rect)
         background.blit(self.cool_bar.surf,(width-150,0))
+        background.blit(self.normal_attack_image.surf,self.normal_attack_image.rect)
         background.blit(self.shield_image.image,self.shield_image.rect)
         background.blit(self.blood.surf, (0,0))
     

@@ -28,16 +28,15 @@ class explosion(pygame.sprite.Sprite):
         self.surf = pygame.Surface([self.size,self.size]).convert()
         self.rect = self.surf.get_rect()
         self.rect.center = pos
-    def update(self,player):
-        if pygame.sprite.spritecollide(self,player,False):
-            hits=pygame.sprite.spritecollide(self,player,False)
-            for player in hits:
-                player.knock_back()
-                player.blood.cut_blood(15,True)
+    def update(self,players):
+        
         if self.exist:
             self.width_changing(self.pos)
-            # if pygame.sprite.spritecollide(self,player,False):
-            #     player.cut_blood(3,1)
+            if pygame.sprite.spritecollide(self,players,False):
+                hits=pygame.sprite.spritecollide(self,players,False)
+                for player in hits:
+                    player.knock_back()
+                    player.blood.cut_blood(15,True)
         if self.size > 100:
             self.size = 20
             self.surf = pygame.Surface([self.size,self.size]).convert()

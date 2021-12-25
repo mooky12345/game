@@ -12,7 +12,7 @@ from normal_attack import normal_attack
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 900
-ACC = 0.5
+ACC = 5
 FRIC = -0.12
 jump_speed = -13
 
@@ -55,15 +55,20 @@ class Character(pygame.sprite.Sprite):
         self.in_ack = False
         self.facing_right = True
         self.shoot_cooldown = 0
-        self.ammo = 5
         self.weapon = 0
-        self.hitbox = [self.pos.x + 20 , self.pos.y , 28 , 60]
+        self.knock_back_ret = False
         self.direction = 1
+        self.speed_left_record = 0
+        self.speed_right_record = 0 
+        self.pre_move_left_press = False
+        self.pre_move_right_press = False
         self.get_shield_ret = False
         self.blit_shield_ret = False
+        self.knock_back_cool_down = 0
+        self.speed_record = False
+        self.knock_back_speed_record = None
         self.shield_image = Shield(50,(0,0,0),backgound_WIDTH/2,0)
         self.blood = bloodline()
-        self.cnt =0
         self.normal_attack_image = normal_attack()
         self.own_bullet_group = pygame.sprite.Group()
         self.animation_type = {
@@ -125,8 +130,27 @@ class Character(pygame.sprite.Sprite):
         
         
         self.image_varible_setter()
-    def knock_back(self):
-        pass
+    def knock_back(self,pos,speed,cooldown):
+        if not self.knock_back_ret: 
+            self.knock_back_ret = True
+        else:
+            self.vel.x += self.knock_back_speed_record[0]
+            self.vel.y += self.knock_back_speed_record[1]
+        self.knock_back_cool_down = cooldown
+        angle = (180-math.degrees(math.atan2((pos[1]-self.rect.center[1]),(pos[0]-self.rect.center[0]))))
+        self.vel.x += speed*math.cos(math.radians(angle))
+        self.vel.y -= speed*math.sin(math.radians(angle))
+        self.knock_back_speed_record = (-speed*math.cos(math.radians(angle)),speed*math.sin(math.radians(angle)))
+    def continue_knock_back(self):
+        if self.knock_back_ret:
+            self.knock_back_cool_down -= 1
+            if  self.knock_back_cool_down <= 0:
+                print(self.vel)
+                self.vel.x += self.knock_back_speed_record[0]
+                self.vel.y += self.knock_back_speed_record[1]
+                print(self.vel)
+                self.knock_back_ret = False
+
     def shoot(self,bullet_group):
         if self.shoot_cooldown > 0:
             self.shoot_cooldown -= 1
@@ -146,7 +170,7 @@ class Character(pygame.sprite.Sprite):
                 self.normal_attack_image.cooldown = 100
                 self.normal_attack_image.implement(self.direction,self.pos)
                 self.get_weapon.count -= 1
-        self.normal_attack_image.update()
+        self.normal_attack_image.update(self.player_group,self.name)
     def disard_weapon(self):
         if self.get_weapon != None:
             try:
@@ -189,25 +213,28 @@ class Character(pygame.sprite.Sprite):
         self.walking_speed()
         self.jumping_speed(platform_group)
     def walking_speed(self):
-        if self.move_left_press:
-            self.acc.x = -ACC
-        else:
-            if self.move_right_press:
-                self.acc.x = ACC
-                
-            else:
-                self.acc.x = 0
-                self.vel.x = 0
+        
+        if self.move_left_press and not self.pre_move_left_press:
+            #print(self.vel.x)
+            self.vel.x += -ACC 
+            self.speed_left_record = ACC
+        elif self.move_right_press and not self.pre_move_right_press:
+            self.vel.x += ACC
+            self.speed_right_record = -ACC
+        elif not self.move_left_press and self.pre_move_left_press:
+            #print(self.vel.x)
+            self.vel.x = 0
+        elif not self.move_right_press and self.pre_move_right_press:
+            self.vel.x = 0
+        
     
-    def jumping_speed(self, platform_group):
+    def jumping_speed(self,platform_group):
       
         if not self.pre_space and self.jump_button:
-       
-            self.cnt += 1
             if self.on_ground():
                 self.vel.y = jump_speed        
             elif self.jump_count > 0:
-            
+                print("yesr")
                 self.vel.y = jump_speed
                 self.jump_count -= 1
                 
@@ -225,12 +252,12 @@ class Character(pygame.sprite.Sprite):
     
     def pos_change(self, platforms, platform_group):
         if self.moving_ret:
-            self.acc.x += self.vel.x * FRIC
+            #self.acc += self.vel * FRIC
             self.vel += self.acc
             if self.detect_sqaut_down():
                 self.vel.x = 0 
                 self.acc.x = 0
-            self.pos += self.vel + 0.5 * self.acc
+            self.pos += self.vel 
 
     def border_detect_and_xpos_update(self, platforms, platform_group):
         if self.pos.x > 1500:
@@ -238,7 +265,6 @@ class Character(pygame.sprite.Sprite):
         if self.pos.x < 0:
             self.pos.x = 0
         self.rect.bottomleft = (self.pos.x, self.pos.y)
-       
     def shield_following_and_invisible(self):
         if self.get_shield_ret == True:
             self.shield_image.rect.center = self.rect.center
@@ -257,15 +283,15 @@ class Character(pygame.sprite.Sprite):
         self.squat_down_cnt = 0
 
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
-    
-        self.speed_change(platforms, platform_group)
-        self.pos_change(platforms, platform_group)
         self.border_detect_and_xpos_update(platforms, platform_group)
+        self.speed_change(platforms, platform_group)
+        self.continue_knock_back()
         self.shield_following_and_invisible()
         self.disard_weapon()
         self.jump_down_platform(able_to_scroll)
         self.shoot(bullet_group)
-        self.shield_broken(bullet_group)
+        self.shield_broken(bullet_group) 
+        self.pos_change(platforms, platform_group)
         self.pos_update(platform_group)
         self.normal_attacking()
     
@@ -273,9 +299,9 @@ class Character(pygame.sprite.Sprite):
     def normal_attack_button(self):
         self.normal_attack_pre_ret = self.normal_attack_ret
         try:
-            if self.key_event.button == 8 and  self.key_event.type == JOYBUTTONDOWN:
+            if self.key_event.button == 11 and  self.key_event.type == JOYBUTTONDOWN:
                 self.normal_attack_ret = True
-            elif self.key_event.button == 8 and  self.key_event.type == JOYBUTTONUP:
+            elif self.key_event.button == 11 and  self.key_event.type == JOYBUTTONUP:
                 self.normal_attack_ret = False
         except AttributeError:
             return
@@ -284,17 +310,15 @@ class Character(pygame.sprite.Sprite):
         # else:
         #     self.normal_attack_ret = False
     def moving_button(self):
+        self.pre_move_left_press = self.move_left_press
+        self.pre_move_right_press = self.move_right_press
         try:
             if self.key_event.value == (-1, 0):
                 self.move_left_press = True
-                self.move_right_press = False
-                self.facing_right = False
             elif self.key_event.value == (0, 0):
                 self.move_left_press = False
             if self.key_event.value == (1, 0):
                 self.move_right_press = True
-                self.move_left_press = False
-                self.facing_right = True
             elif self.key_event.value == (0, 0):
                 self.move_right_press = False
         except AttributeError:
@@ -329,7 +353,7 @@ class Character(pygame.sprite.Sprite):
     def shoot_botton(self):
         if self.get_weapon != None:
             try:
-                if self.key_event.button == 8 and self.key_event.type == JOYBUTTONDOWN:
+                if self.key_event.button == 11 and self.key_event.type == JOYBUTTONDOWN:
                     self.shooting_ret = True
                 else:
                     self.shooting_ret = False

@@ -22,9 +22,13 @@ class transport_damage(pygame.sprite.Sprite):
             self.transport(player)
     def transport(self,player):
         player.pos[1] -= 200
-    def update(self):
+    def update(self,players):
         self.cooldown_creasing()
         if self.exist:
+            if pygame.sprite.spritecollide(self,players,False):
+                hits=pygame.sprite.spritecollide(self,players,False)
+                for player in hits:  
+                    player.blood.cut_blood(0.1,True)
             self.rect1.left += self.speed
             self.rect2.right -= self.speed
             if self.rect1.left > 1500 or self.rect2.right < 0:

@@ -29,12 +29,8 @@ class fireball(pygame.sprite.Sprite):
         self.rect.center = (-100,-100)
     def reset_cooldown(self):
         self.cooldown = self.max_cooldown
-    def update(self,player,platform):
-        if pygame.sprite.spritecollide(self,player,False):
-            hits=pygame.sprite.spritecollide(self,player,False)
-            for player in hits:
-                player.knock_back()
-                player.blood.cut_blood(15,True)
+    def update(self,players,platform):
+            
         if self.exist:
             if self.direction == 0:
                 self.rect.bottom += 10
@@ -42,15 +38,18 @@ class fireball(pygame.sprite.Sprite):
             if self.direction == 180:
                 self.rect.bottom += 10
                 self.rect.right -= 10
-            # if pygame.sprite.spritecollide(self,player,False):
-            #     self.exist = False
-            #     if self.direction == 0:
-            #         self.explosion.implement(self.rect.bottomright)
-            #     if self.direction == 180:
-            #         self.explosion.implement(self.rect.bottomleft)
-            #     player.cut_blood(10,1)
-            #     self.littlefire_generate(self.rect.center)
-            #     self.out_width()
+            if pygame.sprite.spritecollide(self,players,False):
+                hits=pygame.sprite.spritecollide(self,players,False)
+                for player in hits:
+                    player.knock_back(self.rect.center,5,40)
+                    player.blood.cut_blood(15,True)
+                self.exist = False
+                if self.direction == 0:
+                    self.explosion.implement(self.rect.bottomright)
+                if self.direction == 180:
+                    self.explosion.implement(self.rect.bottomleft)
+                self.littlefire_generate(self.rect.center)
+                self.out_width()
             if pygame.sprite.spritecollide(self,platform,False):
                 self.exist = False
                 if self.direction == 0:
@@ -59,8 +58,8 @@ class fireball(pygame.sprite.Sprite):
                     self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.littlefire_generate(self.rect.center)
                 self.out_width()
-        self.littlefire_group.update(player,platform)
-        self.explosion.update(player)
+        self.littlefire_group.update(players,platform)
+        self.explosion.update(players)
         self.cooldown_creasing()
     def cooldown_creasing(self):
         if self.cooldown > 0:

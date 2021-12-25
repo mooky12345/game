@@ -28,24 +28,26 @@ class ouofoot(pygame.sprite.Sprite):
                 self.rect.topleft = (pos[0]+30,pos[1])
             if self.direction  == 180:
                 self.rect.topright = (pos[0],pos[1])
-            self.get_varible(rect)
-    def get_varible(self,rect):
+            self.get_varible()
+    def get_varible(self):
         self.lenth = math.hypot(self.rect.top - self.center[1],self.rect.left - self.center[0])+2
         self.lenth1 = math.hypot(self.rect.top - self.center[1],self.rect.right - self.center[0])+2
         self.angle = math.degrees(math.atan2(self.rect.top - self.center[1],self.rect.left - self.center[0]))
         self.angle1 = math.degrees(math.atan2(self.rect.top - self.center[1],self.rect.right - self.center[0]))
-    def update(self,rect,player):
-        if pygame.sprite.spritecollide(self,player,False):
-            hits=pygame.sprite.spritecollide(self,player,False)
-            for player in hits:
-                player.knock_back()
-                player.blood.cut_blood(10,True)
+    def update(self,rect,players):
+
         self.cooldown_creasing()
         self.center = rect.center
         self.angle1 += 5
         self.angle -= 5
         if self.exist:
-            
+            self.get_varible()
+            if pygame.sprite.spritecollide(self,players,False):
+                hits = pygame.sprite.spritecollide(self,players,False)
+                self.explosion_cooldown = 300
+                for player in hits:
+                    player.blood.cut_blood(20,True)
+                    player.knock_back(self.rect.center,10,40)
             if self.rect.top < rect.top+13:
                 self.rect.top -= 1
             else:

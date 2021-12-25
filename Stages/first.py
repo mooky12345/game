@@ -98,14 +98,16 @@ class first():
         for player in self.player_own_play_list:
             player.blood.update()
             player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
-            player.using_skill(self.bullet_group,self.platforms_group)
-        pos = self.random_pos()
-        # self.cannon.aim_target_rotating()
-        # self.cannon.shooting(self.bullet_group,pos) 
+            player.using_skill(self.platforms_group,self.bullet_group)
+        pos = self.player_own_play_list[0].pos
+        self.cannon.aim_target_rotating(pos)
+        self.cannon.shooting(self.bullet_group,pos) 
     def bliting(self,background):
         background.fill((0, 0, 0))
         background.blit(self.bg.surf, self.bg.rect)
-        self.bullet_group.draw(background)
+        for bullet in self.bullet_group:
+            background.blit(bullet.image,bullet.rect)
+        
         for entity in self.all_gener.generator:
             background.blit(entity.surf, entity.rect)
         for entity in self.move_plat:
@@ -117,8 +119,6 @@ class first():
         background.blit(self.float_plat_1.image,self.float_plat_1.rect)
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
-        #self.cannon.bliting(background)
+        self.cannon.bliting(background)
         for player in self.player_own_play_list:
             player.bliting(background)
-    def random_pos(self):
-        return (random.randint(0,width),random.randint(1,height))

@@ -32,7 +32,10 @@ class normal_attack(pygame.sprite.Sprite):
                         continue
                     else:
                         player.blood.cut_blood(10,1)
-                        player.knock_back(self.rect.center,1,40)
+                        if self.direction == 0:
+                            player.knock_back(self.rect.topleft,6,40)
+                        if self.direction == 180:
+                            player.knock_back(self.rect.topright,6,40)
             if self.exist_cooldown < 0:
                 self.exist_cooldown = 3
                 self.exist = False

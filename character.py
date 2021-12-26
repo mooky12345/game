@@ -60,6 +60,7 @@ class Character(pygame.sprite.Sprite):
         self.direction = 1
         self.speed_left_record = 0
         self.speed_right_record = 0 
+        self.toxic_cooldown = 100
         self.pre_move_left_press = False
         self.pre_move_right_press = False
         self.get_shield_ret = False
@@ -108,7 +109,7 @@ class Character(pygame.sprite.Sprite):
         if self.squat_down:
             self.image = self.animation_list[self.animation_type["Squat_down"]][0]
             self.chhie = 30
-        elif self.vel.x < 0:
+        elif self.move_left_press:
             self.direction = 180
             self.image = self.animation_list[self.animation_type["Left_walk"]][
                 self.image_left_cnt]
@@ -116,7 +117,7 @@ class Character(pygame.sprite.Sprite):
             if self.image_left_cnt >= len(self.animation_list[0]):
                 self.image_left_cnt = 0
             self.pre_image = self.image
-        elif self.vel.x > 0:
+        elif self.move_right_press:
             self.direction = 0
             self.image = self.animation_list[
                 self.animation_type["Right_walk"]][self.image_right_cnt]
@@ -130,6 +131,13 @@ class Character(pygame.sprite.Sprite):
         
         
         self.image_varible_setter()
+    def in_toxic(self):
+        if self.toxic_statement:
+            self.toxic_cooldown -= 1
+            self.blood.cut_blood(0.1,1)
+            if self.toxic_cooldown <= 0:
+                self.toxic_statement = False
+                self.toxic_cooldown = 100
     def knock_back(self,pos,speed,cooldown):
         if not self.knock_back_ret: 
             self.knock_back_ret = True
@@ -253,12 +261,13 @@ class Character(pygame.sprite.Sprite):
     def pos_change(self, platforms, platform_group):
         if self.moving_ret:
             #self.acc += self.vel * FRIC
+            
             self.vel += self.acc
             if self.detect_sqaut_down():
                 self.vel.x = 0 
                 self.acc.x = 0
             self.pos += self.vel 
-
+            print(self.pos)
     def border_detect_and_xpos_update(self, platforms, platform_group):
         if self.pos.x > 1500:
             self.pos.x = 1500
@@ -281,13 +290,18 @@ class Character(pygame.sprite.Sprite):
 
     def all_cnt_del(self):
         self.squat_down_cnt = 0
-
+    def detect_out(self):
+        if self.rect.top > 800:
+            self.pos[1] = 0
+            self.blood.cut_blood(20,1)
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
         self.border_detect_and_xpos_update(platforms, platform_group)
         self.speed_change(platforms, platform_group)
         self.continue_knock_back()
         self.shield_following_and_invisible()
         self.disard_weapon()
+        self.in_toxic()
+        self.detect_out()
         self.jump_down_platform(able_to_scroll)
         self.shoot(bullet_group)
         self.shield_broken(bullet_group) 
@@ -305,10 +319,6 @@ class Character(pygame.sprite.Sprite):
                 self.normal_attack_ret = False
         except AttributeError:
             return
-        # if self.keys[pygame.K_k]:
-        #     self.normal_attack_ret = True
-        # else:
-        #     self.normal_attack_ret = False
     def moving_button(self):
         self.pre_move_left_press = self.move_left_press
         self.pre_move_right_press = self.move_right_press
@@ -323,6 +333,7 @@ class Character(pygame.sprite.Sprite):
                 self.move_right_press = False
         except AttributeError:
             return
+
     def jumping_button(self):
         self.pre_space = self.jump_button
         try:

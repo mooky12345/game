@@ -18,7 +18,7 @@ class little_fireball(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self,players,False):
             hits=pygame.sprite.spritecollide(self,players,False)
             for player in hits:
-                player.blood.cut_blood(0.1,True)
+                player.blood.cut_blood(0.03,True)
         if self.cooldown == 0:
             self.kill()
         if self.direction == 0:

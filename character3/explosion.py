@@ -2,9 +2,13 @@ import pygame
 class explosion(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.size = 3
-        self.surf = pygame.Surface([self.size,self.size]).convert()
-        self.surf.fill((0,255,0,100))
+        self.size = 10
+        self.surf = pygame.Surface([self.size,self.size]).convert_alpha()
+        self.images=[]
+        for i in range(1,25):
+            image = pygame.image.load("explosion_animation/{}.png".format(i)).convert_alpha()
+            self.images.append(image)
+        self.surf.fill((0,255,0,0))
         self.rect = self.surf.get_rect()
         self.rect.center = (100,100)
         self.cooldown = 100
@@ -22,16 +26,21 @@ class explosion(pygame.sprite.Sprite):
     def reset_cooldown(self):
         self.cooldown = 100
     def width_changing(self):
-        self.size += 1
-        self.surf = pygame.Surface([self.size,self.size]).convert()
+        self.size += 2
+        if self.size>95:
+            pass
+        else:
+            self.image_cnt=int(self.size/4+1)
+        #self.surf = pygame.Surface([self.size,self.size]).convert()
+        self.surf = pygame.transform.scale(self.images[self.image_cnt-1],(self.size,self.size)).convert_alpha()
         self.rect = self.surf.get_rect()
         self.rect.center = self.pos
     def update(self,player):
         if pygame.sprite.spritecollide(self,player,False):
             hits =pygame.sprite.spritecollide(self,player,False)
             for player in hits:
-                player.blood.cut_blood(20,True)
-                player.knock_back(self.rect.center,10,40)
+                player.blood.cut_blood(1,True)
+                player.knock_back()
         if self.exist:
             self.width_changing()
         if self.size > 100:

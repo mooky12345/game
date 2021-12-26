@@ -15,7 +15,7 @@ from character1.player1 import *
 from character2.player2 import player2
 from character3.player3 import player3
 from persons_skill_cool_bar import cool_bar
-from select_player_number import select_role_number_screen
+from select_player_compoment.select_player_number import select_role_number_screen
 import random
 width=1500
 height=800
@@ -34,8 +34,11 @@ class first():
         self.all_gener = all_generate()
         self.player_own_play_list = player_list
         self.joyevent = None
+        self.cannon_pos = [0,700]
         self.move_x = None
         self.move_y = None
+        self.cannon_pos = [0,700]
+        self.cannon_pos_cnt = 2
         #group
         self.move_plat=py.sprite.Group()
         self.can_go_down = py.sprite.Group()
@@ -69,11 +72,11 @@ class first():
     def init_player_object(self):
         for item in range(self.player_cnt):
             if self.player_own_play_list[item] == "1":
-                self.player_own_play_list[item] = player1("1", 900, 150, "character1/L-walk1.png",self.player_own_play_list)
+                self.player_own_play_list[item] = player1("1", 900, 150, "character1",self.player_own_play_list)
             if self.player_own_play_list[item] == "2":
-                self.player_own_play_list[item] = player2("2", 600, 150, "character1/L-walk1.png",self.player_own_play_list)
+                self.player_own_play_list[item] = player2("2", 600, 150, "character2",self.player_own_play_list)
             if self.player_own_play_list[item] == "3":
-                self.player_own_play_list[item] = player3("3", 300, 150, "character1/L-walk1.png",self.player_own_play_list)
+                self.player_own_play_list[item] = player3("3", 300, 150, "character3",self.player_own_play_list)
     def init_factor(self):
         self.init_player()
         self.init_player_object()
@@ -97,28 +100,33 @@ class first():
         self.move_x,self.move_y = self.player_own_play_list[0].move_position()
         for player in self.player_own_play_list:
             player.blood.update()
-            player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
             player.using_skill(self.platforms_group,self.bullet_group)
-        pos = self.player_own_play_list[0].pos
-        self.cannon.aim_target_rotating(pos)
-        self.cannon.shooting(self.bullet_group,pos) 
+            player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
+        if self.cannon_pos[0] < 0:
+            self.cannon_pos_cnt = 2
+        if self.cannon_pos[0] > 1500:
+            self.cannon_pos_cnt = -2
+        self.cannon_pos[0] += self.cannon_pos_cnt
+        print(self.cannon_pos)
+        self.cannon.aim_target_rotating(self.cannon_pos)
+        self.cannon.shooting(self.bullet_group,self.cannon_pos) 
     def bliting(self,background):
         background.fill((0, 0, 0))
         background.blit(self.bg.surf, self.bg.rect)
         for bullet in self.bullet_group:
             background.blit(bullet.image,bullet.rect)
-        
+        for player in self.player_own_play_list:
+            player.die_segment.draw(background)
+            player.bliting(background)
         for entity in self.all_gener.generator:
             background.blit(entity.surf, entity.rect)
         for entity in self.move_plat:
             entity.plat_redraw(self.move_x,self.move_y,entity.x/2,entity.y)
         for entity in self.move_plat:
             background.blit(entity.image, entity.rect)
-        
         background.blit(self.main_Platform_1.image,self.main_Platform_1.rect)
         background.blit(self.float_plat_1.image,self.float_plat_1.rect)
         background.blit(self.float_plat_2.image,self.float_plat_2.rect)
         background.blit(self.float_plat_3.image,self.float_plat_3.rect)
         self.cannon.bliting(background)
-        for player in self.player_own_play_list:
-            player.bliting(background)
+        

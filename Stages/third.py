@@ -15,7 +15,7 @@ from character1.player1 import *
 from character2.player2 import player2
 from character3.player3 import player3
 from persons_skill_cool_bar import cool_bar
-from select_player_number import select_role_number_screen
+from select_player_compoment.select_player_number import select_role_number_screen
 width=1500
 height=800
 class third():
@@ -95,8 +95,9 @@ class third():
         self.move_x,self.move_y = self.player_own_play_list[0].move_position()
         for player in self.player_own_play_list:
             player.blood.update()
-            player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
             player.using_skill(self.platforms_group,self.bullet_group)
+            player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
+            
         
         self.cannon.aim_target_rotating(self.player_own_play_list[0].pos)
         self.cannon.shooting(self.bullet_group,self.player_own_play_list[0].pos) 

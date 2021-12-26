@@ -9,7 +9,7 @@ class cool_bar():
         self.circles=[]
         self.item_number= len(os.listdir(self.src))
         for i in range(1, self.item_number + 1):
-            img =self.src+"/{}.jpg".format(i)
+            img =self.src+"/{}.png".format(i)
             self.src_list.append(img)
     
         for src in self.src_list:

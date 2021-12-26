@@ -52,11 +52,14 @@ class missile():
             self.pos[1] += self.speed*math.sin(math.radians(angle))
             if pygame.sprite.spritecollide(self,players,False):
                 hits = pygame.sprite.spritecollide(self,players,False)
+
                 self.exist = False
                 self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.out_width()
                 self.explosion_cooldown = 300
                 for player in hits:
+                    if player.name == "3":
+                        continue
                     player.blood.cut_blood(20,True)
                     player.knock_back(self.rect.center,10,40)
             if  self.explosion_cooldown == 100:

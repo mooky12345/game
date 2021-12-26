@@ -1,6 +1,7 @@
 import pygame
 class transport_damage(pygame.sprite.Sprite):
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         self.surf1 = pygame.Surface([30,60]).convert()
         self.surf1.fill((0,0,0,100))
         self.rect1 = self.surf1.get_rect()
@@ -25,9 +26,10 @@ class transport_damage(pygame.sprite.Sprite):
     def update(self,players):
         self.cooldown_creasing()
         if self.exist:
-            if pygame.sprite.spritecollide(self,players,False):
-                hits=pygame.sprite.spritecollide(self,players,False)
-                for player in hits:  
+            for player in players:
+                if pygame.Rect.colliderect(player.rect,self.rect1):
+                    player.blood.cut_blood(0.1,True)
+                if pygame.Rect.colliderect(player.rect,self.rect2):
                     player.blood.cut_blood(0.1,True)
             self.rect1.left += self.speed
             self.rect2.right -= self.speed

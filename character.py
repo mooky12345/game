@@ -8,7 +8,8 @@ from blood import bloodline
 from bullet import Bullet
 from shield import *
 from persons_skill_cool_bar import cool_bar
-from normal_attack import normal_attack
+from Normal_attack import normal_attack
+from dead_segment import *
 vec = pygame.math.Vector2
 HEIGHT = 400
 backgound_WIDTH = 900
@@ -35,8 +36,8 @@ class Character(pygame.sprite.Sprite):
         self.keys = pygame.key.get_pressed()
         self.squat_down = False
         self.squat_down_cnt = 0
-        self.chwid = 30
-        self.chhie = 60
+        self.chwid = 55
+        self.chhie = 160
         self.name = name
         self.pos = vec(cx,cy)
         self.moving_ret = True
@@ -66,26 +67,31 @@ class Character(pygame.sprite.Sprite):
         self.get_shield_ret = False
         self.blit_shield_ret = False
         self.knock_back_cool_down = 0
+        self.die_statement = False
         self.speed_record = False
         self.knock_back_speed_record = None
+        self.image_stop_cnt = 0
+        self.image_yes = False
         self.shield_image = Shield(50,(0,0,0),backgound_WIDTH/2,0)
         self.blood = bloodline()
+        self.die_segment = pygame.sprite.Group()
         self.normal_attack_image = normal_attack()
         self.own_bullet_group = pygame.sprite.Group()
         self.animation_type = {
             "Left_walk": 0,
             "Right_walk": 1,
-            "Squat_down": 2
+            "Squat_down": 2,
+            "Stand":3
         }
         for animation in self.animation_type:
             temp_list = []
             number_of_frames = len(
-                os.listdir("character1/{}".format(animation)))
+                os.listdir(image_path+"/{}".format(animation)))
 
             for i in range(1, number_of_frames + 1):
-                img = "character1/{}/{}.png".format(animation, i)
+                img = image_path+"/{}/{}.png".format(animation, i)
                 temp_list.append(img)
-
+                
             self.animation_list.append(temp_list)
         self.charater_statement = image_path
         self.image = self.animation_list[self.animation_type["Left_walk"]][0]
@@ -96,14 +102,30 @@ class Character(pygame.sprite.Sprite):
     def key_board_get(self):
         self.keys = pygame.key.get_pressed()
 
-    def image_varible_setter(self):
-        charImage = pygame.image.load(self.image)
-        charImage = pygame.transform.scale(charImage, (self.chwid, self.chhie))
+    def image_varible_setter(self,src=False):
+       
+        charImage = pygame.image.load(self.image).convert_alpha()
+        charImage = pygame.transform.scale(charImage, (self.chwid, self.chhie)).convert_alpha()
+        if src:
+            charImage = pygame.transform.flip(charImage, True, False)
         self.rect = charImage.get_rect()
         self.rect.center = (1000,1000)
-        self.surf = pygame.Surface((self.chwid, self.chhie))
-        self.surf.blit(charImage, (0, 0))
-    
+        self.surf = charImage
+        #self.surf.blit(charImage, (0, 0))
+    def self_destruct(self):
+        if self.blood.blood <= 0 and self.die_statement == False:
+            self.die_statement = True
+            for _ in range(10):
+                segment = dead_segment(self.pos,180)
+                self.die_segment.add(segment)
+            for _ in range(10):
+                segment = dead_segment(self.pos,0)
+                self.die_segment.add(segment)
+            self.pos = (-1000,-1000)
+    def self_destruct_update(self,platforms):
+        platform = pygame.sprite.Group()
+        platform.add(platforms)
+        self.die_segment.update(platform)
     def image_reload(self):
         
         if self.squat_down:
@@ -125,12 +147,25 @@ class Character(pygame.sprite.Sprite):
             if self.image_right_cnt >= len(self.animation_list[1]):
                 self.image_right_cnt = 0
             self.pre_image = self.image
+        else:
+            if self.direction == 0:
+                self.image_stop_cnt += 1
+                if self.image_stop_cnt >= len(self.animation_list[self.animation_type["Stand"]]):
+                    self.image_stop_cnt = 0
+                self.image = self.animation_list[self.animation_type["Stand"]][self.image_stop_cnt]
+            else:
+                self.image_stop_cnt += 1
+                if self.image_stop_cnt >= len(self.animation_list[self.animation_type["Stand"]]):
+                    self.image_stop_cnt = 0
+                self.image = self.animation_list[self.animation_type["Stand"]][self.image_stop_cnt]
+                self.image_yes = True
         if not self.squat_down:
             self.chhie = 60
-            self.image = self.pre_image
-        
-        
-        self.image_varible_setter()
+        if self.image_yes:
+            self.image_varible_setter(True)
+        else:
+            self.image_varible_setter()
+        self.image_yes = False
     def in_toxic(self):
         if self.toxic_statement:
             self.toxic_cooldown -= 1
@@ -153,10 +188,10 @@ class Character(pygame.sprite.Sprite):
         if self.knock_back_ret:
             self.knock_back_cool_down -= 1
             if  self.knock_back_cool_down <= 0:
-                print(self.vel)
+                # print(self.vel)
                 self.vel.x += self.knock_back_speed_record[0]
                 self.vel.y += self.knock_back_speed_record[1]
-                print(self.vel)
+                # print(self.vel)
                 self.knock_back_ret = False
 
     def shoot(self,bullet_group):
@@ -216,7 +251,7 @@ class Character(pygame.sprite.Sprite):
         if hits:
             return hits
         else:
-            return False   
+            return False 
     def speed_change(self, platforms, platform_group):
         self.walking_speed()
         self.jumping_speed(platform_group)
@@ -242,7 +277,7 @@ class Character(pygame.sprite.Sprite):
             if self.on_ground():
                 self.vel.y = jump_speed        
             elif self.jump_count > 0:
-                print("yesr")
+                # print("yesr")
                 self.vel.y = jump_speed
                 self.jump_count -= 1
                 
@@ -267,13 +302,14 @@ class Character(pygame.sprite.Sprite):
                 self.vel.x = 0 
                 self.acc.x = 0
             self.pos += self.vel 
-            print(self.pos)
+            # print(self.pos)
     def border_detect_and_xpos_update(self, platforms, platform_group):
-        if self.pos.x > 1500:
-            self.pos.x = 1500
-        if self.pos.x < 0:
-            self.pos.x = 0
-        self.rect.bottomleft = (self.pos.x, self.pos.y)
+        if not self.die_statement:
+            if self.pos.x > 1500:
+                self.pos.x = 1500
+            if self.pos.x < 0:
+                self.pos.x = 0
+        self.rect.bottomleft = (self.pos[0], self.pos[1])
     def shield_following_and_invisible(self):
         if self.get_shield_ret == True:
             self.shield_image.rect.center = self.rect.center
@@ -295,6 +331,8 @@ class Character(pygame.sprite.Sprite):
             self.pos[1] = 0
             self.blood.cut_blood(20,1)
     def movement(self, platforms, platform_group,able_to_scroll,bullet_group):
+        self.self_destruct_update( platforms)
+        self.self_destruct()
         self.border_detect_and_xpos_update(platforms, platform_group)
         self.speed_change(platforms, platform_group)
         self.continue_knock_back()
@@ -343,11 +381,6 @@ class Character(pygame.sprite.Sprite):
                 self.jump_button = False
         except AttributeError:
             return
-
-        # if self.keys[pygame.K_SPACE]:
-        #     self.jump_button = True
-        # else:
-        #     self.jump_button = False
     def squat_down_button(self):
         self.squat_down_pre = self.squat_down
         try:
@@ -359,8 +392,6 @@ class Character(pygame.sprite.Sprite):
                 self.squat_down_cnt+=1
         except AttributeError:
             return
-        
-
     def shoot_botton(self):
         if self.get_weapon != None:
             try:

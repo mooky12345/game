@@ -26,7 +26,9 @@ class ouohand(pygame.sprite.Sprite):
         if pygame.sprite.spritecollide(self,player,False):
             hits=pygame.sprite.spritecollide(self,player,False)
             for player in hits:
-                player.knock_back()
+                if player.name == self.name:
+                    continue
+                player.knock_back(self.rect.center,7,40)
                 player.blood.cut_blood(15,True)
         self.cooldown_creasing()
         if self.exist:

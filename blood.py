@@ -1,7 +1,7 @@
 import pygame, sys
 class bloodline():
         def __init__(self):
-            self.blood = 100
+            self.blood = 120
             self.Image = self.image = pygame.image.load("blood_image/1.png")
             self.Image = pygame.transform.scale(self.Image, (20, 20))
             self.Image2 = self.image = pygame.image.load("blood_image/2.png")
@@ -20,7 +20,7 @@ class bloodline():
         def cut_blood(self, value, out):
             if out:
                 if self.blood - value < 0:
-                    self.blood = 0
+                    self.blood= 0
                 else:
                     self.blood -= value
 

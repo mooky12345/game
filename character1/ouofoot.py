@@ -46,6 +46,8 @@ class ouofoot(pygame.sprite.Sprite):
                 hits = pygame.sprite.spritecollide(self,players,False)
                 self.explosion_cooldown = 300
                 for player in hits:
+                    if player.name == self.name:
+                        continue
                     player.blood.cut_blood(20,True)
                     player.knock_back(self.rect.center,10,40)
             if self.rect.top < rect.top+13:

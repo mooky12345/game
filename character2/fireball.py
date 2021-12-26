@@ -5,6 +5,7 @@ from character2.litttle_fire import little_fireball
 
 class fireball(pygame.sprite.Sprite):
     def __init__(self):
+
         pygame.sprite.Sprite.__init__(self)
         self.surf = pygame.Surface([60,60]).convert()
         self.surf.fill((0,0,0,100))
@@ -41,13 +42,15 @@ class fireball(pygame.sprite.Sprite):
             if pygame.sprite.spritecollide(self,players,False):
                 hits=pygame.sprite.spritecollide(self,players,False)
                 for player in hits:
+                    if player.name == "2":
+                        return
                     player.knock_back(self.rect.center,5,40)
                     player.blood.cut_blood(15,True)
                 self.exist = False
                 if self.direction == 0:
-                    self.explosion.implement(self.rect.bottomright)
+                    self.explosion.implement(self.rect.bottomright,self.direction)
                 if self.direction == 180:
-                    self.explosion.implement(self.rect.bottomleft)
+                    self.explosion.implement(self.rect.bottomleft,self.direction)
                 self.littlefire_generate(self.rect.center)
                 self.out_width()
             if pygame.sprite.spritecollide(self,platform,False):

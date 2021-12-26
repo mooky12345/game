@@ -9,16 +9,18 @@ from pygame.constants import K_k
 from character import *
 from BG import background_test
 from all_menu.setting_menu import Setting_menu
+from game_over_scene import end_scene
 from main_menu import main_Menu
 from all_of_generate import all_generate
 from auto_cannon import Auto_cannon
 from Stages.first import first
 from Stages.second import second
 from Stages.third import third
-from select_role_screen import *
-from select_player_number import select_role_number_screen
+from select_player_compoment.select_role_screen import *
+from select_player_compoment.select_player_number import select_role_number_screen
 from stage_select import *
 from pause import pause_screen
+# from game_over_scene import *
 sys.path.append(".")
 mainpage_Run = True
 setting = False
@@ -28,6 +30,7 @@ WIDTH = 1500
 py.init()
 # main_sound = pygame.mixer.Sound('music/main_music.mp3')
 # main_sound.play()
+end_wait_time = 0
 pygame.joystick.init()
 joysticks = [pygame.joystick.Joystick(i) for i in range(pygame.joystick.get_count())]
 player_number_screen=select_role_number_screen()
@@ -51,7 +54,8 @@ options={
     "Firstgame" : False,
     "Secondgame" : False,
     "Thirdgame" : False,
-    "setting" : False
+    "setting" : False,
+    "end":False
 }
 player_option={
     "One": 1,
@@ -73,6 +77,9 @@ py.time.set_timer(image_COUNT, 100)
 py.time.set_timer(continuous_cnt_COUNT, 1200)
 py.time.set_timer(weapon_generator_COUNT, 6000)
 #key
+game_over_image = pygame.image.load("game_over/1.png").convert_alpha()
+player_exist = None
+winer_here = False
 select_number_player=True
 player=0
 stage_list = [False,False,False]
@@ -84,8 +91,11 @@ select_stage = True
 stage_1 = None
 stage_2 = None
 pressed = py.key.get_pressed()
+end = None
 dy=0
 pause_condition=False
+tt=0
+
 #init_functions
 def turn_false():
     for key, value  in options.items():
@@ -105,6 +115,7 @@ while True:
     if mainpage_Run:
         if main_page_buttons['start'].press:
             turn_false()
+            select_number_player=True
             options["start"] = True
             main_page_buttons['start'].press=False
             mainpage_Run = False
@@ -129,12 +140,16 @@ while True:
                 if event.type == py.MOUSEBUTTONDOWN:
                     setting_page.button_back.mousebuttondown()
             if setting_page.button_back.press:
+                if options["start"]:
+                    setting = False
+                else:
+                    setting = False
+                    mainpage_Run=True
                 setting_page.button_back.press = False
-                setting = False
-                mainpage_Run=True
             setting_page.draw(event_list)
             background.blit(setting_page.surf, (0, 0))
             screen.blit(background, (0, 0))
+
             #main_sound.set_volume(1.0 * setting_page.Volume_slider.get_volume() / 100)
     elif options["start"]:
         if pause_condition:
@@ -147,16 +162,16 @@ while True:
                 if event.type == py.MOUSEBUTTONDOWN :
                     if pause_screen_button["restart"].press:
                         select_stage=True
+                        for num in range(3):
+                            stage_list[num] = False
                         pause_screen_button["restart"].press=False
                         pause_condition=False
-                    if pause_screen_button["back"].press:
-                        options["start"]=False
+                    elif pause_screen_button["back"].press:
                         mainpage_Run=True
                         pause_screen_button["back"].press=False
                         pause_condition=False
-                    if pause_screen_button["setting"].press:
+                    elif pause_screen_button["setting"].press:
                         setting=True
-                        options["start"]=False
                         pause_screen_button["setting"].press=False
                         pause_condition=False
         elif select_number_player:
@@ -168,8 +183,13 @@ while True:
                             button.mousebuttondown()
             for button in player_number_screen.buttons:
                 if button.press:
+                    button.press=False
                     player_cnt=player_option[button.txt]
-                    select_number_player=False
+                    select_number_player=False  
+                    select_role=True
+                    player_name_list=[]
+                    player=0
+                    test.re_init()
             screen.blit(background, (0, 0))
                 
         elif select_role:
@@ -197,17 +217,23 @@ while True:
             if dy>=Height:
                 trans_to_vs=False
                 vs_animation=True
+                test.dx=0
+                test.dy=0
         elif vs_animation:
             background.fill((0,0,0))
-            test.select_complete_animation(player_name_list[0],player_name_list[1])
+            test.select_complete_animation(player_name_list,player_cnt)
             for i in player_name_list:
                 i.change_size(2,3)
             background.blit(test.surf,(0,0))
             screen.blit(background, (0, 0))
             test.dx+=5
+            test.dy+=5
             if test.dx>Width/2-400:
                 py.time.delay(1000)
                 vs_animation=False
+                select_stage=True
+                for num in range(3):
+                    stage_list[num] = False
         elif select_stage:
             background.fill((255,255,255))
             stage_selection.update(event_list,background,stage_list)
@@ -228,6 +254,7 @@ while True:
                         stage_3.init_factor()
                         options["Thirdgame"] = True
         elif options["Firstgame"]:
+
             stage_1.getjoystick_event(0)
             for event in event_list: 
                 if event.type == image_COUNT:
@@ -242,12 +269,32 @@ while True:
                     stage_1.getjoystick_event(event)
                 elif event.type == pygame.JOYBUTTONUP:
                     stage_1.getjoystick_event(event)
-            stage_1.action()
+            if not winer_here:
+                stage_1.action()
             stage_1.bliting(background)
             screen.blit(background, (0, 0))
+            exist_cnt = 0
+            for player in player_name_list:
+                if player.blood.blood > 0:
+                    exist_cnt+=1
+                    player_exist = player
+            if exist_cnt == 1:
+                tt+=1
+                end_wait_time  += 1 
+                if end_wait_time > 100:
+                    background.blit(game_over_image,(500,100))
+                    screen.blit(background, (0, 0))
+                    winer_here = True
+                    if tt>200:
+                        delay(1000)
+                        end = end_scene(player_exist.animation_list[player_exist.animation_type["Stand"]][0])
+                        options["Firstgame"] =False
+                        options["start"] = False
+                        options["end"] = True
+           
         elif options["Secondgame"]:
             stage_2.getjoystick_event(0)
-            for event in event_list: 
+            for event in event_list:
                 if event.type == image_COUNT:
                     for Player in stage_2.player_own_play_list:
                         Player.image_reload()
@@ -257,7 +304,6 @@ while True:
                 if event.type == weapon_generator_COUNT and not mainpage_Run:
                     stage_2.all_gener.all__generate() 
                 if event.type == JOYBUTTONDOWN or event.type == JOYBUTTONUP or  event.type == JOYHATMOTION:
-                    
                     stage_2.getjoystick_event(event)
             stage_2.action()
             stage_2.bliting(background)
@@ -282,6 +328,12 @@ while True:
             stage_3.action()
             stage_3.bliting(background)
             screen.blit(background, (0, 0))
+    elif options["end"]:
+
+        background.fill((0,0,0,0))
+        end.update()
+        end.bliting(background)
+        screen.blit(background, (0, 0))
     py.display.update()
-    times.tick(50)
+    times.tick(40)
     delay(5)

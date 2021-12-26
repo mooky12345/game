@@ -93,8 +93,9 @@ class second():
         self.move_x,self.move_y = self.player_own_play_list[0].move_position()
         for player in self.player_own_play_list:
             player.blood.update()
-            player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
             player.using_skill(self.platforms_group,self.bullet_group)
+            player.movement(self.main_Platform_1, self.platforms_group, self.can_go_down,self.bullet_group)
+            
         
         self.cannon.aim_target_rotating(self.player_own_play_list[0].pos)
         self.cannon.shooting(self.bullet_group,self.player_own_play_list[0].pos) 

@@ -79,5 +79,10 @@ class player1(Character):
         background.blit(self.cool_bar.surf,(width-150,0))
         background.blit(self.normal_attack_image.surf,self.normal_attack_image.rect)
         background.blit(self.shield_image.image,self.shield_image.rect)
+        if self.get_weapon != None:
+            image = pygame.image.load(self.get_weapon.image).convert_alpha()
+            image = pygame.transform.scale(image, (30,30))
+            background.blit(image,(1200,0))
         background.blit(self.blood.surf, (0,0))
+
     

@@ -49,11 +49,15 @@ class player3(Character,pygame.sprite.Sprite):
         background.blit(self.shield_image.image,self.shield_image.rect)
         background.blit(self.cool_bar.surf,(width-150,60))
         background.blit(self.surf,self.rect)
+        if self.get_weapon != None:
+            image = pygame.image.load(self.get_weapon.image).convert_alpha()
+            image = pygame.transform.scale(image, (30,30))
+            background.blit(image,(1200,60))
         background.blit(self.normal_attack_image.surf,self.normal_attack_image.rect)
         if self.shoting_missile.exist:
             background.blit(self.shoting_missile.player_rotated,self.shoting_missile.rect)
         background.blit(self.shoting_missile.explosion.surf,self.shoting_missile.explosion.rect)
-        
+       
     def return_cooldown(self):
         return self.shoting_missile.cooldown,self.toxic_shoot.cooldown
     def return_max_cooldown(self):

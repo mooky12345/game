@@ -58,7 +58,12 @@ class player2(Character):
         self.fireball.littlefire_group.draw(background)
         background.blit(self.shield_image.image,self.shield_image.rect)
         background.blit(self.normal_attack_image.surf,self.normal_attack_image.rect)
+        if self.get_weapon != None:
+            image = pygame.image.load(self.get_weapon.image).convert_alpha()
+            image = pygame.transform.scale(image, (30,30))
+            background.blit(image,(1200,30))
         background.blit(self.blood.surf, (0,30))
+        
     def return_cooldown(self):
         return self.fireball.cooldown,self.trans_damage.cooldown
     def return_max_cooldown(self):

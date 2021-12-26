@@ -32,9 +32,6 @@ class Auto_cannon(pygame.sprite.Sprite):
     def get_angle(self,pos):#down to 0, right to 90
         return (90-math.degrees(math.atan2((pos[1]-self.rect.center[1]),(pos[0]-self.rect.center[0])))) 
     def aim_target_rotating(self,pos):
-        # if self.cannon_cooldown == 0:
-        #     self.cannon_cooldown = 60
-        #     pos = [random.randint(0,1500),random.randint(0,800)]
         angle = self.get_angle(pos)+4
         self.player_rotated,self.player_rotated_rect = self.rotated(self.image,angle)
     def bliting(self,background):

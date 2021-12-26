@@ -5,6 +5,10 @@ class explosion(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.size = 10
         self.surf = pygame.Surface([self.size,self.size]).convert()
+        self.images=[]
+        for i in range(1,25):
+            image = pygame.image.load("explosion_animation/{}.png".format(i)).convert_alpha()
+            self.images.append(image)
         self.surf.fill((0,255,0,100))
         self.rect = self.surf.get_rect()
         self.rect.center = (-100,-100)
@@ -23,15 +27,19 @@ class explosion(pygame.sprite.Sprite):
         self.rect.center = (-100,-100)
     def reset_cooldown(self):
         self.cooldown = 100
-    def width_changing(self,pos):
-        self.size += 3
-        self.surf = pygame.Surface([self.size,self.size]).convert()
+    def width_changing(self):
+        self.size += 2
+        if self.size>95:
+            pass
+        else:
+            self.image_cnt=int(self.size/4+1)
+        #self.surf = pygame.Surface([self.size,self.size]).convert()
+        self.surf = pygame.transform.scale(self.images[self.image_cnt-1],(self.size,self.size)).convert_alpha()
         self.rect = self.surf.get_rect()
-        self.rect.center = pos
+        self.rect.center = self.pos
     def update(self,players):
-        
         if self.exist:
-            self.width_changing(self.pos)
+            self.width_changing()
             if pygame.sprite.spritecollide(self,players,False):
                 hits=pygame.sprite.spritecollide(self,players,False)
                 for player in hits:

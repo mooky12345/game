@@ -22,12 +22,12 @@ class player1(Character):
     def defense(self,bullet_gruop):
         if self.hand_defense_ret and self.hand_defense.cooldown == 0:
             self.moving_ret = False
-            self.hand_defense.implement(self.pos)
+            self.hand_defense.implement(self.pos,self)
         if self.hand_defense_pre_ret and not self.hand_defense_ret:
             self.moving_ret = True
             self.hand_defense.reset_cooldown()
             self.hand_defense.out_width() 
-        self.hand_defense.update(self.direction,bullet_gruop,self.player_group)
+        self.hand_defense.update(self.direction,bullet_gruop,self)
     def The_ouohand(self):
         if not self.ouohand_pre_ret and self.ouohand_ret:
             self.ouohand.implement(self.pos,self.direction)

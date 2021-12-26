@@ -17,6 +17,7 @@ class ouofoot(pygame.sprite.Sprite):
         self.angle1 = 1000
         self.lenth1 = None
         self.surf_lenth = 120
+        self.using_cooldown = 30
     def implement(self,pos,dir,rect):
         
         self.direction = dir
@@ -41,17 +42,15 @@ class ouofoot(pygame.sprite.Sprite):
         self.angle1 += 5
         self.angle -= 5
         if self.exist:
-            self.get_varible()
             if pygame.sprite.spritecollide(self,players,False):
                 hits = pygame.sprite.spritecollide(self,players,False)
-                self.explosion_cooldown = 300
                 for player in hits:
-                    if player.name == self.name:
+                    if player.name == "1":
                         continue
                     player.blood.cut_blood(20,True)
                     player.knock_back(self.rect.center,10,40)
             if self.rect.top < rect.top+13:
-                self.rect.top -= 1
+                self.rect.top -= 2
             else:
                 if self.direction  == 0:
                     self.rect.top = self.center[1]+self.lenth*math.sin(math.radians(self.angle)) 
@@ -61,10 +60,11 @@ class ouofoot(pygame.sprite.Sprite):
                     self.rect.top = self.center[1]+self.lenth1*math.sin(math.radians(self.angle1)) 
                     self.rect.right = self.center[0]+self.lenth1*math.cos(math.radians(self.angle1)) 
                     print(self.rect.topright)
-            if self.rect.top < rect.top-30:
-                self.rect.center = (-100,-100)
+            if self.using_cooldown < 0:
                 self.exist = False
-            
+                self.rect.center = (-100,-100)
+                self.using_cooldown = 30
+            self.using_cooldown -= 1
     def cooldown_creasing(self):
         if self.cooldown > 0:
             self.cooldown -=1

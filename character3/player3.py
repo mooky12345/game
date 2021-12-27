@@ -53,6 +53,8 @@ class player3(Character,pygame.sprite.Sprite):
             image = pygame.image.load(self.get_weapon.image).convert_alpha()
             image = pygame.transform.scale(image, (30,30))
             background.blit(image,(1200,60))
+        if self.toxic_statement:
+            pass
         background.blit(self.normal_attack_image.surf,self.normal_attack_image.rect)
         if self.shoting_missile.exist:
             background.blit(self.shoting_missile.player_rotated,self.shoting_missile.rect)

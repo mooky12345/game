@@ -289,7 +289,7 @@ while True:
                         delay(1000)
                         end = end_scene(player_exist.animation_list[player_exist.animation_type["Stand"]][0])
                         options["Firstgame"] =False
-                        options["start"] = False
+                        options["start"] = True
                         options["end"] = True
            
         elif options["Secondgame"]:
@@ -328,12 +328,12 @@ while True:
             stage_3.action()
             stage_3.bliting(background)
             screen.blit(background, (0, 0))
-    elif options["end"]:
+        elif options["end"]:
 
-        background.fill((0,0,0,0))
-        end.update()
-        end.bliting(background)
-        screen.blit(background, (0, 0))
+            background.fill((0,0,0,0))
+            end.update()
+            end.bliting(background)
+            screen.blit(background, (0, 0))
     py.display.update()
     times.tick(40)
     delay(5)
